@@ -1,4 +1,4 @@
-## How to use ExtendedCharacter
+=== How to use ExtendedCharacter ===
 Navigate to characters/Characters.rpy
 
 Create your character like this:

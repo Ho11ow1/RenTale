@@ -1,4 +1,4 @@
-## How to use the FlagManager and work with FlagRef
+=== How to use the FlagManager and work with FlagRef ===
 Navigate to flags/GameFlags.rpy
 
 To create a flag related to something specific,

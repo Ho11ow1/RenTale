@@ -1,4 +1,4 @@
-## How to combine area and screen interactivity
+=== How to combine area and screen interactivity ===
 For this you will need both a screen and a label
 Either use Screens & Areas.rpy, or if you're working on something bigger, use the pre-existing visual/ folders for a more maintainable project.
 
