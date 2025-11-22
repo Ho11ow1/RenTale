@@ -10,6 +10,12 @@ init 1 python:
         Midnight = 5
 
     class TimeManager:
+        """
+            Centralized singleton time management system with runtime type validation.
+
+            Manages game time progression including day periods, days of the week, and week counting.
+        """
+
         _daysOfWeek = [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ]
         _weekendDays = [ "Saturday", "Sunday" ]
         
@@ -21,6 +27,10 @@ init 1 python:
 
         @classmethod
         def AdvanceDayPeriod(cls):
+            """
+                Advances the current day period.
+            """
+
             match cls.DayPeriod:
                 case TimeOfDay.Morning:
                     cls.DayPeriod = TimeOfDay.Noon
@@ -45,6 +55,16 @@ init 1 python:
 
         @classmethod
         def SetDayPeriod(cls, period):
+            """
+                Sets the current day period.
+
+                Args:
+                    period (TimeOfDay): TimeOfDay enum based on which the current day period should be set.
+
+                Raises:
+                    TypeError: If period is not a TimeOfDay instance.
+            """
+
             if type(period) != TimeOfDay:
                 raise TypeError("Parameter must be a TimeOfDay enum instance")
 
@@ -53,6 +73,10 @@ init 1 python:
 
         @classmethod
         def AdvanceDay(cls):
+            """
+                Advances the current day period.
+            """
+
             previousDayIndex = cls._daysOfWeek.index(cls.Day)
 
             if previousDayIndex == len(cls._daysOfWeek) - 1:
@@ -68,6 +92,17 @@ init 1 python:
 
         @classmethod
         def SetDay(cls, index):
+            """
+                Sets the current day by it's index.
+
+                Args:
+                    index (int): The index based on which day should be set.
+
+                Raises:
+                    TypeError: If index is not an int instance.
+                    ValueError: If index is < 0 or index >= 6.
+            """
+
             if type(index) != int:
                 raise TypeError(f"Expected int, got {type(index).__name__}")
             if index < 0 or index >= len(cls._daysOfWeek):
@@ -79,14 +114,30 @@ init 1 python:
 
         @classmethod
         def AdvanceWeek(cls):
+            """
+                Advances the current week number by 1.
+            """
+
             cls.Week += 1
 
 
         @classmethod
         def SetWeek(cls, value):
+            """
+                Sets the current week number.
+
+                Args:
+                    value (int): The week number to set the week to.
+
+                Raises:
+                    TypeError: If value is not an int instance.
+                    ValueError: If value is less than 1.
+            """
+
             if type(value) != int:
                 raise TypeError(f"Expected int, got {type(value).__name__}")
             if value < 1:
                 raise ValueError(f"Week must be positive, got {value}")
 
             cls.Week = value
+
