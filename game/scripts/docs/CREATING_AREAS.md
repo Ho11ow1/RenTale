@@ -1,0 +1,27 @@
+## How to combine area and screen interactivity
+For this you will need both a screen and a label
+Either use Screens & Areas.rpy, or if you're working on something bigger, use the pre-existing visual/ folders for a more maintainable project.
+
+Creating an area / label for our screen:
+    label Area:
+        $ result = call screen "ScreenName" / $ result = SceneManager.CleanCallScreen("ScreenName")
+
+        if (result == "")
+            pass
+        
+        elif (result == "")
+            pass
+
+        ... # More of your logic
+
+Using this format we have the screen tell us what the user wants to do and based on its [action Return("")] we then take action.
+
+Creating an interactive screen for our area / label:
+    screen ExampleScreen:
+        frame: # Create a window with a background
+            xfill True # Take up entire width
+            yfill True # Take up entire height
+            ... # Other properties
+
+            vbox: # Create a vertical box to hold your interaction buttons
+                ... # Properties and buttons (imagebutton, textbutton, etc...)

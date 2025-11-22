@@ -1,0 +1,17 @@
+## How to use the FlagManager and work with FlagRef
+Navigate to flags/GameFlags.rpy
+
+To create a flag related to something specific,
+create a new class and place a flag inside of it,
+If you deem that to not be necessary, flags can also be made directly inside of the Flags class as such:
+    flagName = FlagRef(int | bool)
+
+
+To work with flags through the FlagManager:
+Call the FlagManager singleton through FlagManager.Method() with the appropriate params.
+All FlagManager methods are strongly typed so that everything shows up in testing and players have a smooth error free experience.
+
+For example, to work with our already existing flags:
+    $ FlagManager.Set(Flags.Main.MainEvent1, True) # This will work as MainEvent1 is a FlagRef instance, and its value holds a bool
+    $ FlagManager.Increment(Flags.Side.SideEvent1, 3) # This will raise an error as SideEvent1's value is not of the int type
+    $ FlagManager.Decrement("MyFlag", 2) # This will raise an error as "MyFlag" is not a FlagRef instance

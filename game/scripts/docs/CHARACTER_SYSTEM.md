@@ -1,0 +1,20 @@
+## How to use ExtendedCharacter
+Navigate to characters/Characters.rpy
+
+Create your character like this:
+default name = ExtendedCharacter("Name", color = "#hex", relationship="RelationShip")
+
+
+When it comes to the relationship it all depends on your game.
+In most cases this will either be a short description of the character or
+the relationship between the player and that character (ex.: friend, teacher, aunt, etc...)
+
+
+To use the character in dialogue it works exactly the same as a base Ren'Py character:
+character "text"
+
+And to modify stats:
+1. $ character.stat += number
+2. $ character.IncreseStat(StatType, amount) / $ character.DecreaseStat(StatType, amount)
+
+The second example is recommended as it allows for type validation.
