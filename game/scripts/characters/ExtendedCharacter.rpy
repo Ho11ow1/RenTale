@@ -18,7 +18,7 @@ init 1 python:
             # Specific customisation
             self.Relationship = str(relationship)
 
-            self._character = Character(self.Name, color=self.Color, **properties)
+            self._character = Character(self.Name, color = self.Color, **properties)
         
 
         def __call__(self, what, *args, **kwargs):
@@ -56,3 +56,4 @@ init 1 python:
                 raise TypeError(f"Expected string, got {type(relationShip).__name__}")
             
             self.Relationship = relationShip
+
