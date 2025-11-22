@@ -22,4 +22,7 @@ label start:
 
     # This ends the game.
 
+    # === RenTale example ===
+    jump Example
+
     return
