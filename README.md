@@ -29,9 +29,9 @@ Designed to streamline Visual Novel development and avoid runtime errors
   - **SceneManager**: Wrapper for scene transitions with automatic UI cleanup
 
 ## Docs
-- **[CharacterSystem](game/scripts/docs/CHARACTER_SYSTEM.md)**
-- **[CreatingAreas](game/scripts/docs/CREATING_AREAS.md)**
-- **[EventSystem](game/scripts/docs/GAME-EVENT_FLAGS.md)**
+- **[CharacterSystem](game/scripts/docs/CHARACTER_SYSTEM.txt)**
+- **[CreatingAreas](game/scripts/docs/CREATING_AREAS.txt)**
+- **[EventSystem](game/scripts/docs/GAME-EVENT_FLAGS.txt)**
 
 ## Code Style
 
