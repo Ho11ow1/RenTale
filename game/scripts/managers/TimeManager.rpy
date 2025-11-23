@@ -9,6 +9,7 @@ init 1 python:
         Night = 4
         Midnight = 5
 
+
     class TimeManager:
         """
             Centralized singleton time management system with runtime type validation.
@@ -26,7 +27,7 @@ init 1 python:
         IsWeekend = False
 
         @classmethod
-        def AdvanceDayPeriod(cls):
+        def AdvanceDayPeriod(cls) -> None:
             """
                 Advances the current day period.
             """
@@ -54,7 +55,7 @@ init 1 python:
 
 
         @classmethod
-        def SetDayPeriod(cls, period):
+        def SetDayPeriod(cls, period: TimeOfDay) -> None:
             """
                 Sets the current day period.
 
@@ -72,7 +73,7 @@ init 1 python:
 
 
         @classmethod
-        def AdvanceDay(cls):
+        def AdvanceDay(cls) -> None:
             """
                 Advances the current day period.
             """
@@ -91,7 +92,7 @@ init 1 python:
 
 
         @classmethod
-        def SetDay(cls, index):
+        def SetDay(cls, index: int) -> None:
             """
                 Sets the current day by it's index.
 
@@ -113,7 +114,7 @@ init 1 python:
 
 
         @classmethod
-        def AdvanceWeek(cls):
+        def AdvanceWeek(cls) -> None:
             """
                 Advances the current week number by 1.
             """
@@ -122,7 +123,7 @@ init 1 python:
 
 
         @classmethod
-        def SetWeek(cls, value):
+        def SetWeek(cls, value: int) -> None:
             """
                 Sets the current week number.
 

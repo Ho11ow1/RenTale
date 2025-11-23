@@ -7,7 +7,7 @@ init 1 python:
             have unexpected values resulting in error.
         """
 
-        def Set(flagRef, value):
+        def Set(flagRef: FlagRef, value: int | bool) -> None:
             """
                 Sets a value for the passed in FlagRef.
 
@@ -28,7 +28,7 @@ init 1 python:
             flagRef.value = value
 
 
-        def Get(flagRef):
+        def Get(flagRef: FlagRef) -> int | bool:
             """
                 Returns the current value of the passed in FlagRef.
 
@@ -49,7 +49,7 @@ init 1 python:
 
 
         @classmethod
-        def Increment(cls, flagRef, amount = 1):
+        def Increment(cls, flagRef: FlagRef, amount: int = 1) -> None:
             """
                 Increments the given FlagRef's value by the specified amount or 1 by default.
 
@@ -74,7 +74,7 @@ init 1 python:
 
         
         @classmethod
-        def Decrement(cls, flagRef, amount = 1):
+        def Decrement(cls, flagRef: FlagRef, amount: int = 1) -> None:
             """
                 Decreases the given FlagRef's value by the specified amount or 1 by default.
 
@@ -99,7 +99,7 @@ init 1 python:
 
 
         @classmethod
-        def Toggle(cls, flagRef):
+        def Toggle(cls, flagRef: FlagRef) -> None:
             """
                 Toggles a boolean FlagRef to its opposite value.
 

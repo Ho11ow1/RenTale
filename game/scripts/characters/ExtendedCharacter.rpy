@@ -6,6 +6,7 @@ init 1 python:
         Love = 1
         Lust = 2
 
+
     class ExtendedCharacter:
         def __init__(self, name, color, relationship, **properties):
             # Base properties
@@ -25,7 +26,7 @@ init 1 python:
             return self._character(what, *args, **kwargs)
 
 
-        def IncreaseStat(self, stat, amount):
+        def IncreaseStat(self, stat: StatType, amount: int) -> None:
             if type(stat) != StatType:
                 raise TypeError(f"Expected StatType, got {type(stat).__name__}")
             
@@ -38,7 +39,7 @@ init 1 python:
                     self.Lust += amount
 
 
-        def DecreaseStat(self, stat, amount):
+        def DecreaseStat(self, stat: StatType, amount: int) -> None:
             if type(stat) != StatType:
                 raise TypeError(f"Expected StatType, got {type(stat).__name__}")
 
@@ -51,7 +52,7 @@ init 1 python:
                     self.Lust -= amount
 
 
-        def ChangeRelationship(self, relationShip):
+        def ChangeRelationship(self, relationShip: str) -> None:
             if type(relationShip) != str:
                 raise TypeError(f"Expected string, got {type(relationShip).__name__}")
             
