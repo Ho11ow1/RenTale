@@ -1,6 +1,6 @@
 # RenTale
 [![Status: Work In Progress](https://img.shields.io/badge/Status-Work%20In%20Progress-yellow.svg)](https://github.com/Ho11ow1/RenTale)
-[![Version: 1.0.0](https://img.shields.io/badge/Version-1.0.0-blue.svg)](#)
+[![Version: 1.1.0](https://img.shields.io/badge/Version-1.1.0-blue.svg)](#)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/license/MIT)<br/>
 [![Ren'Py](https://img.shields.io/badge/Ren'Py-FF7F7F?logo=Renpy&logoColor=fff)](https://renpy.org)<br/>
 **A type safe and utility full Ren'Py game template**<br/>
