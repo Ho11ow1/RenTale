@@ -23,7 +23,7 @@ define gui.show_name = False
 
 ## The version of the game.
 
-define config.version = "1.0"
+define config.version = "0.1.0"
 
 
 ## Text that is placed on the game's about screen. Place the text between the
@@ -158,6 +158,30 @@ define config.window_icon = "gui/window_icon.png"
 ## This section controls how Ren'Py turns your project into distribution files.
 
 init python:
+    import random
+
+    def CreateRPAName(seed) -> str:
+        rng = random.Random(seed)
+
+        leftBits = []
+        rightBits = []
+        left = ""
+        right = ""
+
+        for _ in range(8):
+            leftBits.append(str(rng.randint(0, 1)))
+            rightBits.append(str(rng.randint(0, 1)))
+
+        left = "".join(leftBits)
+        right = "".join(rightBits)
+
+        return f"{left}_{right}"
+
+    ScriptsRPA = CreateRPAName("scripts")
+    ImagesRPA = CreateRPAName("images")
+    AudioRPA = CreateRPAName("audio")
+    GuiRPA = CreateRPAName("gui")
+    LibsRPA = CreateRPAName("libs")
 
     ## The following functions take file patterns. File patterns are case-
     ## insensitive, and matched against the path relative to the base directory,
@@ -178,11 +202,37 @@ init python:
 
     ## Classify files as None to exclude them from the built distributions.
 
-    build.classify('**~', None)
-    build.classify('**.bak', None)
-    build.classify('**/.**', None)
-    build.classify('**/#**', None)
-    build.classify('**/thumbs.db', None)
+    # ─────────────────────────────
+    # Remove junk & source files
+    # ─────────────────────────────
+    build.classify("**~", None)
+    build.classify("**.bak", None)
+    build.classify("**/.**", None)
+    build.classify("**/#**", None)
+    build.classify("**/thumbs.db", None)
+    build.classify("LICENSE", None)
+    build.classify("README.md", None)
+    build.classify("game/scripts/docs/**", None)
+    build.classify("**.rpy", None)
+
+    # ───────────────
+    # Create RPAs
+    # ───────────────
+    build.archive(ScriptsRPA, "all")
+    build.archive(ImagesRPA, "all")
+    build.archive(AudioRPA, "all")
+    build.archive(GuiRPA, "all")
+    build.archive(LibsRPA, "all")
+
+    # ───────────────
+    # Classify specific files to be places into the RPA archives
+    # ───────────────
+    build.classify("game/scripts/**.rpyc", ScriptsRPA)
+    build.classify("game/**.rpyc", ScriptsRPA)
+    build.classify("game/images/**", ImagesRPA)
+    build.classify("game/audio/**", AudioRPA)
+    build.classify("game/gui/**", GuiRPA)
+    build.classify("game/libs/**", LibsRPA)
 
     ## To archive files, classify them as 'archive'.
 
@@ -192,9 +242,11 @@ init python:
     ## Files matching documentation patterns are duplicated in a mac app build,
     ## so they appear in both the app and the zip file.
 
-    build.documentation('*.html')
-    build.documentation('*.txt')
-
+    # ─────────────────────────────
+    # Documentation
+    # ─────────────────────────────
+    build.documentation("*.html")
+    build.documentation("*.txt")
 
 ## A Google Play license key is required to perform in-app purchases. It can be
 ## found in the Google Play developer console, under "Monetize" > "Monetization
