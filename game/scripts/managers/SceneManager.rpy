@@ -1,4 +1,4 @@
-init 1 python:
+init -10 python:
     from store import _window_hide
 
     class SceneManager:

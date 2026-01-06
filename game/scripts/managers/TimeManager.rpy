@@ -1,4 +1,4 @@
-init 1 python:
+init -10 python:
     from enum import Enum
     
     class TimeOfDay(Enum):
@@ -17,45 +17,44 @@ init 1 python:
             Manages game time progression including day periods, days of the week, and week counting.
         """
 
-        _daysOfWeek = [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ]
-        _weekendDays = [ "Saturday", "Sunday" ]
-        
-        DayPeriod = TimeOfDay.Morning
-        Day = _daysOfWeek[0]
-        DayCount = int(1)
-        Week = int(1)
-        IsWeekend = False
+        def __init__(self):
+            self._daysOfWeek = [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ]
+            self._weekendDays = [ "Saturday", "Sunday" ]
+            self.DayPeriod = TimeOfDay.Morning
+            self.Day = self._daysOfWeek[0]
+            self.DayCount = int(1)
+            self.Week = int(1)
+            self.IsWeekend = False
 
-        @classmethod
-        def AdvanceDayPeriod(cls) -> None:
+
+        def AdvanceDayPeriod(self) -> None:
             """
                 Advances the current day period.
             """
 
-            match cls.DayPeriod:
+            match self.DayPeriod:
                 case TimeOfDay.Morning:
-                    cls.DayPeriod = TimeOfDay.Noon
+                    self.DayPeriod = TimeOfDay.Noon
                     return
                 case TimeOfDay.Noon:
-                    cls.DayPeriod = TimeOfDay.Afternoon
+                    self.DayPeriod = TimeOfDay.Afternoon
                     return
                 case TimeOfDay.Afternoon:
-                    cls.DayPeriod = TimeOfDay.Evening
+                    self.DayPeriod = TimeOfDay.Evening
                     return
                 case TimeOfDay.Evening:
-                    cls.DayPeriod = TimeOfDay.Night
+                    self.DayPeriod = TimeOfDay.Night
                     return
                 case TimeOfDay.Night:
-                    cls.DayPeriod = TimeOfDay.Midnight
+                    self.DayPeriod = TimeOfDay.Midnight
                     return
                 case TimeOfDay.Midnight:
-                    cls.DayPeriod = TimeOfDay.Morning
-                    cls.AdvanceDay()
+                    self.DayPeriod = TimeOfDay.Morning
+                    self.AdvanceDay()
                     return
 
 
-        @classmethod
-        def SetDayPeriod(cls, period: TimeOfDay) -> None:
+        def SetDayPeriod(self, period: TimeOfDay) -> None:
             """
                 Sets the current day period.
 
@@ -69,30 +68,28 @@ init 1 python:
             if type(period) != TimeOfDay:
                 raise TypeError("Parameter must be a TimeOfDay enum instance")
 
-            cls.DayPeriod = period
+            self.DayPeriod = period
 
 
-        @classmethod
-        def AdvanceDay(cls) -> None:
+        def AdvanceDay(self) -> None:
             """
                 Advances the current day period.
             """
 
-            previousDayIndex = cls._daysOfWeek.index(cls.Day)
+            previousDayIndex = self._daysOfWeek.index(self.Day)
 
-            if previousDayIndex == len(cls._daysOfWeek) - 1:
-                cls.Day = cls._daysOfWeek[0]
-                cls.AdvanceWeek()
+            if previousDayIndex == len(self._daysOfWeek) - 1:
+                self.Day = self._daysOfWeek[0]
+                self.AdvanceWeek()
             else:
-                cls.Day = cls._daysOfWeek[previousDayIndex + 1]
+                self.Day = self._daysOfWeek[previousDayIndex + 1]
 
-            cls.DayCount += 1
+            self.DayCount += 1
                 
-            cls.IsWeekend = cls.Day in cls._weekendDays
+            self.IsWeekend = self.Day in self._weekendDays
 
 
-        @classmethod
-        def SetDay(cls, index: int) -> None:
+        def SetDay(self, index: int) -> None:
             """
                 Sets the current day by it's index.
 
@@ -106,24 +103,22 @@ init 1 python:
 
             if type(index) != int:
                 raise TypeError(f"Expected int, got {type(index).__name__}")
-            if index < 0 or index >= len(cls._daysOfWeek):
+            if index < 0 or index >= len(self._daysOfWeek):
                 raise ValueError(f"Day index '{index}' is outside the bounds of the _daysOfWeek array")
             
-            cls.Day = cls._daysOfWeek[index]
-            cls.IsWeekend = cls.Day in cls._weekendDays
+            self.Day = self._daysOfWeek[index]
+            self.IsWeekend = self.Day in self._weekendDays
 
 
-        @classmethod
-        def AdvanceWeek(cls) -> None:
+        def AdvanceWeek(self) -> None:
             """
                 Advances the current week number by 1.
             """
 
-            cls.Week += 1
+            self.Week += 1
 
 
-        @classmethod
-        def SetWeek(cls, value: int) -> None:
+        def SetWeek(self, value: int) -> None:
             """
                 Sets the current week number.
 
@@ -140,5 +135,5 @@ init 1 python:
             if value < 1:
                 raise ValueError(f"Week must be positive, got {value}")
 
-            cls.Week = value
+            self.Week = value
 

@@ -1,7 +1,7 @@
 label MeetWillow:
     Willow "Oh... I didn't expect anyone to find me here."
 
-    $ FlagManager.Set(Flags.Willow.HaveMet, True)
+    $ RenTale.Managers.FlagManager.Set(RenTale.Flags.Willow.HaveMet, True)
     $ Willow.IncreaseStat(StatType.Friendship, 2)
 
     return
@@ -10,7 +10,7 @@ label MeetWillow:
 label MeetAlice:
     Alice "Don't look so frightened. I'm Alice."
 
-    $ FlagManager.Set(Flags.Alice.HaveMet, True)
+    $ RenTale.Managers.FlagManager.Set(RenTale.Flags.Alice.HaveMet, True)
     $ Alice.IncreaseStat(StatType.Lust, 1)
 
     return

@@ -1,4 +1,4 @@
-init 1 python:
+init -10 python:
     class FlagManager:
         """
             Centralized singleton flag management system with runtime type validation.

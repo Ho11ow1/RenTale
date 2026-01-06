@@ -1,13 +1,13 @@
 label Example:
     
-    $ result = SceneManager.CleanCallScreen("ExampleScreen")
+    $ result = RenTale.Managers.SceneManager.CleanCallScreen("ExampleScreen")
 
     if (result == "MeetWillow"):
-        $ SceneManager.CleanJump("MeetWillow")
+        $ RenTale.Managers.SceneManager.CleanJump("MeetWillow")
 
     elif (result == "MeetAlice"):
-        $ SceneManager.CleanJump("MeetAlice")
+        $ RenTale.Managers.SceneManager.CleanJump("MeetAlice")
 
     elif (result == "Leave"):
-        $ SceneManager.CleanJump("Leave")
+        $ RenTale.Managers.SceneManager.CleanJump("Leave")
 

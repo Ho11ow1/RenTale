@@ -1,4 +1,4 @@
-init 1 python:
+init -11 python:
     from enum import Enum
 
     class StatType(Enum):

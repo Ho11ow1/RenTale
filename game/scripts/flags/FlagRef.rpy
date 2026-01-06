@@ -1,4 +1,4 @@
-init 1 python:
+init -10 python:
     class FlagRef:
         def __init__(self, value):
             if value is None:
