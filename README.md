@@ -1,6 +1,6 @@
 # RenTale
 [![Status: Work In Progress](https://img.shields.io/badge/Status-Work%20In%20Progress-yellow.svg)](https://github.com/Ho11ow1/RenTale)
-[![Version: 1.1.0](https://img.shields.io/badge/Version-1.1.0-blue.svg)](#)
+[![Version: 1.2.0](https://img.shields.io/badge/Version-1.2.0-blue.svg)](#)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/license/MIT)<br/>
 [![Ren'Py](https://img.shields.io/badge/Ren'Py-FF7F7F?logo=Renpy&logoColor=fff)](https://renpy.org)<br/>
 **A type safe and utility full Ren'Py game template**<br/>
@@ -8,6 +8,7 @@ Designed to streamline Visual Novel development and avoid runtime errors
 
 ## Features
 - **Object oriented design**
+  - **Namespace encapsulation** for clear distinction between RenTale and user code
   - **Pure python classes** for better type safety and structure
   - **Enum based constants** for type safe state management
   - **Class methods** for organized, reusable functionality
@@ -22,6 +23,7 @@ Designed to streamline Visual Novel development and avoid runtime errors
 - **Systems**
   - **ExtendedCharacter**: A wrapper around Ren'Py's Character class with built-in relationship tracking and stats
   - **FlagRef**: A strongly typed flag wrapper that ensures type safety at runtime
+  - **Modified build process**: A Custom Ren’Py build pipeline that strips source/junk files and packages assets into deterministic RPA archives
 
 - **Managers**
   - **FlagManager**: Centralized flag management with type validation
@@ -53,9 +55,9 @@ If you prefer traditional Python conventions (snake_case), feel free to adapt th
 
 ## Requirements
 - [Ren'Py SDK](https://renpy.org/latest.html) version 8.0 or higher
-- Basic object oriented python knowledge (classes, methods, enums)
+- Basic object oriented python knowledge (classes, methods, enums, namespaces)
 - Minimal Ren'Py scripting knowledge
 
 ## License
 
-MIT License - see [LICENSE](LICENSE) 
+MIT License - see [LICENSE](LICENSE)
