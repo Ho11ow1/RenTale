@@ -2,7 +2,7 @@
 Navigate to characters/Characters.rpy
 
 Create your character like this:
-default name = ExtendedCharacter("Name", color = "#hex", relationship="RelationShip")
+default name = RenTale.ExtendedCharacter("Name", color = "#hex", relationship = "RelationShip")
 
 
 When it comes to the relationship it all depends on your game.

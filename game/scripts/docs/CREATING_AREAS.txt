@@ -4,7 +4,7 @@ Either use Screens & Areas.rpy, or if you're working on something bigger, use th
 
 Creating an area / label for our screen:
     label Area:
-        $ result = call screen "ScreenName" / $ result = SceneManager.CleanCallScreen("ScreenName")
+        $ result = call screen "ScreenName" / $ result = RenTale.Managers.SceneManager.CleanCallScreen("ScreenName")
 
         if (result == "")
             pass
