@@ -12,7 +12,8 @@ style example_button_text:
 style example_frame:
     background "#000"
 
-screen ExampleScreen:
+
+screen Screen_Example:
     frame:
         xfill True
         yfill True
@@ -24,11 +25,11 @@ screen ExampleScreen:
             spacing 20
 
             textbutton "Go and meet Alice":
-                action Return("MeetAlice")
+                action Return("Meet_Alice")
                 xsize 300
 
             textbutton "Go and meet Willow":
-                action Return("MeetWillow")
+                action Return("Meet_Willow")
                 xsize 300
 
             textbutton "Leave":

@@ -1,4 +1,4 @@
-label MeetWillow:
+label Meet_Willow:
     Willow "Oh... I didn't expect anyone to find me here."
 
     $ RenTale.Managers.FlagManager.Set(RenTale.Flags.Willow.HaveMet, True)
@@ -7,7 +7,7 @@ label MeetWillow:
     return
 
 
-label MeetAlice:
+label Meet_Alice:
     Alice "Don't look so frightened. I'm Alice."
 
     $ RenTale.Managers.FlagManager.Set(RenTale.Flags.Alice.HaveMet, True)
