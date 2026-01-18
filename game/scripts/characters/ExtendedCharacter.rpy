@@ -7,8 +7,10 @@ init -11 python:
         Lust = 2
 
 
-    class ExtendedCharacter:
+    class ExtendedCharacter(renpy.character.ADVCharacter):
         def __init__(self, name, color, relationship, **properties):
+            # Init actual character
+            super(ExtendedCharacter, self).__init__(name, color = color, **properties)
             # Base properties
             self.Name = str(name)
             self.Color = str(color)
@@ -18,12 +20,6 @@ init -11 python:
             self.Lust = int(0)
             # Specific customisation
             self.Relationship = str(relationship)
-
-            self._character = Character(self.Name, color = self.Color, **properties)
-        
-
-        def __call__(self, what, *args, **kwargs):
-            return self._character(what, *args, **kwargs)
 
 
         def IncreaseStat(self, stat: StatType, amount: int) -> None:
