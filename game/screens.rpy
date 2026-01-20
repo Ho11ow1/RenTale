@@ -298,28 +298,26 @@ screen navigation():
         spacing gui.navigation_spacing
 
         if main_menu:
-
             textbutton _("Start") action Start()
 
         else:
-
             textbutton _("History") action ShowMenu("history")
-
             textbutton _("Save") action ShowMenu("save")
 
         textbutton _("Load") action ShowMenu("load")
 
+        if main_menu:
+            textbutton _("Gallery") action ShowMenu("Gallery")
+
         textbutton _("Preferences") action ShowMenu("preferences")
 
         if _in_replay:
-
             textbutton _("End Replay") action EndReplay(confirm=True)
 
         elif not main_menu:
-
             textbutton _("Main Menu") action MainMenu()
 
-        textbutton _("About") action ShowMenu("about")
+        # textbutton _("About") action ShowMenu("about")
 
         # if renpy.variant("pc") or (renpy.variant("web") and not renpy.variant("mobile")):
 
