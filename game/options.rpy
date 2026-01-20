@@ -227,7 +227,6 @@ init python:
     # ───────────────
     # Classify specific files to be places into the RPA archives
     # ───────────────
-    build.classify("game/scripts/**.rpyc", ScriptsRPA)
     build.classify("game/**.rpyc", ScriptsRPA)
     build.classify("game/images/**", ImagesRPA)
     build.classify("game/audio/**", AudioRPA)
@@ -242,9 +241,9 @@ init python:
     ## Files matching documentation patterns are duplicated in a mac app build,
     ## so they appear in both the app and the zip file.
 
-    # ─────────────────────────────
+    # ───────────────
     # Documentation
-    # ─────────────────────────────
+    # ───────────────
     build.documentation("*.html")
     build.documentation("*.txt")
 
