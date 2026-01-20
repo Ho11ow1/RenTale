@@ -13,7 +13,7 @@ style example_frame:
     background "#000"
 
 
-screen Screen_Example:
+screen Screen_Example():
     frame:
         xfill True
         yfill True
