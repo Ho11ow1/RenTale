@@ -12,6 +12,7 @@ init -10 python:
 init -9 python:
     RenTale.Managers.FlagManager = FlagManager
     RenTale.Managers.SceneManager = SceneManager
+    RenTale.Managers.GalleryManager = GalleryManager
     RenTale.Managers.TimeManager = None
 
 
@@ -20,14 +21,23 @@ default renTaleFlags = Flags()
 default timeManager = TimeManager()
 
 
-# Store hook | runs after load to restore instances previously set to null
-init python:
+# Store hooks
+init -1 python:
+    galleryCache = {}
+
     def RestoreRenTaleInstances():
         import store
         if hasattr(store, "renTaleFlags"):
             RenTale.Flags = store.renTaleFlags
         if hasattr(store, "timeManager"):
             RenTale.Managers.TimeManager = store.timeManager
+
+
+    def DeSerializeGallery():
+        for name, data in persistent.gallery.items():
+            galleryCache[name] = GalleryItem.FromDict(data)
     
+
     config.start_callbacks.append(RestoreRenTaleInstances)
+    config.start_callbacks.append(DeSerializeGallery)
 
