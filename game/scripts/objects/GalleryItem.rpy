@@ -2,7 +2,8 @@ init -11 python:
     class GalleryItem:
         def __init__(self, name, isUnlocked, thumbnail, scene, description):
             """
-                For thumbnail use "images/" or else the image will not be shown correctly or at all
+                For thumbnail use "images/" or else the image will not be shown
+                For scene use an existing label to replay
             """
 
             if type(name) != str:
