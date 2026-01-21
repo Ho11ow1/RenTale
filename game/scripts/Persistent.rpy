@@ -9,7 +9,7 @@ init python:
         """
 
         galleryItems = [
-            GalleryItem("Temp", False, "", "", None)
+            GalleryItem("Temp", False, "images/", "", None)
         ]
 
         for galleryItem in galleryItems:
@@ -18,3 +18,4 @@ init python:
 
 
     InitGallery()
+
