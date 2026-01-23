@@ -1,0 +1,49 @@
+=== Methods that can be used to easily change how Gallery is displayed ===
+
+For a tab like system which only displays events that have a name starting with a given string / character:
+
+# Declare your initial selectedState
+default selectedGallery = "All"
+
+    # Create a menu to switch between your "tabs"
+    hbox:
+        spacing 10
+        textbutton "All" action SetScreenVariable("selectedGallery", "All")
+        textbutton "Megan" action SetScreenVariable("selectedGallery", "Megan")
+        textbutton "Willow" action SetScreenVariable("selectedGallery", "Willow")
+
+    # Create a conditional use statement which reacts to your selectedGallery variable
+    if selectedGallery == "All":
+        use Gallery_Grid_All
+    elif selectedGallery == "Megan":
+        use Gallery_Grid_Filtered("Megan")
+    elif selectedGallery == "Willow":
+        use Gallery_Grid_Filtered("Willow")
+
+
+# Create screens to be used inside of the Gallery screens
+screen Gallery_Grid_All():
+    grid 4 4:
+        for name, data in persistent.gallery.items():
+
+
+screen Gallery_Grid_Filtered(characterName):
+    grid 4 4:
+        for name, data in filter(lambda kvp: kvp[0].startswith(f"{characterName}_"), persistent.gallery.items()):
+
+
+Using this architecture you've just created a condition based component like Gallery view,
+
+
+For Gallery_Grid_All, All GalleryItems inside of persistent.gallery will be displayed
+
+
+For Gallery_Grid_Filtered, Only GalleryItems which names begin with "CharacterName_" will be displayed,
+    # Note: For this exact code to work, you must name your GalleryItems for example: "Megan_Meet", "Alice_Love_1", "Mia_Return"
+    To achieve this we use a combination of filter and lambda, the filter operation takes in a condition function or lambda and the object to be filtered,
+    our lambda in the instance: takes in a KeyValuePair which is the structure of a dictionary,
+    grabs the first element which is the name and if it matches our condition it gives that kvp back to us to use inside of our for loop
+
+NOTE: This is just one way in which tabs can be implemented,
+    Each game is different and does things differently, Feel free to modify this approach to fit your needs
+
