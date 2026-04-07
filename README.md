@@ -1,4 +1,5 @@
 # RenTale
+## Currently undergoing a complete overhaul as a result of Ren'Py save system issues. Do not use this template until changes are made
 [![Status: Work In Progress](https://img.shields.io/badge/Status-Work%20In%20Progress-yellow.svg)](https://github.com/Ho11ow1/RenTale)
 [![Version: 1.2.0](https://img.shields.io/badge/Version-1.2.0-blue.svg)](#)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/license/MIT)<br/>
