@@ -21,7 +21,7 @@ init -100 python:
             self.IsCompleted = isCompleted
             self.UnlockCondition = unlockCondition
             self.Action = action
-            RenTale_ALL_LOCATIONS[self.Location].append(self)
+            RenTale_All_Locations[self.Location].append(self)
 
 
         def Unlock(self) -> None:

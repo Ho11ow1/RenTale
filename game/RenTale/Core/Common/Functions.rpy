@@ -4,15 +4,15 @@ init python:
         if type(location) != Location:
             raise TypeError(f"Expected 'Location', got '{type(location).__name__}'")
             
-        if location in RenTale_ALL_LOCATIONS:
+        if location in RenTale_All_Locations:
             if location.IsUnlocked:
-                store.RenTale_CURRENT_LOCATION = location
+                store.RenTale_Current_Location = location
                 renpy.jump(location.Label)
 
 
 # ========================= EVENT HANDLING ========================= #
     def RenTale_TriggerAutomaticEvents() -> None:
-        for event in RenTale_ALL_LOCATIONS.get(store.RenTale_CURRENT_LOCATION, []):
+        for event in RenTale_All_Locations.get(store.RenTale_Current_Location, []):
             if event.IsCompleted:
                 continue
             if event.IsUnlocked and event.IsAutomatic and event.CheckCondition():

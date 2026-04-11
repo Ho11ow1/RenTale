@@ -1,6 +1,6 @@
 # =============== LOCATION SYSTEM =============== # 
-define RenTale_ALL_LOCATIONS = dict() # Dictionary<Location, List<Event>>
-default RenTale_CURRENT_LOCATION = None # Location
+define RenTale_All_Locations = dict() # Dictionary<Location, List<Event>>
+default RenTale_Current_Location = None # Location
 
 # =============== TIME SYSTEM =============== #
 define RenTale_time_of_day_names = [ "Morning", "Noon", "Afternoon", "Evening", "Night"]
@@ -13,3 +13,7 @@ default RenTale_time_of_day_name = RenTale_time_of_day_names[0]
 default RenTale_day_count = 1
 default RenTale_day_name = RenTale_day_names[0]
 default RenTale_week = 1
+
+# =============== GALLERY SYSTEM =============== #
+default persistent.RenTale_Gallery = dict() # Dictionary<Name, IsUnlocked> (Derived from GalleryItem)
+define RenTale_Gallery_List = set() # HashSet<GalleryItem> (Named list for simplicity, HashSet for uniqueness)

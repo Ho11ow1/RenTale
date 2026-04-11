@@ -11,7 +11,7 @@ init -100 python:
             self.Name = name
             self.Label = label
             self.IsUnlocked = isUnlocked
-            RenTale_ALL_LOCATIONS[self] = []
+            RenTale_All_Locations[self] = []
 
 
         def Unlock(self) -> None:
