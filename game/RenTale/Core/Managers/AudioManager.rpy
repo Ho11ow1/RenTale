@@ -4,9 +4,9 @@ init -90 python:
         @staticmethod
         def SetMasterVolume(volume: float) -> None:
             if type(volume) != float:
-                raise TypeError(f"Expected 'Float', got '{type(volume).__name__}'")
+                raise RenTaleTypeError(float, type(volume))
             if volume > 1 or volume < 0:
-                raise ValueError(f"Expected value between 1 and 0, got: {volume}")
+                raise RenTaleValueError("value between 1 and 0", volume)
 
             preferences.set_mixer("main", volume)
 
@@ -20,11 +20,11 @@ init -90 python:
         @staticmethod
         def PlayBGM(file: str, loop: bool = False, fadeIn: float = 0.0) -> None:
             if type(file) != str:
-                raise TypeError(f"Expected 'String' file path, got '{type(file).__name__}'")
+                raise RenTaleTypeError(str, type(file))
             if type(loop) != bool:
-                raise TypeError(f"Expected 'Bool', got '{type(loop).__name__}'")
+                raise RenTaleTypeError(bool, type(loop))
             if type(fadeIn) != float:
-                raise TypeError(f"Expected 'Float', got '{type(fadeIn).__name__}'")
+                raise RenTaleTypeError(float, type(fadeIn))
 
             renpy.music.play(file, channel = "music", loop = loop, fadein = fadeIn)
 
@@ -32,9 +32,9 @@ init -90 python:
         @staticmethod
         def StopBGM(fadeOut: float | None = 0.0) -> None:
             if fadeOut is not None and type(fadeOut) != float:
-                raise TypeError(f"Expected 'Float' or 'None', got '{type(fadeOut).__name__}'")
+                raise RenTaleTypeError((float, type(None)), type(fadeOut))
             if fadeOut < 0:
-                raise ValueError(f"Expected positive number, got: {fadeOut}")
+                raise RenTaleValueError("positive number", fadeOut)
 
             renpy.music.stop(channel = "music", fadeout = fadeOut)
 
@@ -42,9 +42,9 @@ init -90 python:
         @staticmethod
         def SetBGMVolume(volume: float) -> None:
             if type(volume) != float:
-                raise TypeError(f"Expected 'Float', got '{type(volume).__name__}'")
+                raise RenTaleTypeError(float, type(volume))
             if volume > 1 or volume < 0:
-                raise ValueError(f"Expected value between 1 and 0, got: {volume}")
+                raise RenTaleValueError("value between 1 and 0", volume)
 
             preferences.set_mixer("music", volume)
 
@@ -56,9 +56,9 @@ init -90 python:
         @staticmethod
         def PlaySFX(file: str, fadeIn: float = 0.0) -> None:
             if type(file) != str:
-                raise TypeError(f"Expected 'String' file path, got '{type(file).__name__}'")
+                raise RenTaleTypeError(str, type(file))
             if type(fadeIn) != float:
-                raise TypeError(f"Expected 'Float', got '{type(fadeIn).__name__}'")
+                raise RenTaleTypeError(float, type(fadeIn))
 
             renpy.music.play(file, channel = "sound", loop = False, fadein = fadeIn)
 
@@ -66,9 +66,9 @@ init -90 python:
         @staticmethod
         def StopSFX(fadeOut: float = 0.0) -> None:
             if fadeOut is not None and type(fadeOut) != float:
-                raise TypeError(f"Expected 'Float' or 'None', got '{type(fadeOut).__name__}'")
+                raise RenTaleTypeError((float, type(None)), type(fadeOut))
             if fadeOut < 0:
-                raise ValueError(f"Expected positive number, got: {fadeOut}")
+                raise RenTaleValueError("positive number", fadeOut)
 
             renpy.music.stop(channel = "sound", fadeout = fadeOut)
 
@@ -76,9 +76,9 @@ init -90 python:
         @staticmethod
         def SetSFXVolume(volume: float) -> None:
             if type(volume) != float:
-                raise TypeError(f"Expected 'Float', got '{type(volume).__name__}'")
+                raise RenTaleTypeError(float, type(volume))
             if volume > 1 or volume < 0:
-                raise ValueError(f"Expected value between 1 and 0, got: {volume}")
+                raise RenTaleValueError("value between 1 and 0", volume)
 
             preferences.set_mixer("sfx", volume)
 
@@ -92,9 +92,9 @@ init -90 python:
         @staticmethod
         def PlayVO(file: str, fadeIn: float = 0.0) -> None:
             if type(file) != str:
-                raise TypeError(f"Expected 'String' file path, got '{type(file).__name__}'")
+                raise RenTaleTypeError(str, type(file))
             if type(fadeIn) != float:
-                raise TypeError(f"Expected 'Float', got '{type(fadeIn).__name__}'")
+                raise RenTaleTypeError(float, type(fadeIn))
 
             renpy.music.play(file, channel = "voice", loop = False, fadein = fadeIn)
 
@@ -102,9 +102,9 @@ init -90 python:
         @staticmethod
         def StopVO(fadeOut: float = 0.0) -> None:
             if fadeOut is not None and type(fadeOut) != float:
-                raise TypeError(f"Expected 'Float' or 'None', got '{type(fadeOut).__name__}'")
+                raise RenTaleTypeError((float, type(None)), type(fadeOut))
             if fadeOut < 0:
-                raise ValueError(f"Expected positive number, got: {fadeOut}")
+                raise RenTaleValueError("positive number", fadeOut)
 
             renpy.music.stop(channel = "voice", fadeout = fadeOut)
 
@@ -112,9 +112,9 @@ init -90 python:
         @staticmethod
         def SetVOVolume(volume: float) -> None:
             if type(volume) != float:
-                raise TypeError(f"Expected 'Float', got '{type(volume).__name__}'")
+                raise RenTaleTypeError(float, type(volume))
             if volume > 1 or volume < 0:
-                raise ValueError(f"Expected value between 1 and 0, got: {volume}")
+                raise RenTaleValueError("value between 1 and 0", volume)
 
             preferences.set_mixer("voice", volume)
 

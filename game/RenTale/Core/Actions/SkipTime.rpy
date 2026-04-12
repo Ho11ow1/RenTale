@@ -2,7 +2,7 @@ init -10 python:
     class SkipTime(Action):
         def __init__(self, count: int = 1):
             if type(count) != int:
-                raise TypeError(f"Expected 'Int', got '{type(count).__name__}'")
+                raise RenTaleTypeError(int, type(count))
 
             self.Count = count
 

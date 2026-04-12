@@ -1,4 +1,4 @@
-screen DevScreen:
+screen RenTale_DevScreen:
 
     zorder 99
     tag DevScreenHud
@@ -6,19 +6,18 @@ screen DevScreen:
 
     frame:
         xalign 1.0
-        yalign 1.0
-        yoffset -40
+        yalign 0.0
 
         background None
         padding (0, 0)
 
-        textbutton "DevScreen":
-            action Show("DeveloperPanel")
+        textbutton "RenTale_DevScreen":
+            action Show("RenTale_DeveloperPanel")
             background None
             hover_background None
 
 
-screen DeveloperPanel:
+screen RenTale_DeveloperPanel:
 
     modal True
     zorder 999
@@ -38,7 +37,7 @@ screen DeveloperPanel:
 
                 textbutton "X":
                     xalign 1.0
-                    action Hide("DeveloperPanel")
+                    action Hide("RenTale_DeveloperPanel")
                     background None
                     hover_background None
 
@@ -70,9 +69,9 @@ screen DeveloperPanel:
 
 
 init 999 python:
-    def _ShowDevScreen():
+    def RenTale_ShowDevScreen():
         if DevMode:
-            renpy.show_screen("DevScreen")
+            renpy.show_screen("RenTale_DevScreen")
 
-    config.start_callbacks.append(_ShowDevScreen)
-    config.after_load_callbacks.append(_ShowDevScreen)
+    config.start_callbacks.append(RenTale_ShowDevScreen)
+    config.after_load_callbacks.append(RenTale_ShowDevScreen)

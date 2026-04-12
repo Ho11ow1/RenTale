@@ -2,7 +2,7 @@ init python:
 # ========================= MAP MOVEMENT ========================= # 
     def RenTale_GoTo(location: Location) -> None:
         if type(location) != Location:
-            raise TypeError(f"Expected 'Location', got '{type(location).__name__}'")
+            raise RenTaleTypeError(Location, type(location))
             
         if location in RenTale_All_Locations:
             if location.IsUnlocked:
@@ -22,7 +22,7 @@ init python:
 # ========================= TIME MANAGEMENT ========================= #
     def RenTale_advance_time(count: int = 1):
         if type(count) != int:
-            raise TypeError(f"Expected 'Int', got '{type(count).__name__}'")
+            raise RenTaleTypeError(int, type(count))
 
         length = len(RenTale_time_of_day_names)
         for _ in range(count):
@@ -35,7 +35,7 @@ init python:
 
     def RenTale_advance_days(count: int = 1):
         if type(count) != int:
-            raise TypeError(f"Expected 'Int', got '{type(count).__name__}'")
+            raise RenTaleTypeError(int, type(count))
 
         length = len(RenTale_day_names)
         for _ in range(count):
@@ -49,7 +49,7 @@ init python:
 
     def RenTale_advance_weeks(count: int = 1):
         if type(count) != int:
-            raise TypeError(f"Expected 'Int', got '{type(count).__name__}'")
+            raise RenTaleTypeError(int, type(count))
 
         for _ in range(count):
             store.RenTale_week += 1

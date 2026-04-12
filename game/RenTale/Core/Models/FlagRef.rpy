@@ -1,48 +1,39 @@
 init -100 python:
     class FlagRef():
         def __init__(self, value):
+            if type(value) not in (int, bool):
+                raise RenTaleTypeError((int, bool), type(value))
+
             self.Value = value
-
-
-        def __setattr__(self, name, value):
-            if name == "Value" and hasattr(self, "Value"):
-                if value is None:
-                    raise ValueError(f"FlagRef value cannot be None")
-                if type(value) not in (int, bool):
-                    raise TypeError(f"FlagRef value type must be int or bool, got {type(value).__name__}")
-                if type(value) != type(self.Value):
-                    raise TypeError(f"Expected {type(self.Value).__name__}, got {type(value).__name__}")
-
-            super().__setattr__(name, value)
 
 
         def Set(self, value: int | bool) -> None:
             if type(value) != type(self.Value):
-                raise TypeError(f"Expected {type(self.Value).__name__}, got {type(value).__name__}")
+                raise RenTaleTypeError(type(self.Value), type(value))
             
             self.Value = value
 
 
         def Toggle(self) -> None:
             if type(self.Value) != bool:
-                raise TypeError(f"Expected bool, got {type(self.Value).__name__}")
+                raise RenTaleArgumentException("Cannot toggle an 'Int' flag")
 
             self.Value = not self.Value
 
 
         def Increment(self, amount: int = 1) -> None:        
             if type(amount) != int:
-                raise TypeError(f"Expected int, got {type(amount).__name__}")
+                raise RenTaleTypeError(int, type(amount))
             if type(self.Value) != int:
-                raise TypeError(f"Cannot increment non-numeric flag. Current value type is {type(self.Value).__name__}: {self.Value}")
+                raise RenTaleArgumentException("Cannot increment a 'Bool' flag")
 
             self.Set(self.Value + amount)
 
         
         def Decrement(self, amount: int = 1) -> None:        
             if type(amount) != int:
-                raise TypeError(f"Expected int, got {type(amount).__name__}")
+                raise RenTaleTypeError(int, type(amount))
             if type(self.Value) != int:
-                raise TypeError(f"Cannot decrement non-numeric flag. Current value type is {type(self.Value).__name__}: {self.Value}")
+                raise RenTaleArgumentException("Cannot decrement a 'Bool' flag")
 
             self.Set(self.Value - amount)

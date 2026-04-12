@@ -2,17 +2,17 @@ init -100 python:
     class Event():
         def __init__(self, name, location, isUnlocked = False, isAutomatic = False, isCompleted = False, unlockCondition = None, action = None):
             if type(name) != str:
-                raise TypeError(f"Expected 'String', got '{type(name).__name__}'")
+                raise RenTaleTypeError(str, type(name))
             if type(location) != Location:
-                raise TypeError(f"Expected 'Location', got '{type(location).__name__}'")
+                raise RenTaleTypeError(Location, type(location))
             if type(isUnlocked) != bool:
-                raise TypeError(f"Expected 'Bool', got '{type(isUnlocked).__name__}'")
+                raise RenTaleTypeError(bool, type(isUnlocked))
             if type(isAutomatic) != bool:
-                raise TypeError(f"Expected 'Bool', got '{type(isAutomatic).__name__}'")
+                raise RenTaleTypeError(bool, type(isAutomatic))
             if unlockCondition is not None and type(unlockCondition) != str:
-                raise TypeError(f"Expected 'String' or 'None', got '{type(unlockCondition).__name__}'")
+                raise RenTaleTypeError((str, type(None)), type(unlockCondition))
             if action is not None and type(action) != str:
-                raise TypeError(f"Expected 'String' or 'None', got '{type(action).__name__}'")
+                raise RenTaleTypeError((str, type(None)), type(action))
 
             self.Name = name
             self.Location = location
@@ -21,6 +21,7 @@ init -100 python:
             self.IsCompleted = isCompleted
             self.UnlockCondition = unlockCondition
             self.Action = action
+            
             RenTale_All_Locations[self.Location].append(self)
 
 

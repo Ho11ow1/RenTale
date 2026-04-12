@@ -1,3 +1,5 @@
+init offset = -999
+
 # =============== LOCATION SYSTEM =============== # 
 define RenTale_All_Locations = dict() # Dictionary<Location, List<Event>>
 default RenTale_Current_Location = None # Location
@@ -17,3 +19,6 @@ default RenTale_week = 1
 # =============== GALLERY SYSTEM =============== #
 default persistent.RenTale_Gallery = dict() # Dictionary<Name, IsUnlocked> (Derived from GalleryItem)
 define RenTale_Gallery_List = set() # HashSet<GalleryItem> (Named list for simplicity, HashSet for uniqueness)
+
+# =============== INVENTORY SYSTEM =============== #
+default Inventory = RenTale_Inventory()

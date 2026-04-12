@@ -2,23 +2,20 @@ init -100 python:
     class GalleryItem():
         def __init__(self, name, label, thumbnail, scope = None, isUnlocked = False):
             if type(name) != str:
-                raise TypeError(f"Expected 'String', got '{type(name).__name__}'")
+                raise RenTaleTypeError(str, type(name))
             if type(label) != str:
-                raise TypeError(f"Expected 'String', got '{type(label).__name__}'")
+                raise RenTaleTypeError(str, type(label))
             if type(thumbnail) != str:
-                raise TypeError(f"Expected 'String', got '{type(thumbnail).__name__}'")
+                raise RenTaleTypeError(str, type(thumbnail))
             if scope is not None and type(scope) != dict:
-                raise TypeError(f"Expected 'Dictionary' or 'None', got '{type(scope).__name__}'")
+                raise RenTaleTypeError((dict, type(None)), type(scope))
             if type(isUnlocked) != bool:
-                raise TypeError(f"Expected 'Bool', got '{type(isUnlocked).__name__}'")
+                raise RenTaleTypeError(bool, type(isUnlocked))
 
             self.Name = name
             self.Label = label
             self.Thumbnail = thumbnail
-            if scope is None:
-                self.Scope = {}
-            else:
-                self.Scope = scope
+            self.Scope = {} if scope is None else scope
 
             if name not in persistent.RenTale_Gallery:
                 persistent.RenTale_Gallery[name] = isUnlocked

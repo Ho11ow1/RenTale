@@ -2,15 +2,16 @@ init -100 python:
     class Location():
         def __init__(self, name, label, isUnlocked = True):
             if type(name) != str:
-                raise TypeError(f"Expected 'String', got '{type(name).__name__}'")
+                raise RenTaleTypeError(str, type(name))
             if type(label) != str:
-                raise TypeError(f"Expected 'String', got '{type(label).__name__}'")
+                raise RenTaleTypeError(str, type(label))
             if type(isUnlocked) != bool:
-                raise TypeError(f"Expected 'Bool', got '{type(isUnlocked).__name__}'")
+                raise RenTaleTypeError(bool, type(isUnlocked))
 
             self.Name = name
             self.Label = label
             self.IsUnlocked = isUnlocked
+            
             RenTale_All_Locations[self] = []
 
 

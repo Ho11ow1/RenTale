@@ -2,7 +2,7 @@ init -10 python:
     class MoveTo(Action):
         def __init__(self, location):
             if type(location) != Location:
-                raise TypeError(f"Expected 'Location', got '{type(location).__name__}'")
+                raise RenTaleTypeError(Location, type(location))
 
             self.Location = location
 
