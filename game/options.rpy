@@ -163,8 +163,8 @@ init python:
     def CreateRPAName(seed) -> str:
         rng = random.Random(seed)
 
-        leftBits = []
-        rightBits = []
+        leftBits = list()
+        rightBits = list()
         left = ""
         right = ""
 
@@ -180,6 +180,7 @@ init python:
     RenTaleRPA = CreateRPAName("rentale")
     ScriptsRPA = CreateRPAName("scripts")
     ImagesRPA = CreateRPAName("images")
+    MoviesRPA = CreateRPAName("movies")
     AudioRPA = CreateRPAName("audio")
     GuiRPA = CreateRPAName("gui")
     LibsRPA = CreateRPAName("libs")
@@ -221,6 +222,7 @@ init python:
     build.archive(RenTaleRPA, "all")
     build.archive(ScriptsRPA, "all")
     build.archive(ImagesRPA, "all")
+    build.archive(MoviesRPA, "all")
     build.archive(AudioRPA, "all")
     build.archive(GuiRPA, "all")
     build.archive(LibsRPA, "all")
@@ -231,6 +233,7 @@ init python:
     build.classify("game/RenTale/**", RenTaleRPA)
     build.classify("game/**.rpyc", ScriptsRPA)
     build.classify("game/images/**", ImagesRPA)
+    build.classify("game/movies/**", MoviesRPA)
     build.classify("game/audio/**", AudioRPA)
     build.classify("game/gui/**", GuiRPA)
     build.classify("game/libs/**", LibsRPA)
