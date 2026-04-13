@@ -3,6 +3,9 @@ init -90 python:
 # =============== MASTER =============== #
         @staticmethod
         def SetMasterVolume(volume: float) -> None:
+            """
+            Sets the master channel volume to the specified 'volume'
+            """
             if type(volume) != float:
                 raise RenTaleTypeError(float, type(volume))
             if volume > 1 or volume < 0:
@@ -13,12 +16,18 @@ init -90 python:
 
         @staticmethod
         def GetMasterVolume() -> float:
+            """
+            Returns the current master channel volume
+            """
             return preferences.get_mixer("main")
 
 
 # =============== BGM =============== #
         @staticmethod
-        def PlayBGM(file: str, loop: bool = False, fadeIn: float = 0.0) -> None:
+        def PlayBGM(file: str, loop: bool = True, fadeIn: float = 0.0) -> None:
+            """
+            Plays the specified audio file on the "BGM" channel
+            """
             if type(file) != str:
                 raise RenTaleTypeError(str, type(file))
             if type(loop) != bool:
@@ -31,6 +40,9 @@ init -90 python:
 
         @staticmethod
         def StopBGM(fadeOut: float | None = 0.0) -> None:
+            """
+            Stops any and all audio playing on the "BGM" channel
+            """
             if fadeOut is not None and type(fadeOut) != float:
                 raise RenTaleTypeError((float, type(None)), type(fadeOut))
             if fadeOut < 0:
@@ -41,6 +53,9 @@ init -90 python:
         
         @staticmethod
         def SetBGMVolume(volume: float) -> None:
+            """
+            Sets the BGM channel volume to the specified 'volume'
+            """
             if type(volume) != float:
                 raise RenTaleTypeError(float, type(volume))
             if volume > 1 or volume < 0:
@@ -50,11 +65,17 @@ init -90 python:
 
         @staticmethod
         def GetBGMVolume() -> float:
+            """
+            Returns the current BGM channel volume
+            """
             return preferences.get_mixer("music")
 
 # =============== SFX =============== #
         @staticmethod
         def PlaySFX(file: str, fadeIn: float = 0.0) -> None:
+            """
+            Plays the specified audio file on the "SFX" channel
+            """
             if type(file) != str:
                 raise RenTaleTypeError(str, type(file))
             if type(fadeIn) != float:
@@ -64,7 +85,10 @@ init -90 python:
 
 
         @staticmethod
-        def StopSFX(fadeOut: float = 0.0) -> None:
+        def StopSFX(fadeOut: float | None = 0.0) -> None:
+            """
+            Stops any and all audio playing on the "SFX" channel
+            """
             if fadeOut is not None and type(fadeOut) != float:
                 raise RenTaleTypeError((float, type(None)), type(fadeOut))
             if fadeOut < 0:
@@ -75,6 +99,9 @@ init -90 python:
         
         @staticmethod
         def SetSFXVolume(volume: float) -> None:
+            """
+            Sets the SFX channel volume to the specified 'volume'
+            """
             if type(volume) != float:
                 raise RenTaleTypeError(float, type(volume))
             if volume > 1 or volume < 0:
@@ -85,12 +112,18 @@ init -90 python:
 
         @staticmethod
         def GetSFXVolume() -> float:
+            """
+            Returns the current SFX channel volume
+            """
             return preferences.get_mixer("sfx")
 
 
 # =============== VOICE =============== #
         @staticmethod
         def PlayVO(file: str, fadeIn: float = 0.0) -> None:
+            """
+            Plays the specified audio file on the "VO" channel
+            """
             if type(file) != str:
                 raise RenTaleTypeError(str, type(file))
             if type(fadeIn) != float:
@@ -100,7 +133,10 @@ init -90 python:
 
 
         @staticmethod
-        def StopVO(fadeOut: float = 0.0) -> None:
+        def StopVO(fadeOut: float | None = 0.0) -> None:
+            """
+            Stops any and all audio playing on the "VO" channel
+            """
             if fadeOut is not None and type(fadeOut) != float:
                 raise RenTaleTypeError((float, type(None)), type(fadeOut))
             if fadeOut < 0:
@@ -111,6 +147,9 @@ init -90 python:
         
         @staticmethod
         def SetVOVolume(volume: float) -> None:
+            """
+            Sets the VO channel volume to the specified 'volume'
+            """
             if type(volume) != float:
                 raise RenTaleTypeError(float, type(volume))
             if volume > 1 or volume < 0:
@@ -121,4 +160,7 @@ init -90 python:
 
         @staticmethod
         def GetVOVolume() -> float:
+            """
+            Returns the current VO channel volume
+            """
             return preferences.get_mixer("voice")

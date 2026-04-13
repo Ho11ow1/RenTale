@@ -22,14 +22,20 @@ init -100 python:
 
 
         def Receive(self, quantity: int = 1) -> None:
+            """
+            If 'IsStackable' adds the specified 'quantity' to current
+            """
             if type(quantity) != int:
                 raise RenTaleTypeError(int, type(quantity))
 
             if self.IsStackable:
                 self.Quantity += quantity
 
-        
+
         def Remove(self, quantity: int = 1) -> None:
+            """
+            If 'IsStackable' removes the specified 'quantity' from current, Limited to 0
+            """
             if type(quantity) != int:
                 raise RenTaleTypeError(int, type(quantity))
 

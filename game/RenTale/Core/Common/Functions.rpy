@@ -1,6 +1,9 @@
 init python:
 # ========================= MAP MOVEMENT ========================= # 
     def RenTale_GoTo(location: Location) -> None:
+        """
+        Navigates to the given location if it exists and is unlocked
+        """
         if type(location) != Location:
             raise RenTaleTypeError(Location, type(location))
             
@@ -12,6 +15,9 @@ init python:
 
 # ========================= EVENT HANDLING ========================= #
     def RenTale_TriggerAutomaticEvents() -> None:
+        """
+        Triggers all automatic events at the current location that are unlocked and not completed
+        """
         for event in RenTale_All_Locations.get(store.RenTale_Current_Location, []):
             if event.IsCompleted:
                 continue
@@ -19,8 +25,28 @@ init python:
                 event.Play()
 
 
+# =========================  GALLERY HELPER ========================= #
+    def RenTale_Generate_Filtered_List(prefix: str) -> set:
+        """
+        Returns a filtered set of GalleryItems where the name starts with the given prefix
+        """
+        if type(prefix) != str:
+            raise RenTaleTypeError(str, type(prefix))
+
+        filtered = set()
+
+        for item in RenTale_Gallery_List:
+            if item.Name.startswith(prefix):
+                filtered.add(item)
+
+        return filtered
+
+
 # ========================= TIME MANAGEMENT ========================= #
-    def RenTale_advance_time(count: int = 1):
+    def RenTale_Advance_Time(count: int = 1):
+        """
+        Advances the time of day by 'count' periods. Automatically advances the day and week when necessary
+        """
         if type(count) != int:
             raise RenTaleTypeError(int, type(count))
 

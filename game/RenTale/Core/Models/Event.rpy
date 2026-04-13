@@ -26,11 +26,17 @@ init -100 python:
 
 
         def Unlock(self) -> None:
+            """
+            Sets the 'IsUnlocked' variable to true if not already true
+            """
             if not self.IsUnlocked:
                 self.IsUnlocked = True
 
 
         def CheckCondition(self) -> bool:
+            """
+            Returns true if the 'UnlockCondition' is None or evaluates to true
+            """
             if self.UnlockCondition is None:
                 return True
             
@@ -38,6 +44,9 @@ init -100 python:
 
 
         def Play(self) -> None:
+            """
+            Executes actions in the Action variable in order split via ';' if not None
+            """
             self.IsCompleted = True
 
             if self.Action is not None:

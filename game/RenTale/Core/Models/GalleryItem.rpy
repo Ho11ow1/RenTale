@@ -27,6 +27,9 @@ init -100 python:
 
         
         def Unlock(self) -> None:
+            """
+            Sets the 'IsUnlocked' variable to true and unlocks itself in the gallery if not already unlocked
+            """
             if not self.IsUnlocked:
                 self.IsUnlocked = True
                 persistent.RenTale_Gallery[self.Name] = True

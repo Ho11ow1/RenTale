@@ -16,5 +16,8 @@ init -100 python:
 
 
         def Unlock(self) -> None:
+            """
+            Sets the 'IsUnlocked' variable to true if not already true
+            """
             if not self.IsUnlocked:
                 self.IsUnlocked = True

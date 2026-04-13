@@ -1,6 +1,9 @@
 init -10 python:
     class MoveTo(Action):
-        def __init__(self, location):
+        """
+        Moves to a given location(Location) if it exists and is unlocked
+        """
+        def __init__(self, location: Location):
             if type(location) != Location:
                 raise RenTaleTypeError(Location, type(location))
 
