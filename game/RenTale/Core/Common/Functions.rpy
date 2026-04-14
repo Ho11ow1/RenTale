@@ -18,7 +18,7 @@ init python:
         """
         Triggers all automatic events at the current location that are unlocked, pass their condition and have not been completed
         """
-        for event in RenTale_All_Locations.get(store.RenTale_Current_Location, []):
+        for event in store.RenTale_All_Locations[store.RenTale_Current_Location]:
             if event.IsCompleted:
                 continue
             if event.IsUnlocked and event.IsAutomatic and event.CheckCondition():
