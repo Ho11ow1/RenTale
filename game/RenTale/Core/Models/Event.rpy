@@ -1,6 +1,9 @@
 init -100 python:
     class Event():
         def __init__(self, name, location, isUnlocked = False, isAutomatic = False, isCompleted = False, unlockCondition = None, action = None):
+            """
+            Represents a game event tied to a Location. Automatically registers into RenTale_All_Locations at the given location on creation.
+            """
             if type(name) != str:
                 raise RenTaleTypeError(str, type(name))
             if type(location) != Location:

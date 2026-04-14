@@ -1,6 +1,9 @@
 init -100 python:
     class FlagRef():
         def __init__(self, value):
+            """
+            Type-safe flag wrapper. Accepts Int or Bool. Type is locked on creation.
+            """
             if type(value) not in (int, bool):
                 raise RenTaleTypeError((int, bool), type(value))
 

@@ -1,6 +1,9 @@
 init -100 python:
     class InventoryItem():
         def __init__(self, name, quantity, isStackable, image = None, description = ""):
+            """
+            Represents an inventory item. Automatically registers into Inventory on creation.
+            """
             if type(name) != str:
                 raise RenTaleTypeError(str, type(name))
             if type(quantity) != int:

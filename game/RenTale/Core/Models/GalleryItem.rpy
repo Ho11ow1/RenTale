@@ -1,6 +1,9 @@
 init -100 python: 
     class GalleryItem():
         def __init__(self, name, label, thumbnail, scope = None, isUnlocked = False):
+            """
+            Represents a gallery scene. Automatically registers into RenTale_Gallery_List and persistent.RenTale_Gallery on creation.
+            """
             if type(name) != str:
                 raise RenTaleTypeError(str, type(name))
             if type(label) != str:
