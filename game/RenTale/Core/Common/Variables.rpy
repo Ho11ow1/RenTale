@@ -1,7 +1,7 @@
 init offset = -999
 
 # =============== LOCATION SYSTEM =============== # 
-define RenTale_All_Locations = dict() # Dictionary<Location, List<Event>>
+default RenTale_All_Locations = dict() # Dictionary<Location, List<Event>>
 default RenTale_Current_Location = None # Location
 
 # =============== TIME SYSTEM =============== #

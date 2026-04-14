@@ -48,8 +48,11 @@ init -100 python:
 
         def Play(self) -> None:
             """
-            Executes actions in the Action variable in order split via ';' if not None
+            Executes actions in the Action variable in order split via ';' if not None and not already completed
             """
+            if self.IsCompleted:
+                return
+
             self.IsCompleted = True
 
             if self.Action is not None:

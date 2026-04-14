@@ -16,7 +16,7 @@ init python:
 # ========================= EVENT HANDLING ========================= #
     def RenTale_TriggerAutomaticEvents() -> None:
         """
-        Triggers all automatic events at the current location that are unlocked and not completed
+        Triggers all automatic events at the current location that are unlocked, pass their condition and have not been completed
         """
         for event in RenTale_All_Locations.get(store.RenTale_Current_Location, []):
             if event.IsCompleted:

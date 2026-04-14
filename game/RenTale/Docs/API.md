@@ -136,7 +136,7 @@ Event.CheckCondition() -> bool
 Event.Play() -> None
 ```
 
-> If an `Event` is marked as `Automatic` it will only be triggered by a [`RenTale_TriggerAutomaticEvents`](#rentale_triggerautomaticevents) call at the beginning of a label.
+> If an `Event` is marked as `Automatic` it will be triggered by a [`RenTale_TriggerAutomaticEvents`](#rentale_triggerautomaticevents) call at the beginning of a label, Else it must be called manually via `Event.Play()`
 
 > It is recommended to add a `$ RenTale_TriggerAutomaticEvents()` at the start of each label
 
