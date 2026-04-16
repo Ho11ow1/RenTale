@@ -10,8 +10,8 @@ screen Gallery():
             cols 4
             spacing 75
 
-            textbutton "Willow" action Show("GalleryPage", filteredList = RenTale_Generate_Filtered_List("Willow"))
-            textbutton "Alice" action Show("GalleryPage", filteredList = RenTale_Generate_Filtered_List("Alice"))
+            textbutton "Willow" action Show("GalleryPage", filteredList = RenTale_Generate_Filtered_List(prefix = "Willow"))
+            textbutton "Alice" action Show("GalleryPage", filteredList = RenTale_Generate_Filtered_List(prefix = "Alice"))
 
 
 screen GalleryPage(filteredList):

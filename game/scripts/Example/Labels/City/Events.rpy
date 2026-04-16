@@ -8,12 +8,15 @@ label Label_Event_Library_1:
             $ Willow.IncreaseStat(StatType.Love, 1)
             $ Willow.IncreaseStat(StatType.Lust, 2)
 
-            "[Willow.Name] enjoyed your company but quickly left"
+            Willow "Oh uh... hi"
+            Willow "I'm really sorry but i have to go or i'll be late, Bye!"
 
 
         "Wave and quickly leave":
+            $ Willow.IncreaseStat(StatType.Friendship, 1)
 
             Willow "Hi..."
+
 
     $ GI_Willow_Meet.Unlock()
 
@@ -29,13 +32,14 @@ label Label_Event_Park_1:
             $ Alice.IncreaseStat(StatType.Friendship, 5)
             $ Alice.IncreaseStat(StatType.Love, 2)
 
-            "[Alice.Name] enjoyed your company and asked you to meet again"
+            Alice "It was nice talking to you [Player.Name], Same time next week?"
 
 
         "Sit next to her in silence":
             $ Alice.IncreaseStat(StatType.Friendship, 2)
 
             Alice "Don't be nervous, i won't bite"
+
 
     $ GI_Alice_Meet.Unlock()
 
