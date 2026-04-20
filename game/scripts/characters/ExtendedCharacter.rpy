@@ -28,6 +28,8 @@ init -100 python:
             # Specific customisation
             self.Relationship = relationship
 
+            store.RenTale_All_Characters.add(self)
+
 
         def IncreaseStat(self, stat: StatType, amount: int) -> None:
             if type(stat) != StatType:

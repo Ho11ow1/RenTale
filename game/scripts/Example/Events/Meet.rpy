@@ -16,6 +16,7 @@ default E_Meet_Willow = Event(
     location = L_City_Library,
     isUnlocked = True,
     action = (
+        "AudioManager.PlaySFX('audio/SFX/Notification.mp3');"
         "WillowFlags.HaveMet.Set(True);"
         "renpy.call('Label_Event_Library_1');"
     )
@@ -26,6 +27,7 @@ default E_Meet_Alice = Event(
     location = L_City_Park,
     isUnlocked = True,
     action = (
+        "AudioManager.PlaySFX('audio/SFX/Notification.mp3');"
         "AliceFlags.HaveMet.Set(True);"
         "renpy.call('Label_Event_Park_1');"
     )

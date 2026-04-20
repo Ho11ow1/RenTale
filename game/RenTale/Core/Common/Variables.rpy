@@ -1,5 +1,11 @@
 init offset = -999
 
+# =============== CHARACTERS =============== #
+default RenTale_All_Characters = set() # HashSet<ExtendedCharacter>
+
+# =============== FLAGREFS =============== #
+default RenTale_All_Flags = dict() # Dictionary<String, FlagRef>
+
 # =============== LOCATION SYSTEM =============== # 
 default RenTale_All_Locations = dict() # Dictionary<Location, List<Event>>
 default RenTale_Current_Location = None # Location
@@ -22,3 +28,23 @@ define RenTale_Gallery_List = set() # HashSet<GalleryItem> (Named list for simpl
 
 # =============== INVENTORY SYSTEM =============== #
 default Inventory = RenTale_Inventory()
+
+# =============== SAFETY =============== #
+init -10 python:
+    import re
+
+    RenTale_blacklistedPatterns = [
+        r'\bos\b',
+        r'\bsys\b',
+        r'\bimport\b',
+        r'\b__import__\b',
+        r'\bsubprocess\b',
+        r'\bopen\b',
+        r'\beval\b',
+        r'\bexec\b',
+        r'\bcompile\b',
+        r'\b__builtins__\b',
+        r'\bgetattr\b',
+        r'\bsetattr\b',
+    ]
+    RenTale_blacklistedRegex = re.compile('|'.join(RenTale_blacklistedPatterns), re.IGNORECASE)

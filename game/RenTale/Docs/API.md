@@ -1,6 +1,6 @@
 # RenTale API Reference
 
-> For user-level code including `ExtendedCharacter` and `StatType` see [UserAPI](UserAPI.md)
+> For user-level code including [`ExtendedCharacter`](UserAPI.md#extendedcharacter) and [`StatType`](UserAPI.md#stattype) see [UserAPI](UserAPI.md)
 
 ---
 
@@ -92,13 +92,13 @@ TimeManager.GetDayCount() -> int
 TimeManager.GetWeek() -> int
 ```
 
-> To advance time use the `SkipTime` action in a UI button or `RenTale_Advance_Time(count: int = 1)` directly.
+> To advance time use the `SkipTime` action in a UI button or [`RenTale_Advance_Time(count: int = 1)`](#rentale_advance_time) directly.
 
 ---
 
 ## [Inventory](#inventory)
 
-#### System class for managing items inside of the Inventory. Automatically populated when an `InventoryItem` instance is created
+#### System class for managing items inside of the Inventory. Automatically populated when an [`InventoryItem`](#inventoryitem) instance is created
 
 ```rpy
 Inventory.Add(item: InventoryItem) -> None
@@ -130,26 +130,27 @@ class Event():
 ```rpy
 # Unlocks the event
 Event.Unlock() -> None
-# Returns True if unlockCondition is None or evaluates to True
+# Returns True if unlockCondition is None or the UnlockCondition evaluates to True
 Event.CheckCondition() -> bool
-# Marks the Event as completed and executes action
+# Marks the Event as completed and executes action if not already completed
 Event.Play() -> None
 ```
 
-> If an `Event` is marked as `Automatic` it will be triggered by a [`RenTale_TriggerAutomaticEvents`](#rentale_triggerautomaticevents) call at the beginning of a label, Else it must be called manually via `Event.Play()`
-
-> It is recommended to add a `$ RenTale_TriggerAutomaticEvents()` at the start of each label
-
-> `Event` must be created via `default` and their `Location` must be initialized first.
+> `Event` must be created via `default` and their [`Location`](#location) must be initialized first.
 
 > Use `init offset = 1` or higher in Event files to guarantee correct initialization order.
 
-### [FlagRef](#flagref)
+> The `UnlockCondition` and `Action` parameters go through an internal function which raises an error if the string contains forbidden actions for user safety.
 
+> "Forbidden" actions are those which directly interact with the users system, This means things such as: import, os, sys, subprocess, exec, eval, open, etc... will be flagged.
+
+### [FlagRef](#flagref)
+#### Represents a simple type-safe wrapper for common / general game flags. Automatically registers into [`RenTale_All_Flags`](#rentale_all_flags) on creation.
 ```rpy
 class FlagRef():
-    def __init__(self, value)
+    def __init__(self, name, value)
 ```
+- name: `String`
 - value: `Int || Bool`
 
 #### Methods
@@ -164,14 +165,16 @@ FlagRef.Increment(amount: int = 1) -> None
 FlagRef.Decrement(amount: int = 1) -> None
 ```
 
-> The type of `value` is locked on creation. Passing a different type to `Set()` will raise a `RenTaleTypeError`.
+> The `name` variable is used for event lookup / iteration using [`RenTale_All_Flags`](#rentale_all_flags)
+
+> The type of `value` is locked on creation. Passing a different type to `Set()` will raise a [`RenTaleTypeError`](#rentaletypeerror).
 
 > `FlagRef` must be created via `default`
 
 > It is recommended to bundle multiple FlagRefs into a class created via `default` or create each FlagRef as a seperate `default`
 
 ### [GalleryItem](#galleryitem)
-#### Represents a scene in the gallery. Automatically registers into `RenTale_Gallery_List` and `persistent.RenTale_Gallery` on creation.
+#### Represents a scene in the gallery. Automatically registers into [`RenTale_Gallery_List`](#rentale_gallery_list) and [`persistent.RenTale_Gallery`](#persistentrentale_gallery) on creation.
 ```rpy
 class GalleryItem():
     def __init__(self, name, label, thumbnail, scope = None, isUnlocked = False)
@@ -220,7 +223,7 @@ InventoryItem.Remove(quantity: int = 1) -> None
 > `InventoryItem` must be initialized via `default`
 
 ### [Location](#location)
-#### Represents a navigable game location. Automatically registers into `RenTale_All_Locations` on creation.
+#### Represents a navigable game location. Automatically registers into [`RenTale_All_Locations`](#rentale_all_locations) on creation.
 ```rpy
 class Location():
     def __init__(self, name, label, isUnlocked = True)
@@ -253,13 +256,15 @@ def RenTale_GoTo(location: Location) -> None
 
 > Navigates to the given location if it exists and is unlocked. Sets `RenTale_Current_Location` and jumps to `location.Label`.
 
-### [RenTale_TriggerAutomaticEvents](#rentale_trigger_automatic_events)
+### [RenTale_TriggerAutomaticEvents](#rentale_triggerautomaticevents)
 
 ```rpy
 def RenTale_TriggerAutomaticEvents() -> None
 ```
 
-> Iterates all events at `RenTale_Current_Location` and plays any that are unlocked, automatic, not completed and pass `CheckCondition()`. Call at the top of each location label.
+> Iterates all events at [`RenTale_Current_Location`](#rentale_current_location) and plays any that are unlocked, automatic, not completed and pass `CheckCondition()`.
+
+> It is recommended to call this function at the top of each location label.
 
 ### [RenTale_Generate_Filtered_List](#rentale_generate_filtered_list)
 
@@ -268,7 +273,7 @@ def RenTale_Generate_Filtered_List(prefix: str) -> set
 ```
 - prefix: `String` — Name prefix to filter by
 
-> Returns a filtered set of `GalleryItem` objects from `RenTale_Gallery_List` where `item.Name` starts with the given prefix. Used to populate `GalleryPage`.
+> Returns a filtered set of [`GalleryItem`](#galleryitem) objects from [`RenTale_Gallery_List`](#rentale_gallery_list) where `item.Name` starts with the given prefix. Used to populate `GalleryPage`.
 
 
 ### [RenTale_Advance_Time](#rentale_advance_time)
@@ -307,6 +312,55 @@ raise RenTaleValueError(expected, got)
 raise RenTaleArgumentException(message)
 ```
 - message: `String` — Description of why the operation is invalid
+
+---
+
+## [Variables](#variables)
+
+
+### [RenTale_All_Characters](#rentale_all_characters)
+#### Provides an iterable registry for all [`ExtendedCharacter`](UserAPI.md#extendedcharacter) instances.
+```rpy
+default RenTale_All_Characters = set() # HashSet<ExtendedCharacter>
+```
+
+
+### [RenTale_All_Flags](#rentale_all_flags)
+#### Provides an iterable registry for all [`FlagRef`](#flagref) instances, allowing for data lookup, display, and modification.
+```rpy
+default RenTale_All_Flags = dict() # Dictionary<String, FlagRef>
+```
+
+
+### [RenTale_All_Locations](#rentale_all_locations)
+#### Provides an iterable registry for all [`Locations`](#location) and their associated events.
+```rpy
+default RenTale_All_Locations = dict() # Dictionary<Location, List<Event>>
+```
+
+### [RenTale_Current_Location](#rentale_current_location)
+#### Represents a reference to the current active [`Location`](#location).
+```rpy
+default RenTale_Current_Location = None # Location
+```
+
+
+### [RenTale_Gallery_List](#rentale_gallery_list)
+#### Represents an iterable list of `GalleryItem` for the gallery.
+```rpy
+define RenTale_Gallery_List = set() # HashSet<GalleryItem> (Named list for simplicity, HashSet for uniqueness)
+```
+
+
+### [persistent.RenTale_Gallery](#persistent_rentale_gallery)
+#### Represents a mapping that allows for game wide gallery unlocks.
+```rpy
+default persistent.RenTale_Gallery = dict() # Dictionary<Name, IsUnlocked> (Derived from GalleryItem)
+```
+
+> Although publicly accessible, this variable should not be touched or modified in any way, it purely exists as a reference to game wide data and nothing more.
+
+> To unlock anything within the gallery please use [`GalleryItem.Unlock()`](#galleryitem)
 
 ---
 

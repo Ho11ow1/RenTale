@@ -79,3 +79,23 @@ init python:
 
         for _ in range(count):
             store.RenTale_week += 1
+
+# ========================= STRING SANITIZATION ========================= #
+    def RenTale_sanitize_string(string: str | None):
+        if string is not None and type(string) != str:
+            raise RenTaleTypeError((str, type(None)), type(string))
+        if string is None:
+            return string
+
+        forbiddenFound = RenTale_blacklistedRegex.search(string)
+        if forbiddenFound:
+            arr = string.split(';')
+            lines = list()
+            for s in arr:
+                lines.append(f"  {s.strip()}")
+                
+            formatted = '\n'.join(lines)
+            
+            raise RenTaleArgumentException(f"Forbidden operation detected: '{forbiddenFound.group()}' at index '{forbiddenFound.start()}' \n{formatted}")
+
+        return string

@@ -20,27 +20,31 @@ class StatType(Enum):
 ---
 
 ## [ExtendedCharacter](#extendedcharacter)
+
 #### Extends Ren'Py's `ADVCharacter` with relationship stats and a modifiable relationship label.
+
 ```rpy
 class ExtendedCharacter(ADVCharacter):
     def __init__(self, name, color, relationship = "", **properties)
 ```
 
-| Parameter    | Type     | Default | Description                               |
-|--------------|----------|---------|-------------------------------------------|
-| name         | `String` | required| Character display name                    |
-| color        | `String` | required| Dialogue name color                       |
-| relationship | `String` | `""`    | Relationship label shown in UI            |
-| **properties |          |         | Any additional Ren'Py character properties|
+| Parameter    | Type     | Default  | Description                                |
+| ------------ | -------- | -------- | ------------------------------------------ |
+| name         | `String` | required | Character display name                     |
+| color        | `String` | required | Dialogue name color                        |
+| relationship | `String` | `""`     | Relationship label shown in UI             |
+| **properties |          |          | Any additional Ren'Py character properties |
 
 #### Stats
-| Stat       | Type  | Default | Description          |
-|------------|-------|---------|----------------------|
-| Friendship | `Int` | `0`     | Can be negative      |
-| Love       | `Int` | `0`     | Can be negative      |
-| Lust       | `Int` | `0`     | Can be negative      |
+
+| Stat       | Type  | Default | Description     |
+| ---------- | ----- | ------- | --------------- |
+| Friendship | `Int` | `0`     | Can be negative |
+| Love       | `Int` | `0`     | Can be negative |
+| Lust       | `Int` | `0`     | Can be negative |
 
 #### Methods
+
 ```rpy
 # Increases the given stat by amount
 ExtendedCharacter.IncreaseStat(stat: StatType, amount: int) -> None
@@ -51,6 +55,7 @@ ExtendedCharacter.ChangeRelationship(relationship: str) -> None
 ```
 
 #### Example
+
 ```rpy
 default Willow = ExtendedCharacter("Willow", color = "#1b1b1b", relationship = "The weeping one")
 
@@ -70,7 +75,7 @@ label event_willow_meeting:
 
 > `ExtendedCharacter` works alongside standard Ren'Py `Character` instances.
 
->Use `Character` for narrators and minor characters, `ExtendedCharacter` for love interests and important NPCs.
+> Use `Character` for narrators and minor characters, `ExtendedCharacter` for love interests and important NPCs.
 
 > `ExtendedCharacter` must be initialized via `default` just like standard `Character`
 

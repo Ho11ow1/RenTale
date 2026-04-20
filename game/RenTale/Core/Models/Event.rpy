@@ -22,9 +22,9 @@ init -100 python:
             self.IsUnlocked = isUnlocked
             self.IsAutomatic = isAutomatic
             self.IsCompleted = isCompleted
-            self.UnlockCondition = unlockCondition
-            self.Action = action
-            
+            self.UnlockCondition = RenTale_sanitize_string(unlockCondition)
+            self.Action = RenTale_sanitize_string(action)
+
             RenTale_All_Locations[self.Location].append(self)
 
 
@@ -42,7 +42,7 @@ init -100 python:
             """
             if self.UnlockCondition is None:
                 return True
-            
+
             return eval(self.UnlockCondition)
 
 
