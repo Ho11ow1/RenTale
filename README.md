@@ -89,5 +89,4 @@ RenTale uses a **C# naming convention** rather than PEP 8:
 ## License
 MIT License - see [LICENSE](LICENSE)
 
----
 If you find any issues during usage, please create a github Issue [Here](https://github.com/Ho11ow1/RenTale/issues)
