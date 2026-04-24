@@ -23,7 +23,7 @@ define gui.show_name = False
 
 ## The version of the game.
 
-define config.version = "0.1.0"
+define config.version = "0.0.1"
 
 
 ## Text that is placed on the game's about screen. Place the text between the
@@ -143,7 +143,7 @@ default preferences.afm_time = 15
 ## This generally should not be changed, and if it is, should always be a
 ## literal string, not an expression.
 
-define config.save_directory = "RenTale-1760111045"
+define config.save_directory = "RenTale"
 
 
 ## Icon ########################################################################
@@ -163,8 +163,8 @@ init python:
     def CreateRPAName(seed) -> str:
         rng = random.Random(seed)
 
-        leftBits = []
-        rightBits = []
+        leftBits = list()
+        rightBits = list()
         left = ""
         right = ""
 
@@ -177,8 +177,10 @@ init python:
 
         return f"{left}_{right}"
 
+    RenTaleRPA = CreateRPAName("rentale")
     ScriptsRPA = CreateRPAName("scripts")
     ImagesRPA = CreateRPAName("images")
+    MoviesRPA = CreateRPAName("movies")
     AudioRPA = CreateRPAName("audio")
     GuiRPA = CreateRPAName("gui")
     LibsRPA = CreateRPAName("libs")
@@ -212,14 +214,15 @@ init python:
     build.classify("**/thumbs.db", None)
     build.classify("LICENSE", None)
     build.classify("README.md", None)
-    build.classify("game/scripts/docs/**", None)
     build.classify("**.rpy", None)
 
     # ───────────────
     # Create RPAs
     # ───────────────
+    build.archive(RenTaleRPA, "all")
     build.archive(ScriptsRPA, "all")
     build.archive(ImagesRPA, "all")
+    build.archive(MoviesRPA, "all")
     build.archive(AudioRPA, "all")
     build.archive(GuiRPA, "all")
     build.archive(LibsRPA, "all")
@@ -227,8 +230,10 @@ init python:
     # ───────────────
     # Classify specific files to be places into the RPA archives
     # ───────────────
+    build.classify("game/RenTale/**", RenTaleRPA)
     build.classify("game/**.rpyc", ScriptsRPA)
     build.classify("game/images/**", ImagesRPA)
+    build.classify("game/movies/**", MoviesRPA)
     build.classify("game/audio/**", AudioRPA)
     build.classify("game/gui/**", GuiRPA)
     build.classify("game/libs/**", LibsRPA)

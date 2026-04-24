@@ -1,4 +1,4 @@
-init -11 python:
+init -100 python:
     from enum import Enum
 
     class StatType(Enum):
@@ -7,24 +7,35 @@ init -11 python:
         Lust = 2
 
 
+init -100 python:
     class ExtendedCharacter(renpy.character.ADVCharacter):
-        def __init__(self, name, color, relationship, **properties):
+        def __init__(self, name, color, relationship = "", **properties):
+            if type(name) != str:
+                raise RenTaleTypeError(str, type(name))
+            if type(color) != str:
+                raise RenTaleTypeError(str, type(color))
+            if type(relationship) != str:
+                raise RenTaleTypeError(str, type(relationship))
             # Init actual character
             super(ExtendedCharacter, self).__init__(name, color = color, **properties)
             # Base properties
-            self.Name = str(name)
-            self.Color = str(color)
+            self.Name = name
+            self.Color = color
             # Custom stats
-            self.Friendship = int(0)
-            self.Love = int(0)
-            self.Lust = int(0)
+            self.Friendship = 0
+            self.Love = 0
+            self.Lust = 0
             # Specific customisation
-            self.Relationship = str(relationship)
+            self.Relationship = relationship
+
+            store.RenTale_All_Characters.add(self)
 
 
         def IncreaseStat(self, stat: StatType, amount: int) -> None:
             if type(stat) != StatType:
-                raise TypeError(f"Expected StatType, got {type(stat).__name__}")
+                raise RenTaleTypeError(StatType, type(stat))
+            if type(amount) != int:
+                raise RenTaleTypeError(int, type(amount))
             
             match stat:
                 case StatType.Friendship:
@@ -37,7 +48,9 @@ init -11 python:
 
         def DecreaseStat(self, stat: StatType, amount: int) -> None:
             if type(stat) != StatType:
-                raise TypeError(f"Expected StatType, got {type(stat).__name__}")
+                raise RenTaleTypeError(StatType, type(stat))
+            if type(amount) != int:
+                raise RenTaleTypeError(int, type(amount))
 
             match stat:
                 case StatType.Friendship:
@@ -48,9 +61,8 @@ init -11 python:
                     self.Lust -= amount
 
 
-        def ChangeRelationship(self, relationShip: str) -> None:
-            if type(relationShip) != str:
-                raise TypeError(f"Expected string, got {type(relationShip).__name__}")
+        def ChangeRelationship(self, relationship: str) -> None:
+            if type(relationship) != str:
+                raise RenTaleTypeError(str, type(relationship))
             
-            self.Relationship = relationShip
-
+            self.Relationship = relationship
