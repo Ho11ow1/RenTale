@@ -58,8 +58,8 @@ label label_city:
 ## Docs
 | Reference                 | Description                                                                   |
 |---------------------------|-------------------------------------------------------------------------------|
-| [API.md](game/RenTale/docs/API.md)          | Core framework — all models, managers, functions, variables, and exceptions   |
-| [UserAPI.md](game/RenTale/docs/UserAPI.md)  | User-level code — `ExtendedCharacter`, `StatType`, modification guide         |
+| [API.md](game/RenTale/Docs/API.md)          | Core framework — all models, managers, functions, variables, and exceptions   |
+| [UserAPI.md](game/RenTale/Docs/UserAPI.md)  | User-level code — `ExtendedCharacter`, `StatType`, modification guide         |
 
 ---
  
