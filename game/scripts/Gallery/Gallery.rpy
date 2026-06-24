@@ -37,6 +37,6 @@ screen GalleryPage(filteredList):
                         action Replay(item.Label, item.Scope, False)
                         sensitive True
                     else:
-                        idle "images/Gallery/Locked.png"
-                        hover "images/Gallery/Locked.png"
+                        idle "images/RenTale/Gallery/Locked.png"
+                        hover "images/RenTale/Gallery/Locked.png"
                         sensitive False

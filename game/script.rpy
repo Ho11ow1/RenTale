@@ -29,6 +29,15 @@ label start:
 
     e "Once you add a story, pictures, and music, you can release it to the world!"
 
+    call screen QTE_Simple()
+
+    if _return:
+        e "You clicked in time."
+    else:
+        e "You failed to click in time."
+
+    e "Anyways, let's move on."
+
     # =============== RenTale Example Starts Here =============== #
     jump RenTale_Label_Example
 
