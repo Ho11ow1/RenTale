@@ -245,6 +245,8 @@ screen quick_menu():
         hbox:
             style_prefix "quick"
             style "quick_menu"
+            xalign 0.0
+            yalign 1.0
 
             textbutton _("Back") action Rollback()
             textbutton _("History") action ShowMenu('history')
@@ -289,46 +291,38 @@ style quick_button_text:
 
 screen navigation():
 
-    vbox:
-        style_prefix "navigation"
+    hbox:
+        xalign 0.5
+        yalign 0.08
+        spacing 30
+        
+        textbutton _("SAVE") action ShowMenu("save")
+        imagebutton:
+            idle "gui/RenTale/UI/Separator.png"
+            sensitive False
 
-        xpos gui.navigation_xpos
-        yalign 0.5
+        textbutton _("LOAD") action ShowMenu("load")
+        imagebutton:
+            idle "gui/RenTale/UI/Separator.png"
+            sensitive False
 
-        spacing gui.navigation_spacing
+        textbutton _("AUDIO") action ShowMenu("Audio_Settings")
+        imagebutton:
+            idle "gui/RenTale/UI/Separator.png"
+            sensitive False
 
-        if main_menu:
-            textbutton _("Start") action Start()
+        textbutton _("DIALOGUE") action ShowMenu("Dialogue_Settings")
+        imagebutton:
+            idle "gui/RenTale/UI/Separator.png"
+            sensitive False
 
-        else:
-            textbutton _("History") action ShowMenu("history")
-            textbutton _("Save") action ShowMenu("save")
-
-        textbutton _("Load") action ShowMenu("load")
-
-        if main_menu:
-            textbutton _("Gallery") action ShowMenu("Gallery")
-
-        textbutton _("Preferences") action ShowMenu("preferences")
+        textbutton _("SETTINGS") action ShowMenu("preferences")
 
         if _in_replay:
-            textbutton _("End Replay") action EndReplay(confirm=True)
-
-        elif not main_menu:
-            textbutton _("Main Menu") action MainMenu()
-
-        # textbutton _("About") action ShowMenu("about")
-
-        # if renpy.variant("pc") or (renpy.variant("web") and not renpy.variant("mobile")):
-
-        #     ## Help isn't necessary or relevant to mobile devices.
-        #     textbutton _("Help") action ShowMenu("help")
-
-        if renpy.variant("pc"):
-
-            ## The quit button is banned on iOS and unnecessary on Android and
-            ## Web.
-            textbutton _("Quit") action Quit(confirm=not main_menu)
+            imagebutton:
+                idle "gui/RenTale/UI/Separator.png"
+                sensitive False
+            textbutton _("END REPLAY") action EndReplay(confirm=True)
 
 
 style navigation_button is gui_button
@@ -355,24 +349,17 @@ screen main_menu():
 
     add gui.main_menu_background
 
-    ## This empty frame darkens the main menu.
-    frame:
-        style "main_menu_frame"
+    hbox:
+        xalign 0.5
+        yalign 0.98
+        spacing 20
 
-    ## The use statement includes another screen inside this one. The actual
-    ## contents of the main menu are in the navigation screen.
-    use navigation
-
-    if gui.show_name:
-
-        vbox:
-            style "main_menu_vbox"
-
-            text "[config.name!t]":
-                style "main_menu_title"
-
-            text "[config.version]":
-                style "main_menu_version"
+        textbutton _("NEW GAME") action Start()
+        textbutton _("CONTINUE") action ShowMenu("load")
+        textbutton _("OPTIONS") action ShowMenu("preferences")
+        textbutton _("GALLERY") action ShowMenu("Gallery")
+        textbutton _("MUSIC") action ShowMenu("Music")
+        text _(f"VERSION {config.version}") yalign 0.5
 
 
 style main_menu_frame is empty
@@ -473,10 +460,13 @@ screen game_menu(title, scroll=None, yinitial=0.0, spacing=0):
 
     use navigation
 
-    textbutton _("Return"):
-        style "return_button"
-
-        action Return()
+    hbox:
+        yalign 1.0
+        xalign 0.0
+        spacing 13
+        textbutton _("RETURN") action Return()
+        textbutton _("MAIN MENU") action MainMenu()
+        textbutton _("QUIT") action Quit(True)
 
     label title
 
@@ -587,14 +577,14 @@ screen save():
 
     tag menu
 
-    use file_slots(_("Save"))
+    use file_slots(_(""))
 
 
 screen load():
 
     tag menu
 
-    use file_slots(_("Load"))
+    use file_slots(_(""))
 
 
 screen file_slots(title):
@@ -732,83 +722,22 @@ screen preferences():
 
     tag menu
 
-    use game_menu(_("Preferences"), scroll="viewport"):
+    use game_menu(_("")):
+        style_prefix "pref"
 
-        vbox:
-
-            hbox:
-                box_wrap True
-
-                if renpy.variant("pc") or renpy.variant("web"):
-
-                    vbox:
-                        style_prefix "radio"
-                        label _("Display")
-                        textbutton _("Window") action Preference("display", "window")
-                        textbutton _("Fullscreen") action Preference("display", "fullscreen")
-
-                vbox:
-                    style_prefix "check"
-                    label _("Skip")
-                    textbutton _("Unseen Text") action Preference("skip", "toggle")
-                    textbutton _("After Choices") action Preference("after choices", "toggle")
-                    textbutton _("Transitions") action InvertSelected(Preference("transitions", "toggle"))
-
-                ## Additional vboxes of type "radio_pref" or "check_pref" can
-                ## be added here, to add additional creator-defined preferences.
-
-            null height (4 * gui.pref_spacing)
+        vpgrid:
+            cols 2
+            rows 3
 
             hbox:
-                style_prefix "slider"
-                box_wrap True
+                label _("Display")
+                imagebutton:
+                    idle "gui/RenTale/UI/Separator.png"
+                    sensitive False
 
-                vbox:
-
-                    label _("Text Speed")
-
-                    bar value Preference("text speed")
-
-                    label _("Auto-Forward Time")
-
-                    bar value Preference("auto-forward time")
-
-                vbox:
-                
-                    label _("Volume Master")
-
-                    hbox:
-                        bar value Preference("main volume")
-
-
-                    if config.has_music:
-                        label _("Volume BGM")
-
-                        hbox:
-                            bar value Preference("music volume")
-
-
-                    if config.has_sound:
-
-                        label _("Volume SFX")
-
-                        hbox:
-                            bar value Preference("sound volume")
-
-
-                    if config.has_voice:
-                        label _("Volume Voice")
-
-                        hbox:
-                            bar value Preference("voice volume")
-
-
-                    if config.has_music or config.has_sound or config.has_voice:
-                        null height gui.pref_spacing
-
-                        textbutton _("Mute All"):
-                            action Preference("all mute", "toggle")
-                            style "mute_all_button"
+            hbox:
+                textbutton _("Window") action Preference("display", "window")
+                textbutton _("Fullscreen") action Preference("display", "fullscreen")
 
 
 style pref_label is gui_label

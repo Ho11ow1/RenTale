@@ -1,7 +1,7 @@
 screen Gallery():
     tag menu
 
-    use game_menu(_("Gallery"), scroll = "viewport"):
+    use game_menu(_("")):
 
         frame:
             style "empty"
@@ -17,7 +17,7 @@ screen Gallery():
 screen GalleryPage(filteredList):
     tag menu
 
-    use game_menu(_("Gallery"), scroll = "viewport"):
+    use game_menu(_("")):
 
         frame:
             style "empty"

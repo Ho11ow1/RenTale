@@ -26,7 +26,7 @@ screen QTE_Simple(duration = 1.3, prompt = "CLICK ME"):
                 xsize 600
                 ysize 50
                 xalign 0.5
-                left_bar "images/RenTale/Screens/bar.png" 
+                left_bar "gui/RenTale/QTE/bar.png" 
                 right_bar Solid("#00000000")
 
             textbutton prompt:

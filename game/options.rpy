@@ -4,7 +4,6 @@
 ## them. Lines beginning with a single '#' mark are commented-out code, and you
 ## may want to uncomment them when appropriate.
 
-
 ## Basics ######################################################################
 
 ## A human-readable name of the game. This is used to set the default window
@@ -13,7 +12,6 @@
 ## The _() surrounding the string marks it as eligible for translation.
 
 define config.name = _("RenTale")
-
 
 ## Determines if the title given above is shown on the main menu screen. Set
 ## this to False to hide the title.
@@ -106,13 +104,13 @@ define config.end_game_transition = None
 ## After the game has started, this can be changed with the "window show",
 ## "window hide", and "window auto" statements.
 
-define config.window = "hide"
+define config.window = "auto"
 
 
 ## Transitions used to show and hide the dialogue window
 
-define config.window_show_transition = Dissolve(0.2)
-define config.window_hide_transition = Dissolve(0.2)
+define config.window_show_transition = Dissolve(.2)
+define config.window_hide_transition = Dissolve(.2)
 
 
 ## Preference defaults #########################################################
@@ -145,6 +143,7 @@ default preferences.afm_time = 15
 
 define config.save_directory = "RenTale"
 
+define config.default_fullscreen = False
 
 ## Icon ########################################################################
 ##

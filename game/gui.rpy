@@ -28,18 +28,18 @@ define config.check_conflicting_properties = True
 define gui.accent_color = '#cc0066'
 
 ## The color used for a text button when it is neither selected nor hovered.
-define gui.idle_color = '#888888'
+define gui.idle_color = '#ffffff'
 
 ## The small color is used for small text, which needs to be brighter/darker to
 ## achieve the same effect.
-define gui.idle_small_color = '#aaaaaa'
+define gui.idle_small_color = '#ffffff'
 
 ## The color that is used for buttons and bars that are hovered.
 define gui.hover_color = '#e066a3'
 
 ## The color used for a text button when it is selected but not focused. A
 ## button is selected if it is the current screen or preference value.
-define gui.selected_color = '#ffffff'
+define gui.selected_color = '#cc0066'
 
 ## The color used for a text button when it cannot be selected.
 define gui.insensitive_color = '#8888887f'
@@ -267,6 +267,32 @@ define gui.pref_spacing = 15
 
 ## Controls the amount of spacing between preference buttons.
 define gui.pref_button_spacing = 0
+
+## Additional style statements to auto apply styles
+style pref_vpgrid:
+    xalign 0.5
+    yalign 0.5
+    spacing 50
+    xoffset 70
+    yoffset 100
+
+style pref_hbox:
+    spacing gui.pref_spacing
+    xsize 450
+    xmaximum 450
+    xminimum 450
+
+style pref_slider:
+    xsize 400
+    yalign 0.7
+
+style pref_label_text:
+    color "#ffffff"
+
+style pref_button_text:
+    color "#b8b8b8"
+    hover_color gui.hover_color
+    selected_color gui.accent_color
 
 ## The spacing between file page buttons.
 define gui.page_spacing = 0
