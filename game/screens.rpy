@@ -306,12 +306,12 @@ screen navigation():
             idle "gui/RenTale/UI/Separator.png"
             sensitive False
 
-        textbutton _("AUDIO") action ShowMenu("Audio_Settings")
+        textbutton _("AUDIO") action ShowMenu("Audio_Preferences")
         imagebutton:
             idle "gui/RenTale/UI/Separator.png"
             sensitive False
 
-        textbutton _("DIALOGUE") action ShowMenu("Dialogue_Settings")
+        textbutton _("DIALOGUE") action ShowMenu("Dialogue_Preferences")
         imagebutton:
             idle "gui/RenTale/UI/Separator.png"
             sensitive False
@@ -322,6 +322,7 @@ screen navigation():
             imagebutton:
                 idle "gui/RenTale/UI/Separator.png"
                 sensitive False
+
             textbutton _("END REPLAY") action EndReplay(confirm=True)
 
 
@@ -738,6 +739,100 @@ screen preferences():
             hbox:
                 textbutton _("Window") action Preference("display", "window")
                 textbutton _("Fullscreen") action Preference("display", "fullscreen")
+
+
+screen Audio_Preferences():
+
+    tag menu
+
+    style_prefix "pref"
+
+    use game_menu(_("")):
+
+        vpgrid:
+            cols 2
+            rows 5
+
+            # Kind of cheating with the hbox but it works and there's no need to do any magic styles so be it
+            hbox:
+                label _("Volume Master")
+            bar value Preference("main volume")
+            
+            hbox:            
+                label _("Volume BGM")
+            bar value Preference("music volume")
+            
+            hbox:
+                label _("Volume SFX")
+            bar value Preference("sound volume")
+            
+            hbox:
+                label _("Volume VO")
+            bar value Preference("voice volume")
+            
+            hbox:            
+                label _("Mute All")
+            imagebutton:
+                idle "gui/RenTale/UI/Square.png"
+                selected_idle "gui/RenTale/UI/Square-Checked.png"
+                selected_hover Transform("gui/RenTale/UI/Square-Checked.png", matrixcolor = TintMatrix("#ff85ab"))
+                hover Transform("gui/RenTale/UI/Square.png", matrixcolor = TintMatrix("#ff85ab"))
+                action Preference("all mute", "toggle")
+
+
+screen Dialogue_Preferences():
+    
+    tag menu
+    
+    style_prefix "pref"
+    
+    use game_menu(_("")):
+
+        vpgrid:
+            cols 2
+            rows 6
+
+            hbox:
+                label _("Rollback Side")
+                imagebutton:
+                    idle "gui/RenTale/UI/Separator.png"
+                    sensitive False
+
+            hbox:
+                textbutton _("Disable") action Preference("rollback side", "disable")
+                textbutton _("Left") action Preference("rollback side", "left")
+                textbutton _("Right") action Preference("rollback side", "right")
+
+            label _("Text Speed")
+            bar value Preference("text speed")
+
+            label _("Auto-Forward Time")
+            bar value Preference("auto-forward time")
+
+
+            label _("Skip Unseen Text")
+            imagebutton:
+                idle "gui/RenTale/UI/Square.png"
+                selected_idle "gui/RenTale/UI/Square-Checked.png"
+                selected_hover Transform("gui/RenTale/UI/Square-Checked.png", matrixcolor = TintMatrix("#ff85ab"))
+                hover Transform("gui/RenTale/UI/Square.png", matrixcolor = TintMatrix("#ff85ab"))
+                action Preference("skip", "toggle")
+
+            label _("Skip After Choices")
+            imagebutton:
+                idle "gui/RenTale/UI/Square.png"
+                selected_idle "gui/RenTale/UI/Square-Checked.png"
+                selected_hover Transform("gui/RenTale/UI/Square-Checked.png", matrixcolor = TintMatrix("#ff85ab"))
+                hover Transform("gui/RenTale/UI/Square.png", matrixcolor = TintMatrix("#ff85ab"))
+                action Preference("after choices", "toggle")
+
+            label _("Skip Transitions")
+            imagebutton:
+                idle "gui/RenTale/UI/Square.png"
+                selected_idle "gui/RenTale/UI/Square-Checked.png"
+                selected_hover Transform("gui/RenTale/UI/Square-Checked.png", matrixcolor = TintMatrix("#ff85ab"))
+                hover Transform("gui/RenTale/UI/Square.png", matrixcolor = TintMatrix("#ff85ab"))
+                action InvertSelected(Preference("transitions", "toggle"))
 
 
 style pref_label is gui_label
