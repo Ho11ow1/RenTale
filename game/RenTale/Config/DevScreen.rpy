@@ -75,7 +75,7 @@ screen RenTale_DeveloperPanel():
                     null:
                         xfill True
 
-                    textbutton "✕":
+                    textbutton "X":
                         style "RenTale_dev_close_button"
                         action Hide("RenTale_DeveloperPanel")
 

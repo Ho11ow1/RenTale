@@ -203,9 +203,9 @@ init python:
 
     ## Classify files as None to exclude them from the built distributions.
 
-    # ─────────────────────────────
+    # ==============================
     # Remove junk & source files
-    # ─────────────────────────────
+    # ==============================
     build.classify("**~", None)
     build.classify("**.bak", None)
     build.classify("**/.**", None)
@@ -215,9 +215,9 @@ init python:
     build.classify("README.md", None)
     build.classify("**.rpy", None)
 
-    # ───────────────
+    # ===============
     # Create RPAs
-    # ───────────────
+    # ===============
     build.archive(RenTaleRPA, "all")
     build.archive(ScriptsRPA, "all")
     build.archive(ImagesRPA, "all")
@@ -226,9 +226,9 @@ init python:
     build.archive(GuiRPA, "all")
     build.archive(LibsRPA, "all")
 
-    # ───────────────
+    # ===============
     # Classify specific files to be places into the RPA archives
-    # ───────────────
+    # ===============
     build.classify("game/RenTale/**", RenTaleRPA)
     build.classify("game/**.rpyc", ScriptsRPA)
     build.classify("game/images/**", ImagesRPA)
@@ -245,9 +245,9 @@ init python:
     ## Files matching documentation patterns are duplicated in a mac app build,
     ## so they appear in both the app and the zip file.
 
-    # ───────────────
+    # ===============
     # Documentation
-    # ───────────────
+    # ===============
     build.documentation("*.html")
     build.documentation("*.txt")
 
