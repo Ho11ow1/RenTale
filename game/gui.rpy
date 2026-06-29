@@ -273,7 +273,7 @@ style pref_vpgrid:
     xalign 0.5
     yalign 0.5
     spacing 50
-    xoffset 70
+    xoffset 30
     yoffset 100
 
 style pref_hbox:
