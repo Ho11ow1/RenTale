@@ -26,3 +26,6 @@
 /dialogue.tab
 /dialogue.txt
 /strings.json
+
+# Additional python packages
+/game/python-packages/
