@@ -351,15 +351,16 @@ screen main_menu():
     add gui.main_menu_background
 
     hbox:
-        xalign 0.5
+        xfill True
+        xoffset 50
         yalign 0.98
-        spacing 20
+        spacing 75
 
         textbutton _("NEW GAME") action Start()
         textbutton _("CONTINUE") action ShowMenu("load")
         textbutton _("OPTIONS") action ShowMenu("preferences")
         textbutton _("GALLERY") action ShowMenu("Gallery")
-        textbutton _("MUSIC") action ShowMenu("Music")
+        textbutton _("QUIT") action Quit(True)
         text _(f"VERSION {config.version}") yalign 0.5
 
 
@@ -590,27 +591,26 @@ screen load():
 
 screen file_slots(title):
 
-    default page_name_value = FilePageNameInputValue(pattern=_("Page {}"), auto=_("Automatic saves"), quick=_("Quick saves"))
+    # default page_name_value = FilePageNameInputValue(pattern=_("Page {}"), auto=_("Automatic saves"), quick=_("Quick saves"))
 
     use game_menu(title):
 
         fixed:
-
             ## This ensures the input will get the enter event before any of
             ## the buttons do.
             order_reverse True
 
             ## The page name, which can be edited by clicking on a button.
-            button:
-                style "page_label"
+            # button:
+            #     style "page_label"
 
-                key_events True
-                xalign 0.5
-                action page_name_value.Toggle()
+            #     key_events True
+            #     xalign 0.5
+            #     action page_name_value.Toggle()
 
-                input:
-                    style "page_label_text"
-                    value page_name_value
+            #     input:
+            #         style "page_label_text"
+            #         value page_name_value
 
             ## The grid of file slots.
             grid gui.file_slot_cols gui.file_slot_rows:
@@ -632,7 +632,7 @@ screen file_slots(title):
 
                         add FileScreenshot(slot) xalign 0.5
 
-                        text FileTime(slot, format=_("{#file_time}%A, %B %d %Y, %H:%M"), empty=_("empty slot")):
+                        text FileTime(slot, format=_("{#file_time}%B %d %Y, %H:%M"), empty=_("empty slot")):
                             style "slot_time_text"
 
                         text FileSaveName(slot):
@@ -739,6 +739,20 @@ screen preferences():
             hbox:
                 textbutton _("Window") action Preference("display", "window")
                 textbutton _("Fullscreen") action Preference("display", "fullscreen")
+
+            if config.has_autosave:
+                label _("Autosaves (Enabled)")
+                imagebutton:
+                    idle "gui/RenTale/UI/Square-Checked.png"
+                    hover Transform("gui/RenTale/UI/Square-Checked.png", matrixcolor = TintMatrix("#ff85ab"))
+                    action [SetVariable("config.has_autosave", False), SetVariable("persistent.has_autosave", False)]
+
+            else:
+                label _("Autosaves (Disabled)")
+                imagebutton:
+                    idle "gui/RenTale/UI/Square.png"
+                    hover Transform("gui/RenTale/UI/Square.png", matrixcolor = TintMatrix("#ff85ab"))
+                    action [SetVariable("config.has_autosave", True), SetVariable("persistent.has_autosave", True)]
 
 
 screen Audio_Preferences():

@@ -143,14 +143,19 @@ default preferences.afm_time = 15
 
 define config.save_directory = "RenTale"
 
-define config.default_fullscreen = False
-
 ## Icon ########################################################################
 ##
 ## The icon displayed on the taskbar or dock.
 
 define config.window_icon = "gui/window_icon.png"
 
+## Additional config variables to be used
+define config.default_fullscreen = False
+define config.has_autosave = True
+default persistent.has_autosave = True
+
+init python:
+    config.has_autosave = persistent.has_autosave
 
 ## Build configuration #########################################################
 ##
@@ -213,6 +218,7 @@ init python:
     build.classify("**/thumbs.db", None)
     build.classify("LICENSE", None)
     build.classify("README.md", None)
+    build.classify("CREDITS.txt", None)
     build.classify("**.rpy", None)
 
     # ===============

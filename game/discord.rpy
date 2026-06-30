@@ -1,4 +1,3 @@
-# =============== RPC SETUP BLOCK =============== #
 init python:
     import time
     from pypresence import Presence
@@ -25,14 +24,17 @@ init python:
                     print("RPC Init error: ", ex)
                     cls.DISCORD_RPC = None
 
-        
+
         @classmethod
         def Update(cls, state = None, details = None) -> None:
             if cls.DISCORD_RPC is None:
                 cls.Init()
 
+            if cls.DISCORD_RPC is None:
+                return
+
             try:
                 cls.DISCORD_RPC.update(details = details, state = state, start = cls.START_TIME, large_image = cls.LARGE_IMAGE, large_text = cls.LARGE_TEXT, small_image = cls.SMALL_IMAGE, small_text = cls.SMALL_TEXT)
-            
+
             except Exception as ex:
                 print("RPC Update error: ", ex)
