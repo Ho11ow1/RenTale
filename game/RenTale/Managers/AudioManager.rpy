@@ -1,32 +1,15 @@
 init -90 python:
     class AudioManager():
-# =============== MASTER =============== #
+
+        MUSIC_CHANNEL = renpy.audio.audio.get_channel("music")
+        SOUND_CHANNEL = renpy.audio.audio.get_channel("sound")
+        VOICE_CHANNEL = renpy.audio.audio.get_channel("voice")
+
+# =============== MUSIC CHANNEL =============== #
         @staticmethod
-        def SetMasterVolume(volume: float) -> None:
+        def PlayBGM(file: str, loop: bool = True, fadeIn: float = 0.0, ifChanged: bool = False) -> None:
             """
-            Sets the master channel volume to the specified 'volume'
-            """
-            if type(volume) != float:
-                raise RenTaleTypeError(float, type(volume))
-            if volume > 1 or volume < 0:
-                raise RenTaleValueError("value between 1 and 0", volume)
-
-            preferences.set_mixer("main", volume)
-
-
-        @staticmethod
-        def GetMasterVolume() -> float:
-            """
-            Returns the current master channel volume
-            """
-            return preferences.get_mixer("main")
-
-
-# =============== BGM =============== #
-        @staticmethod
-        def PlayBGM(file: str, loop: bool = True, fadeIn: float = 0.0) -> None:
-            """
-            Plays the specified audio file on the "BGM" channel
+            Plays the specified audio file on the music channel
             """
             if type(file) != str:
                 raise RenTaleTypeError(str, type(file))
@@ -34,14 +17,16 @@ init -90 python:
                 raise RenTaleTypeError(bool, type(loop))
             if type(fadeIn) != float:
                 raise RenTaleTypeError(float, type(fadeIn))
+            if type(ifChanged) != bool:
+                raise RenTaleTypeError(bool, type(ifChanged))
 
-            renpy.music.play(file, channel = "music", loop = loop, fadein = fadeIn)
+            renpy.music.play(file, channel = "music", loop = loop, fadein = fadeIn, if_changed = ifChanged)
 
 
         @staticmethod
         def StopBGM(fadeOut: float | None = 0.0) -> None:
             """
-            Stops any and all audio playing on the "BGM" channel
+            Stops any and all audio playing on the music channel
             """
             if fadeOut is not None and type(fadeOut) != float:
                 raise RenTaleTypeError((float, type(None)), type(fadeOut))
@@ -51,43 +36,47 @@ init -90 python:
             renpy.music.stop(channel = "music", fadeout = fadeOut)
 
         
-        @staticmethod
-        def SetBGMVolume(volume: float) -> None:
+        @classmethod
+        def SetBGMVolume(cls, volume: float) -> None:
             """
-            Sets the BGM channel volume to the specified 'volume'
+            Sets the music channel volume to the specified 'volume'
             """
             if type(volume) != float:
                 raise RenTaleTypeError(float, type(volume))
             if volume > 1 or volume < 0:
                 raise RenTaleValueError("value between 1 and 0", volume)
 
-            preferences.set_mixer("music", volume)
+            cls.MUSIC_CHANNEL.set_volume(volume)
 
-        @staticmethod
-        def GetBGMVolume() -> float:
-            """
-            Returns the current BGM channel volume
-            """
-            return preferences.get_mixer("music")
 
-# =============== SFX =============== #
-        @staticmethod
-        def PlaySFX(file: str, fadeIn: float = 0.0) -> None:
+        @classmethod
+        def GetBGMVolume(cls) -> float:
             """
-            Plays the specified audio file on the "SFX" channel
+            Returns the current music channel volume
+            """
+            return cls.MUSIC_CHANNEL.chan_volume
+
+
+# =============== SOUND CHANNEL =============== #
+        @staticmethod
+        def PlaySFX(file: str, fadeIn: float = 0.0, ifChanged: bool = False) -> None:
+            """
+            Plays the specified audio file on the sound channel
             """
             if type(file) != str:
                 raise RenTaleTypeError(str, type(file))
             if type(fadeIn) != float:
                 raise RenTaleTypeError(float, type(fadeIn))
+            if type(ifChanged) != bool:
+                raise RenTaleTypeError(bool, type(ifChanged))
 
-            renpy.music.play(file, channel = "sound", loop = False, fadein = fadeIn)
+            renpy.music.play(file, channel = "sound", loop = False, fadein = fadeIn, if_changed = ifChanged)
 
 
         @staticmethod
         def StopSFX(fadeOut: float | None = 0.0) -> None:
             """
-            Stops any and all audio playing on the "SFX" channel
+            Stops any and all audio playing on the sound channel
             """
             if fadeOut is not None and type(fadeOut) != float:
                 raise RenTaleTypeError((float, type(None)), type(fadeOut))
@@ -97,45 +86,47 @@ init -90 python:
             renpy.music.stop(channel = "sound", fadeout = fadeOut)
 
         
-        @staticmethod
-        def SetSFXVolume(volume: float) -> None:
+        @classmethod
+        def SetSFXVolume(cls, volume: float) -> None:
             """
-            Sets the SFX channel volume to the specified 'volume'
+            Sets the sound channel volume to the specified 'volume'
             """
             if type(volume) != float:
                 raise RenTaleTypeError(float, type(volume))
             if volume > 1 or volume < 0:
                 raise RenTaleValueError("value between 1 and 0", volume)
 
-            preferences.set_mixer("sfx", volume)
+            cls.SOUND_CHANNEL.set_volume(volume)
 
 
+        @classmethod
+        def GetSFXVolume(cls) -> float:
+            """
+            Returns the current sound channel volume
+            """
+            return cls.SOUND_CHANNEL.chan_volume
+
+
+# =============== VOICE CHANNEL =============== #
         @staticmethod
-        def GetSFXVolume() -> float:
+        def PlayVO(file: str, fadeIn: float = 0.0, ifChanged: bool = False) -> None:
             """
-            Returns the current SFX channel volume
-            """
-            return preferences.get_mixer("sfx")
-
-
-# =============== VOICE =============== #
-        @staticmethod
-        def PlayVO(file: str, fadeIn: float = 0.0) -> None:
-            """
-            Plays the specified audio file on the "VO" channel
+            Plays the specified audio file on the voice channel
             """
             if type(file) != str:
                 raise RenTaleTypeError(str, type(file))
             if type(fadeIn) != float:
                 raise RenTaleTypeError(float, type(fadeIn))
+            if type(ifChanged) != bool:
+                raise RenTaleTypeError(bool, type(ifChanged))
 
-            renpy.music.play(file, channel = "voice", loop = False, fadein = fadeIn)
+            renpy.music.play(file, channel = "voice", loop = False, fadein = fadeIn, if_changed = ifChanged)
 
 
         @staticmethod
         def StopVO(fadeOut: float | None = 0.0) -> None:
             """
-            Stops any and all audio playing on the "VO" channel
+            Stops any and all audio playing on the voice channel
             """
             if fadeOut is not None and type(fadeOut) != float:
                 raise RenTaleTypeError((float, type(None)), type(fadeOut))
@@ -145,22 +136,22 @@ init -90 python:
             renpy.music.stop(channel = "voice", fadeout = fadeOut)
 
         
-        @staticmethod
-        def SetVOVolume(volume: float) -> None:
+        @classmethod
+        def SetVOVolume(cls, volume: float) -> None:
             """
-            Sets the VO channel volume to the specified 'volume'
+            Sets the voice channel volume to the specified 'volume'
             """
             if type(volume) != float:
                 raise RenTaleTypeError(float, type(volume))
             if volume > 1 or volume < 0:
                 raise RenTaleValueError("value between 1 and 0", volume)
 
-            preferences.set_mixer("voice", volume)
+            cls.VOICE_CHANNEL.set_volume(volume)
 
 
-        @staticmethod
-        def GetVOVolume() -> float:
+        @classmethod
+        def GetVOVolume(cls) -> float:
             """
-            Returns the current VO channel volume
+            Returns the current voice channel volume
             """
-            return preferences.get_mixer("voice")
+            return cls.VOICE_CHANNEL.chan_volume

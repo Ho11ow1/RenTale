@@ -768,18 +768,21 @@ screen Audio_Preferences():
             hbox:
                 label _("Volume Master")
             bar value Preference("main volume")
-            
-            hbox:            
-                label _("Volume BGM")
-            bar value Preference("music volume")
-            
-            hbox:
-                label _("Volume SFX")
-            bar value Preference("sound volume")
-            
-            hbox:
-                label _("Volume VO")
-            bar value Preference("voice volume")
+
+            if config.has_music:
+                hbox:            
+                    label _("Volume BGM")
+                bar value Preference("music volume")
+
+            if config.has_sound:
+                hbox:
+                    label _("Volume SFX")
+                bar value Preference("sound volume")
+
+            if config.has_voice:
+                hbox:
+                    label _("Volume VO")
+                bar value Preference("voice volume")
             
             hbox:            
                 label _("Mute All")
