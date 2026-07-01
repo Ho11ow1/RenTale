@@ -172,7 +172,7 @@ init python:
         left = ""
         right = ""
 
-        for _ in range(8):
+        for i in range(8):
             leftBits.append(str(rng.randint(0, 1)))
             rightBits.append(str(rng.randint(0, 1)))
 

@@ -51,7 +51,7 @@ init python:
             raise RenTaleTypeError(int, type(count))
 
         length = len(RenTale_time_of_day_names)
-        for _ in range(count):
+        for i in range(count):
             store.RenTale_time_of_day_num = (store.RenTale_time_of_day_num + 1) % length
             store.RenTale_time_of_day_name = RenTale_time_of_day_names[store.RenTale_time_of_day_num]
 
@@ -64,7 +64,7 @@ init python:
             raise RenTaleTypeError(int, type(count))
 
         length = len(RenTale_day_names)
-        for _ in range(count):
+        for i in range(count):
             store.RenTale_day_count += 1
             current_index = RenTale_day_names.index(store.RenTale_day_name)
             store.RenTale_day_name = RenTale_day_names[(current_index + 1) % length]
@@ -77,7 +77,7 @@ init python:
         if type(count) != int:
             raise RenTaleTypeError(int, type(count))
 
-        for _ in range(count):
+        for i in range(count):
             store.RenTale_week += 1
 
 # ========================= STRING SANITIZATION ========================= #
