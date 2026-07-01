@@ -9,11 +9,13 @@ init -100 python:
 
 init -100 python:
     class ExtendedCharacter(renpy.character.ADVCharacter):
-        def __init__(self, name, color, relationship = "", **properties):
+        def __init__(self, name, color, note = "", relationship = "", **properties):
             if type(name) != str:
                 raise RenTaleTypeError(str, type(name))
             if type(color) != str:
                 raise RenTaleTypeError(str, type(color))
+            if type(note) != str:
+                raise RenTaleTypeError(str, type(note))
             if type(relationship) != str:
                 raise RenTaleTypeError(str, type(relationship))
             # Init actual character
@@ -25,7 +27,9 @@ init -100 python:
             self.Friendship = 0
             self.Love = 0
             self.Lust = 0
-            # Specific customisation
+            # Small character note for a bio / card note
+            self.Note = note
+            # Specific relation to player
             self.Relationship = relationship
 
             store.RenTale_All_Characters.add(self)
