@@ -85,6 +85,18 @@ RenTale uses a **C# naming convention** rather than PEP 8:
 - Basic Python OOP knowledge (classes, methods, enums)
 - Minimal Ren'Py scripting knowledge
 
+### Additional
+- To allow for Discord Rich Presence follow the Ren'Py docs [Here](https://www.renpy.org/doc/html/python.html#first-and-third-party-python-modules-and-packages)
+- Or simply navigate to your project directory and paste this into the command line:
+```bash
+pip install --target game/python-packages pypresence
+```
+
+---
+## Credits
+- This template takes inspiration from multiple games by multiple developers
+- As a source of providing credit to those that have insipired me please checkout [CREDITS](CREDITS.txt)
+
 ---
 ## License
 MIT License - see [LICENSE](LICENSE)
