@@ -728,7 +728,6 @@ screen preferences():
 
         vpgrid:
             cols 2
-            rows 3
 
             hbox:
                 label _("Display")
@@ -765,9 +764,7 @@ screen Audio_Preferences():
 
         vpgrid:
             cols 2
-            rows 5
 
-            # Kind of cheating with the hbox but it works and there's no need to do any magic styles so be it
             hbox:
                 label _("Volume Master")
             bar value Preference("main volume")
@@ -804,7 +801,6 @@ screen Dialogue_Preferences():
 
         vpgrid:
             cols 2
-            rows 6
 
             hbox:
                 label _("Rollback Side")

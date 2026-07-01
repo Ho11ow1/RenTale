@@ -3,15 +3,12 @@ screen Gallery():
 
     use game_menu(_("")):
 
-        frame:
-            style "empty"
-
-            has vpgrid
+        vpgrid:
             cols 4
             spacing 75
 
-            textbutton "Willow" action Show("GalleryPage", filteredList = RenTale_Generate_Filtered_List(prefix = "Willow"))
-            textbutton "Alice" action Show("GalleryPage", filteredList = RenTale_Generate_Filtered_List(prefix = "Alice"))
+            textbutton "Willow" action ShowMenu("GalleryPage", filteredList = RenTale_Generate_Filtered_List(prefix = "Willow"))
+            textbutton "Alice" action ShowMenu("GalleryPage", filteredList = RenTale_Generate_Filtered_List(prefix = "Alice"))
 
 
 screen GalleryPage(filteredList):
@@ -19,10 +16,12 @@ screen GalleryPage(filteredList):
 
     use game_menu(_("")):
 
-        frame:
-            style "empty"
+        textbutton "<":
+            xalign 1.0
+            yalign 0.0
+            action ShowMenu("Gallery")
 
-            has vpgrid
+        vpgrid:
             cols 4
             spacing 75
 
