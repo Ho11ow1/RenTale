@@ -32,10 +32,10 @@ init -100 python:
             # Specific relation to player
             self.Relationship = relationship
 
-            store.RenTale_All_Characters.add(self)
+            rentale.all_characters.add(self)
 
 
-        def IncreaseStat(self, stat: StatType, amount: int) -> None:
+        def increase_stat(self, stat: StatType, amount: int) -> None:
             if type(stat) != StatType:
                 raise RenTaleTypeError(StatType, type(stat))
             if type(amount) != int:
@@ -50,7 +50,7 @@ init -100 python:
                     self.Lust += amount
 
 
-        def DecreaseStat(self, stat: StatType, amount: int) -> None:
+        def decrease_stat(self, stat: StatType, amount: int) -> None:
             if type(stat) != StatType:
                 raise RenTaleTypeError(StatType, type(stat))
             if type(amount) != int:
@@ -65,7 +65,7 @@ init -100 python:
                     self.Lust -= amount
 
 
-        def ChangeRelationship(self, relationship: str) -> None:
+        def change_relationship(self, relationship: str) -> None:
             if type(relationship) != str:
                 raise RenTaleTypeError(str, type(relationship))
             

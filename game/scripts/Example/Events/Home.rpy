@@ -1,47 +1,33 @@
 init offset = 1
 
-default E_Bedroom_Event_1 = Event(
+default E_Bedroom_Event_1 = rentale.Event(
     name = "Home_Bedroom_Intro",
     location = L_Home_Bedroom,
+    label = "Label_Event_Bedroom_1",
     isUnlocked = True,
-    isAutomatic = True,
-    action = (
-        "L_Home_Kitchen.Unlock();" 
-        "E_Kitchen_Event_1.Unlock();"
-    )
+    isAutomatic = True
 )
 
-default E_Kitchen_Event_1 = Event(
+default E_Kitchen_Event_1 = rentale.Event(
     name = "Home_Kitchen_1",
     location = L_Home_Kitchen,
+    label = "Label_Event_Kitchen_1",
     isAutomatic = True, 
-    unlockCondition = "E_Bedroom_Event_1.IsCompleted == True",
-    action = (
-        "L_Home_Bathroom.Unlock();" 
-        "E_Bathroom_Event_1.Unlock();" 
-        "renpy.call('Label_Event_Kitchen_1');"
-    )
+    unlockCondition = "E_Bedroom_Event_1.IsCompleted"
 )
 
-default E_Bathroom_Event_1 = Event(
+default E_Bathroom_Event_1 = rentale.Event(
     name = "Home_Bathroom_1",
     location = L_Home_Bathroom,
+    label = "Label_Event_Bathroom_1",
     isAutomatic = True,
-    unlockCondition = "E_Kitchen_Event_1.IsCompleted == True",
-    action = (
-        "L_Home_Garden.Unlock();"
-        "E_Garden_Event_1.Unlock();"
-        "renpy.call('Label_Event_Bathroom_1');"
-    )
+    unlockCondition = "E_Kitchen_Event_1.IsCompleted"
 )
 
-default E_Garden_Event_1 = Event(
+default E_Garden_Event_1 = rentale.Event(
     name = "Home_Garden_1",
     location = L_Home_Garden,
+    label = "Label_Event_Garden_1",
     isAutomatic = True, 
-    unlockCondition = "E_Bathroom_Event_1.IsCompleted == True",
-    action = (
-        "L_City_Main.Unlock();"
-        "renpy.call('Label_Event_Garden_1');"
-    )
+    unlockCondition = "E_Bathroom_Event_1.IsCompleted"
 )

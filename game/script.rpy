@@ -1,6 +1,6 @@
 # The game starts here.
 label start:
-    $ AudioManager.PlayBGM("audio/BGM/Lofi.mp3", loop = True)
+    $ rentale.AudioManager.play_music("audio/BGM/Lofi.mp3", loop = True, ifChanged = True)
 
     # Show a background. This uses a placeholder by default, but you can
     # add a file (named either "bg room.png" or "bg room.jpg") to the

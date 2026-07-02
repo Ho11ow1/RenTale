@@ -1,34 +1,23 @@
 init offset = 1
 
-default E_City_Unlock_All = Event(
+default E_City_Unlock_All = rentale.Event(
     name = "Unlock_City",
     location = L_City_Main,
+    label = "Label_Event_City_1",
     isUnlocked = True,
-    isAutomatic = True,
-    action = (
-        "L_City_Park.Unlock();"
-        "L_City_Library.Unlock();"
-    )
+    isAutomatic = True
 )
 
-default E_Meet_Willow = Event(
+default E_Meet_Willow = rentale.Event(
     name = "Meet_Willow",
     location = L_City_Library,
-    isUnlocked = True,
-    action = (
-        "AudioManager.PlaySFX('audio/SFX/Notification.mp3');"
-        "WillowFlags.HaveMet.Set(True);"
-        "renpy.call('Label_Event_Library_1');"
-    )
+    label = "Label_Event_Library_1",
+    isUnlocked = True
 )
 
-default E_Meet_Alice = Event(
+default E_Meet_Alice = rentale.Event(
     name = "Meet_Alice",
     location = L_City_Park,
-    isUnlocked = True,
-    action = (
-        "AudioManager.PlaySFX('audio/SFX/Notification.mp3');"
-        "AliceFlags.HaveMet.Set(True);"
-        "renpy.call('Label_Event_Park_1');"
-    )
+    label = "Label_Event_Park_1",
+    isUnlocked = True
 )

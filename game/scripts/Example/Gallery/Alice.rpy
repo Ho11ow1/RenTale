@@ -1,4 +1,4 @@
-define GI_Alice_Meet = GalleryItem(
+define GI_Alice_Meet = rentale.GalleryItem(
     name = "Alice_Meet",
     label = "Label_Event_Park_1",
     thumbnail = "images/RenTale/Gallery/Alice/Unlocked.png",

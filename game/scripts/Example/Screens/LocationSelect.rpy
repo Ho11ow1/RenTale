@@ -10,6 +10,6 @@ screen LocationSelect():
             spacing 10
 
             text "Where would you like to go?"
-            for location in RenTale_All_Locations:
+            for location in rentale.all_locations:
                 if location.IsUnlocked:
-                    textbutton location.Name action MoveTo(location)
+                    textbutton location.Name action rentale.MoveTo(location)

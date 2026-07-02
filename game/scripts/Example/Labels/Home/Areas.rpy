@@ -2,14 +2,14 @@ label RenTale_Label_Example:
 
     $ Player.Name = renpy.input(default = "Calli", prompt = "What's your name?", length = 8).strip()
 
-    $ RenTale_GoTo(L_Home_Bedroom)
+    $ rentale.go_to(L_Home_Bedroom)
 
     return
 
 
 label Label_Home_Bedroom:
 
-    $ RenTale_TriggerAutomaticEvents()
+    $ rentale.trigger_automatic_events()
 
     "Something i guess"
 
@@ -18,7 +18,7 @@ label Label_Home_Bedroom:
 
 label Label_Home_Kitchen:
 
-    $ RenTale_TriggerAutomaticEvents()
+    $ rentale.trigger_automatic_events()
 
     "More of something"
 
@@ -27,7 +27,7 @@ label Label_Home_Kitchen:
 
 label Label_Home_Bathroom:
 
-    $ RenTale_TriggerAutomaticEvents()
+    $ rentale.trigger_automatic_events()
 
     "Almost everything"
 
@@ -36,7 +36,7 @@ label Label_Home_Bathroom:
 
 label Label_Home_Garden:
 
-    $ RenTale_TriggerAutomaticEvents()
+    $ rentale.trigger_automatic_events()
 
     "Everything"
 
