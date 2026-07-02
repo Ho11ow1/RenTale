@@ -54,6 +54,6 @@ label Label_Event_Park_1:
 
 
     $ GI_Alice_Meet.unlock()
-    $ WillowFlags.HaveMet.set(True)
+    $ AliceFlags.HaveMet.set(True)
 
     return
