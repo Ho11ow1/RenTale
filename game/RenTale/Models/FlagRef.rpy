@@ -1,4 +1,4 @@
-init -100 python:
+init -100 python in rentale:
     class FlagRef():
         def __init__(self, name, value):
             """
@@ -12,10 +12,10 @@ init -100 python:
             self.Name = name
             self.Value = value
 
-            store.RenTale_All_Flags[name] = self
+            all_flags[name] = self
 
 
-        def Set(self, value: int | bool) -> None:
+        def set(self, value: int | bool) -> None:
             """
             Sets the 'Value' variable to the passed in 'value'
             """
@@ -25,7 +25,7 @@ init -100 python:
             self.Value = value
 
 
-        def Toggle(self) -> None:
+        def toggle(self) -> None:
             """
             Toggles the 'Value' from false to true and vice versa
             """
@@ -35,7 +35,7 @@ init -100 python:
             self.Value = not self.Value
 
 
-        def Increment(self, amount: int = 1) -> None:
+        def increment(self, amount: int = 1) -> None:
             """
             Increases the 'Value' by the given 'amount'
             """
@@ -44,10 +44,10 @@ init -100 python:
             if type(self.Value) != int:
                 raise RenTaleArgumentException("Cannot increment a 'Bool' flag")
 
-            self.Set(self.Value + amount)
+            self.set(self.Value + amount)
 
         
-        def Decrement(self, amount: int = 1) -> None:
+        def decrement(self, amount: int = 1) -> None:
             """
             Decreases the 'Value' by the given 'amount'
             """
@@ -56,4 +56,4 @@ init -100 python:
             if type(self.Value) != int:
                 raise RenTaleArgumentException("Cannot decrement a 'Bool' flag")
 
-            self.Set(self.Value - amount)
+            self.set(self.Value - amount)

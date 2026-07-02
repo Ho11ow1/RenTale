@@ -1,34 +1,32 @@
-init -100 python:
+init -100 python in rentale:
     class Event():
-        def __init__(self, name, location, isUnlocked = False, isAutomatic = False, isCompleted = False, unlockCondition = None, action = None):
+        def __init__(self, name, location, label, isUnlocked = False, isAutomatic = False, isCompleted = False, unlockCondition = None):
             """
-            Represents a game event tied to a Location. Automatically registers into RenTale_All_Locations at the given location on creation.
+            Represents a game event tied to a Location. Automatically registers into rentale.all_locations at the given location on creation.
             """
             if type(name) != str:
                 raise RenTaleTypeError(str, type(name))
             if type(location) != Location:
                 raise RenTaleTypeError(Location, type(location))
+            if type(label) != str:
+                raise RenTaleTypeError(str, type(label))
             if type(isUnlocked) != bool:
                 raise RenTaleTypeError(bool, type(isUnlocked))
             if type(isAutomatic) != bool:
                 raise RenTaleTypeError(bool, type(isAutomatic))
-            if unlockCondition is not None and type(unlockCondition) != str:
-                raise RenTaleTypeError((str, type(None)), type(unlockCondition))
-            if action is not None and type(action) != str:
-                raise RenTaleTypeError((str, type(None)), type(action))
 
             self.Name = name
             self.Location = location
+            self.Label = label
             self.IsUnlocked = isUnlocked
             self.IsAutomatic = isAutomatic
             self.IsCompleted = isCompleted
-            self.UnlockCondition = RenTale_sanitize_string(unlockCondition)
-            self.Action = RenTale_sanitize_string(action)
+            self.UnlockCondition = sanitize_string(unlockCondition)
 
-            RenTale_All_Locations[self.Location].append(self)
+            all_locations[self.Location].append(self)
 
 
-        def Unlock(self) -> None:
+        def unlock(self) -> None:
             """
             Sets the 'IsUnlocked' variable to true if not already true
             """
@@ -36,27 +34,23 @@ init -100 python:
                 self.IsUnlocked = True
 
 
-        def CheckCondition(self) -> bool:
+        def check_condition(self) -> bool:
             """
-            Returns true if the 'UnlockCondition' is None or evaluates to true
+            Returns true if the 'UnlockCondition' is None or evaluates to True
             """
             if self.UnlockCondition is None:
                 return True
 
-            return eval(self.UnlockCondition)
+            return eval(self.UnlockCondition, vars(renpy.store))
 
 
-        def Play(self) -> None:
+        def play(self) -> None:
             """
-            Executes actions in the 'Action' variable in order(LTR), split via ';' if not None and not already completed
+            Calls the 
             """
             if self.IsCompleted:
                 return
 
             self.IsCompleted = True
 
-            if self.Action is not None:
-                actions = self.Action.split(';')
-
-                for action in actions:
-                    exec(action.strip())
+            renpy.call(self.Label)

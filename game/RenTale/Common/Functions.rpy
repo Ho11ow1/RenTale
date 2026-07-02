@@ -1,32 +1,32 @@
-init python:
+init python in rentale:
 # ========================= MAP MOVEMENT ========================= # 
-    def RenTale_GoTo(location: Location) -> None:
+    def go_to(location: Location) -> None:
         """
         Navigates to the given location if it exists and is unlocked
         """
         if type(location) != Location:
             raise RenTaleTypeError(Location, type(location))
             
-        if location in RenTale_All_Locations:
+        if location in all_locations:
             if location.IsUnlocked:
-                store.RenTale_Current_Location = location
+                renpy.store.rentale.current_location = location
                 renpy.jump(location.Label)
 
 
 # ========================= EVENT HANDLING ========================= #
-    def RenTale_TriggerAutomaticEvents() -> None:
+    def trigger_automatic_events() -> None:
         """
         Triggers all automatic events at the current location that are unlocked, pass their condition and have not been completed
         """
-        for event in store.RenTale_All_Locations[store.RenTale_Current_Location]:
+        for event in all_locations[current_location]:
             if event.IsCompleted:
                 continue
-            if event.IsUnlocked and event.IsAutomatic and event.CheckCondition():
-                event.Play()
+            if event.IsUnlocked and event.IsAutomatic and event.check_condition():
+                event.play()
 
 
 # =========================  GALLERY HELPER ========================= #
-    def RenTale_Generate_Filtered_List(prefix: str) -> set:
+    def generate_filtered_list(prefix: str) -> set:
         """
         Returns a filtered set of GalleryItems where the name starts with the given prefix
         """
@@ -35,7 +35,7 @@ init python:
 
         filtered = set()
 
-        for item in RenTale_Gallery_List:
+        for item in gallery_list:
             if item.Name.startswith(prefix):
                 filtered.add(item)
 
@@ -43,51 +43,51 @@ init python:
 
 
 # ========================= TIME MANAGEMENT ========================= #
-    def RenTale_Advance_Time(count: int = 1):
+    def advance_time(count: int = 1):
         """
         Advances the time of day by 'count' periods. Automatically advances the day and week when necessary
         """
         if type(count) != int:
             raise RenTaleTypeError(int, type(count))
 
-        length = len(RenTale_time_of_day_names)
+        length = len(time_of_day_names)
         for i in range(count):
-            store.RenTale_time_of_day_num = (store.RenTale_time_of_day_num + 1) % length
-            store.RenTale_time_of_day_name = RenTale_time_of_day_names[store.RenTale_time_of_day_num]
+            renpy.store.rentale.time_of_day_num = (time_of_day_num + 1) % length
+            renpy.store.rentale.time_of_day_name = time_of_day_names[time_of_day_num]
 
-            if (store.RenTale_time_of_day_num == 0):
-                RenTale_advance_days(1)
+            if (time_of_day_num == 0):
+                advance_days(1)
 
 
-    def RenTale_advance_days(count: int = 1):
+    def advance_days(count: int = 1):
         if type(count) != int:
             raise RenTaleTypeError(int, type(count))
 
-        length = len(RenTale_day_names)
+        length = len(day_names)
         for i in range(count):
-            store.RenTale_day_count += 1
-            current_index = RenTale_day_names.index(store.RenTale_day_name)
-            store.RenTale_day_name = RenTale_day_names[(current_index + 1) % length]
+            renpy.store.rentale.day_count += 1
+            current_index = day_names.index(day_name)
+            renpy.store.rentale.day_name = day_names[(current_index + 1) % length]
 
-            if ((store.RenTale_day_count - 1) % RenTale_days_per_week) == 0:
-                RenTale_advance_weeks(1)
+            if ((day_count - 1) % days_per_week) == 0:
+                advance_weeks(1)
 
 
-    def RenTale_advance_weeks(count: int = 1):
+    def advance_weeks(count: int = 1):
         if type(count) != int:
             raise RenTaleTypeError(int, type(count))
 
         for i in range(count):
-            store.RenTale_week += 1
+            renpy.store.rentale.week += 1
 
-# ========================= STRING SANITIZATION ========================= #
-    def RenTale_sanitize_string(string: str | None):
+# ========================= VALIDATION UTIL ========================= #
+    def sanitize_string(string: str | None):
         if string is not None and type(string) != str:
             raise RenTaleTypeError((str, type(None)), type(string))
         if string is None:
             return string
 
-        forbiddenFound = RenTale_blacklistedRegex.search(string)
+        forbiddenFound = blacklisted_regex.search(string)
         if forbiddenFound:
             arr = string.split(';')
             lines = list()

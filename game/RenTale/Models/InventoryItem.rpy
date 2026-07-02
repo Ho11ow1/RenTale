@@ -1,4 +1,4 @@
-init -100 python:
+init -100 python in rentale:
     class InventoryItem():
         def __init__(self, name, quantity, isStackable, image = None, description = ""):
             """
@@ -21,10 +21,10 @@ init -100 python:
             self.Image = image
             self.Description = description
 
-            Inventory.Add(self)
+            inventory.add(self)
 
 
-        def Receive(self, quantity: int = 1) -> None:
+        def receive(self, quantity: int = 1) -> None:
             """
             If 'IsStackable' adds the specified 'quantity' to current
             """
@@ -35,7 +35,7 @@ init -100 python:
                 self.Quantity += quantity
 
 
-        def Remove(self, quantity: int = 1) -> None:
+        def remove(self, quantity: int = 1) -> None:
             """
             If 'IsStackable' removes the specified 'quantity' from current, Limited to 0
             """

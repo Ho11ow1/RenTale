@@ -1,10 +1,10 @@
-init -90 python:
-    class RenTale_Inventory():
+init -90 python in rentale:
+    class Inventory():
         def __init__(self):
             self.Items = set()
 
 
-        def Add(self, item: InventoryItem) -> None:
+        def add(self, item: InventoryItem) -> None:
             """
             Adds the given 'item' to the inventory if it not already in the inventory
             """
@@ -15,7 +15,7 @@ init -90 python:
                 self.Items.add(item)
 
 
-        def Remove(self, item: InventoryItem) -> None:
+        def remove(self, item: InventoryItem) -> None:
             """
             Removes the given 'item' if it is found in the inventory
             """
@@ -26,7 +26,7 @@ init -90 python:
                 self.Items.remove(item)
 
 
-        def Contains(self, item: InventoryItem) -> bool:
+        def contains(self, item: InventoryItem) -> bool:
             """
             Returns true if the given 'item' is found in the inventory
             """

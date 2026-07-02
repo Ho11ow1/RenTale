@@ -1,5 +1,5 @@
-init -10 python:
-    class MoveTo(Action):
+init -10 python in rentale:
+    class MoveTo(renpy.store.Action):
         """
         Moves to a given location(Location) if it exists and is unlocked
         """
@@ -11,4 +11,4 @@ init -10 python:
 
 
         def __call__(self):
-            RenTale_GoTo(self.Location)
+            go_to(self.Location)

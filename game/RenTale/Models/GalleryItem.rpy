@@ -1,8 +1,8 @@
-init -100 python: 
+init -100 python in rentale:
     class GalleryItem():
         def __init__(self, name, label, thumbnail, scope = None, isUnlocked = False):
             """
-            Represents a gallery scene. Automatically registers into RenTale_Gallery_List and persistent.RenTale_Gallery on creation.
+            Represents a gallery scene. Automatically registers into rentale.gallery_list and persistent.rentale_gallery on creation.
             """
             if type(name) != str:
                 raise RenTaleTypeError(str, type(name))
@@ -20,19 +20,19 @@ init -100 python:
             self.Thumbnail = thumbnail
             self.Scope = {} if scope is None else scope
 
-            if name not in persistent.RenTale_Gallery:
-                persistent.RenTale_Gallery[name] = isUnlocked
+            if name not in renpy.store.persistent.rentale_gallery:
+                renpy.store.persistent.rentale_gallery[name] = isUnlocked
                 self.IsUnlocked = isUnlocked
             else:
-                self.IsUnlocked = persistent.RenTale_Gallery[name]
+                self.IsUnlocked = renpy.store.persistent.rentale_gallery[name]
 
-            RenTale_Gallery_List.add(self)
+            gallery_list.add(self)
 
         
-        def Unlock(self) -> None:
+        def unlock(self) -> None:
             """
             Sets the 'IsUnlocked' variable to true and unlocks itself in the gallery if not already unlocked
             """
             if not self.IsUnlocked:
                 self.IsUnlocked = True
-                persistent.RenTale_Gallery[self.Name] = True
+                renpy.store.persistent.rentale_gallery[self.Name] = True

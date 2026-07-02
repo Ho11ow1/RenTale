@@ -1,39 +1,39 @@
 init offset = -999
 
 # =============== CHARACTERS =============== #
-default RenTale_All_Characters = set() # HashSet<ExtendedCharacter>
+default rentale.all_characters = set() # HashSet<ExtendedCharacter>
 
 # =============== FLAGREFS =============== #
-default RenTale_All_Flags = dict() # Dictionary<String, FlagRef>
+default rentale.all_flags = dict() # Dictionary<String, FlagRef>
 
 # =============== LOCATION SYSTEM =============== # 
-default RenTale_All_Locations = dict() # Dictionary<Location, List<Event>>
-default RenTale_Current_Location = None # Location
+default rentale.all_locations = dict() # Dictionary<Location, List<Event>>
+default rentale.current_location = None # Location
 
 # =============== TIME SYSTEM =============== #
-define RenTale_time_of_day_names = [ "Morning", "Noon", "Afternoon", "Evening", "Night"]
-define RenTale_day_names = [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ]
-define RenTale_days_per_week = 7
-define RenTale_weekend_indexes = [ 5, 6 ]
+define rentale.time_of_day_names = [ "Morning", "Noon", "Afternoon", "Evening", "Night"]
+define rentale.day_names = [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ]
+define rentale.days_per_week = 7
+define rentale.weekend_indexes = [ 5, 6 ]
 
-default RenTale_time_of_day_num = 0
-default RenTale_time_of_day_name = RenTale_time_of_day_names[0]
-default RenTale_day_count = 1
-default RenTale_day_name = RenTale_day_names[0]
-default RenTale_week = 1
+default rentale.time_of_day_num = 0
+default rentale.time_of_day_name = rentale.time_of_day_names[0]
+default rentale.day_count = 1
+default rentale.day_name = rentale.day_names[0]
+default rentale.week = 1
 
 # =============== GALLERY SYSTEM =============== #
-default persistent.RenTale_Gallery = dict() # Dictionary<Name, IsUnlocked> (Derived from GalleryItem)
-define RenTale_Gallery_List = set() # HashSet<GalleryItem> (Named list for simplicity, HashSet for uniqueness)
+default persistent.rentale_gallery = dict() # Dictionary<Name, IsUnlocked> (Derived from GalleryItem)
+define rentale.gallery_list = set() # HashSet<GalleryItem> (Named list for simplicity, HashSet for uniqueness)
 
 # =============== INVENTORY SYSTEM =============== #
-default Inventory = RenTale_Inventory()
+default rentale.inventory = rentale.Inventory()
 
 # =============== SAFETY =============== #
-init -10 python:
+init -10 python in rentale:
     import re
 
-    RenTale_blacklistedPatterns = [
+    blacklisted_patterns = [
         r'\bos\b',
         r'\bsys\b',
         r'\bimport\b',
@@ -47,4 +47,4 @@ init -10 python:
         r'\bgetattr\b',
         r'\bsetattr\b',
     ]
-    RenTale_blacklistedRegex = re.compile('|'.join(RenTale_blacklistedPatterns), re.IGNORECASE)
+    blacklisted_regex = re.compile('|'.join(blacklisted_patterns), re.IGNORECASE)

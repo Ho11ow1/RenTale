@@ -1,5 +1,5 @@
-init -10 python:
-    class SkipTime(Action):
+init -10 python in rentale:
+    class SkipTime(renpy.store.Action):
         """
         Skips forward in time by the given amount of time periods (1 by default)
         """
@@ -11,5 +11,5 @@ init -10 python:
 
 
         def __call__(self):
-            RenTale_Advance_Time(self.Count)
+            advance_time(self.Count)
             renpy.call("RenTale_Time_Null", from_current = True)

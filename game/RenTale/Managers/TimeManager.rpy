@@ -1,92 +1,92 @@
-init -90 python:
+init -90 python in rentale:
     class TimeManager():
         @staticmethod
-        def IsMorning() -> bool:
+        def is_morning() -> bool:
             """
             Returns true if the current time of day is "Morning"
             """
-            return store.RenTale_time_of_day_num == 0
+            return time_of_day_num == 0
 
         @staticmethod
-        def IsNoon() -> bool:
+        def is_noon() -> bool:
             """
             Returns true if the current time of day is "Noon"
             """
-            return store.RenTale_time_of_day_num == 1
+            return time_of_day_num == 1
 
         @staticmethod
-        def IsAfternoon() -> bool:
+        def is_afternoon() -> bool:
             """
             Returns true if the current time of day is "Afternoon"
             """
-            return store.RenTale_time_of_day_num == 2
+            return time_of_day_num == 2
 
         @staticmethod
-        def IsEvening() -> bool:
+        def is_evening() -> bool:
             """
             Returns true if the current time of day is "Evening"
             """
-            return store.RenTale_time_of_day_num == 3
+            return time_of_day_num == 3
 
         @staticmethod
-        def IsNight() -> bool:
+        def is_night() -> bool:
             """
             Returns true if the current time of day is "Night"
             """
-            return store.RenTale_time_of_day_num == 4
+            return time_of_day_num == 4
 
         @staticmethod
-        def IsDaytime() -> bool:
+        def is_daytime() -> bool:
             """
             Returns true if the current time of day is earlier than "Evening"
             """
-            return store.RenTale_time_of_day_num < 3
+            return time_of_day_num < 3
 
         @staticmethod
-        def IsNighttime() -> bool:
+        def is_nighttime() -> bool:
             """
             Returns true if the current time of day is later than "Afternoon"
             """
-            return store.RenTale_time_of_day_num > 2
+            return time_of_day_num > 2
 
         @staticmethod
-        def IsWeekday() -> bool:
+        def is_weekday() -> bool:
             """
             Returns true if the current day is a week day
             """
-            return RenTale_day_names.index(store.RenTale_day_name) not in RenTale_weekend_indexes
+            return day_names.index(day_name) not in weekend_indexes
 
         @staticmethod
-        def IsWeekend() -> bool:
+        def is_weekend() -> bool:
             """
             Returns true if the current day is a weekend
             """
-            return RenTale_day_names.index(store.RenTale_day_name) in RenTale_weekend_indexes
+            return day_names.index(day_name) in weekend_indexes
 
         @staticmethod
-        def GetTimeOfDayName() -> str:
+        def get_time_of_day_name() -> str:
             """
             Returns the current time of days name
             """
-            return store.RenTale_time_of_day_name
+            return time_of_day_name
 
         @staticmethod
-        def GetDayName() -> str:
+        def get_day_name() -> str:
             """
             Returns true current days name
             """
-            return store.RenTale_day_name
+            return day_name
 
         @staticmethod
-        def GetDayCount() -> int:
+        def get_day_count() -> int:
             """
             Returns the amount of days that have passed since starting the game
             """
-            return store.RenTale_day_count
+            return day_count
 
         @staticmethod
-        def GetWeek() -> int:
+        def get_week() -> int:
             """
             Returns the amount of weeks that have passed since starting the game
             """
-            return store.RenTale_week
+            return week

@@ -97,30 +97,30 @@ screen RenTale_DeveloperPanel():
 
                     # ========================= TIME SYSTEM ========================= #
                     if active_tab == 0:
-                        use RenTale_dev_row("Is Morning:", TimeManager.IsMorning())
-                        use RenTale_dev_row("Is Noon:", TimeManager.IsNoon())
-                        use RenTale_dev_row("Is Afternoon:", TimeManager.IsAfternoon())
-                        use RenTale_dev_row("Is Evening:", TimeManager.IsEvening())
-                        use RenTale_dev_row("Is Night:", TimeManager.IsNight())
+                        use RenTale_dev_row("Is Morning:", rentale.TimeManager.is_morning())
+                        use RenTale_dev_row("Is Noon:", rentale.TimeManager.is_noon())
+                        use RenTale_dev_row("Is Afternoon:", rentale.TimeManager.is_afternoon())
+                        use RenTale_dev_row("Is Evening:", rentale.TimeManager.is_evening())
+                        use RenTale_dev_row("Is Night:", rentale.TimeManager.is_night())
 
                         null height 4
 
-                        use RenTale_dev_row("Is Day Time:", TimeManager.IsDaytime())
-                        use RenTale_dev_row("Is Night Time:", TimeManager.IsNighttime())
-                        use RenTale_dev_row("Is Weekday:", TimeManager.IsWeekday())
-                        use RenTale_dev_row("Is Weekend:", TimeManager.IsWeekend())
+                        use RenTale_dev_row("Is Day Time:", rentale.TimeManager.is_daytime())
+                        use RenTale_dev_row("Is Night Time:", rentale.TimeManager.is_nighttime())
+                        use RenTale_dev_row("Is Weekday:", rentale.TimeManager.is_weekday())
+                        use RenTale_dev_row("Is Weekend:", rentale.TimeManager.is_weekend())
 
                         null height 4
 
-                        use RenTale_dev_row("Day Count:", TimeManager.GetDayCount())
-                        use RenTale_dev_row("Week:", TimeManager.GetWeek())
-                        use RenTale_dev_row("Day Name:", TimeManager.GetDayName())
-                        use RenTale_dev_row("Time Of Day:", TimeManager.GetTimeOfDayName())
+                        use RenTale_dev_row("Day Count:", rentale.TimeManager.get_day_count())
+                        use RenTale_dev_row("Week:", rentale.TimeManager.get_week())
+                        use RenTale_dev_row("Day Name:", rentale.TimeManager.get_day_name())
+                        use RenTale_dev_row("Time Of Day:", rentale.TimeManager.get_time_of_day_name())
 
 
                     # ========================= LOCATIONS ========================= #
                     elif active_tab == 1:
-                        for location in RenTale_All_Locations.keys():
+                        for location in rentale.all_locations.keys():
                             use RenTale_dev_card(location.Name, [
                                 ("Label:", location.Label),
                                 ("Is Unlocked:", location.IsUnlocked)
@@ -129,31 +129,31 @@ screen RenTale_DeveloperPanel():
 
                     # ========================= EVENTS ========================= #
                     elif active_tab == 2:
-                        for list in RenTale_All_Locations.values():
+                        for list in rentale.all_locations.values():
                             
                             null height 4
 
                             for event in list:
                                 use RenTale_dev_card(event.Name, [
                                     ("Location:", event.Location.Name),
+                                    ("Label:", event.Label),
                                     ("Is Unlocked:", event.IsUnlocked),
                                     ("Is Automatic:", event.IsAutomatic),
                                     ("Is Completed:", event.IsCompleted),
                                     ("Unlock Condition:", event.UnlockCondition if event.UnlockCondition else "None"),
-                                    ("Action:", event.Action if event.Action else "None")
                                 ])
                                 
 
 
                     # ========================= FLAGS ========================= #
                     elif active_tab == 3:
-                        for name, flag in RenTale_All_Flags.items():
+                        for name, flag in rentale.all_flags.items():
                             use RenTale_dev_row(f"{name}:", f"{flag.Value}")
 
 
                     # ========================= Inventory ========================= #
                     elif active_tab == 4:
-                        for item in Inventory.Items:
+                        for item in rentale.inventory.Items:
                             use RenTale_dev_card(item.Name, [
                                     ("Quantity:", item.Quantity),
                                     ("Is Stackable:", item.IsStackable),
@@ -164,9 +164,10 @@ screen RenTale_DeveloperPanel():
 
                     # ========================= ExtendedCharacters ========================= #
                     elif active_tab == 5:
-                        for character in RenTale_All_Characters:
+                        for character in rentale.all_characters:
                             use RenTale_dev_card(character.Name, [
                                 ("Relationship:", character.Relationship),
+                                ("Note:", character.Note),
                                 ("Friendship:", character.Friendship),
                                 ("Love:", character.Love),
                                 ("Lust:", character.Lust)
@@ -175,7 +176,7 @@ screen RenTale_DeveloperPanel():
 
                     # ========================= GALLERY ========================= #
                     elif active_tab == 6:
-                        for gi in RenTale_Gallery_List:
+                        for gi in rentale.gallery_list:
                             use RenTale_dev_card(gi.Name, [
                                     ("Label:", gi.Label),
                                     ("Thumbnail:", gi.Thumbnail),

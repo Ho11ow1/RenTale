@@ -1,8 +1,8 @@
-init -100 python:
+init -100 python in rentale:
     class Location():
         def __init__(self, name, label, isUnlocked = True):
             """
-            Represents a navigable game location. Automatically registers into RenTale_All_Locations on creation.
+            Represents a navigable game location. Automatically registers into rentale.all_locations on creation.
             """
             if type(name) != str:
                 raise RenTaleTypeError(str, type(name))
@@ -15,10 +15,10 @@ init -100 python:
             self.Label = label
             self.IsUnlocked = isUnlocked
 
-            store.RenTale_All_Locations[self] = list()
+            all_locations[self] = list()
 
 
-        def Unlock(self) -> None:
+        def unlock(self) -> None:
             """
             Sets the 'IsUnlocked' variable to true if not already true
             """

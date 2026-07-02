@@ -1,4 +1,4 @@
-init -90 python:
+init -90 python in rentale:
     class AudioManager():
 
         MUSIC_CHANNEL = renpy.audio.audio.get_channel("music")
@@ -7,7 +7,7 @@ init -90 python:
 
 # =============== MUSIC CHANNEL =============== #
         @staticmethod
-        def PlayBGM(file: str, loop: bool = True, fadeIn: float = 0.0, ifChanged: bool = False) -> None:
+        def play_music(file: str, loop: bool = True, fadeIn: float = 0.0, ifChanged: bool = False) -> None:
             """
             Plays the specified audio file on the music channel
             """
@@ -24,7 +24,7 @@ init -90 python:
 
 
         @staticmethod
-        def StopBGM(fadeOut: float | None = 0.0) -> None:
+        def stop_music(fadeOut: float | None = 0.0) -> None:
             """
             Stops any and all audio playing on the music channel
             """
@@ -37,7 +37,7 @@ init -90 python:
 
         
         @classmethod
-        def SetBGMVolume(cls, volume: float) -> None:
+        def set_music_volume(cls, volume: float) -> None:
             """
             Sets the music channel volume to the specified 'volume'
             """
@@ -50,7 +50,7 @@ init -90 python:
 
 
         @classmethod
-        def GetBGMVolume(cls) -> float:
+        def get_music_volume(cls) -> float:
             """
             Returns the current music channel volume
             """
@@ -59,7 +59,7 @@ init -90 python:
 
 # =============== SOUND CHANNEL =============== #
         @staticmethod
-        def PlaySFX(file: str, fadeIn: float = 0.0, ifChanged: bool = False) -> None:
+        def play_sound(file: str, fadeIn: float = 0.0, ifChanged: bool = False) -> None:
             """
             Plays the specified audio file on the sound channel
             """
@@ -74,7 +74,7 @@ init -90 python:
 
 
         @staticmethod
-        def StopSFX(fadeOut: float | None = 0.0) -> None:
+        def stop_sound(fadeOut: float | None = 0.0) -> None:
             """
             Stops any and all audio playing on the sound channel
             """
@@ -87,7 +87,7 @@ init -90 python:
 
         
         @classmethod
-        def SetSFXVolume(cls, volume: float) -> None:
+        def set_sound_volume(cls, volume: float) -> None:
             """
             Sets the sound channel volume to the specified 'volume'
             """
@@ -100,7 +100,7 @@ init -90 python:
 
 
         @classmethod
-        def GetSFXVolume(cls) -> float:
+        def get_sound_volume(cls) -> float:
             """
             Returns the current sound channel volume
             """
@@ -109,7 +109,7 @@ init -90 python:
 
 # =============== VOICE CHANNEL =============== #
         @staticmethod
-        def PlayVO(file: str, fadeIn: float = 0.0, ifChanged: bool = False) -> None:
+        def play_voice(file: str, fadeIn: float = 0.0, ifChanged: bool = False) -> None:
             """
             Plays the specified audio file on the voice channel
             """
@@ -124,7 +124,7 @@ init -90 python:
 
 
         @staticmethod
-        def StopVO(fadeOut: float | None = 0.0) -> None:
+        def stop_voice(fadeOut: float | None = 0.0) -> None:
             """
             Stops any and all audio playing on the voice channel
             """
@@ -137,7 +137,7 @@ init -90 python:
 
         
         @classmethod
-        def SetVOVolume(cls, volume: float) -> None:
+        def set_voice_volume(cls, volume: float) -> None:
             """
             Sets the voice channel volume to the specified 'volume'
             """
@@ -150,7 +150,7 @@ init -90 python:
 
 
         @classmethod
-        def GetVOVolume(cls) -> float:
+        def get_voice_volume(cls) -> float:
             """
             Returns the current voice channel volume
             """
