@@ -46,7 +46,7 @@ init -100 python in rentale:
 
         def play(self) -> None:
             """
-            Calls the 
+            Calls the associated Ren'Py label if the event has not already been completed
             """
             if self.IsCompleted:
                 return
