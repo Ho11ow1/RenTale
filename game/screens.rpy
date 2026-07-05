@@ -253,8 +253,9 @@ screen quick_menu():
             textbutton _("Skip") action Skip() alternate Skip(fast=True, confirm=True)
             textbutton _("Auto") action Preference("auto-forward", "toggle")
             textbutton _("Save") action ShowMenu('save')
-            textbutton _("Q.Save") action QuickSave()
-            textbutton _("Q.Load") action QuickLoad()
+            if config.has_quicksave:
+                textbutton _("Q.Save") action QuickSave()
+                textbutton _("Q.Load") action QuickLoad()
             textbutton _("Prefs") action ShowMenu('preferences')
 
 
@@ -361,7 +362,7 @@ screen main_menu():
         textbutton _("OPTIONS") action ShowMenu("preferences")
         textbutton _("GALLERY") action ShowMenu("Gallery")
         textbutton _("QUIT") action Quit(True)
-        text _(f"VERSION {config.version}") yalign 0.5
+        text _("VERSION [config.version]") yalign 0.5
 
 
 style main_menu_frame is empty
@@ -598,7 +599,7 @@ screen file_slots(title):
         fixed:
             ## This ensures the input will get the enter event before any of
             ## the buttons do.
-            order_reverse True
+            # order_reverse True
 
             ## The page name, which can be edited by clicking on a button.
             # button:
@@ -647,13 +648,21 @@ screen file_slots(title):
                 xalign 0.5
                 yalign 1.0
 
+                key "save_page_prev" action FilePagePrevious()
+                key "save_page_next" action FilePageNext()
+
                 hbox:
                     xalign 0.5
 
                     spacing gui.page_spacing
 
-                    textbutton _("<") action FilePagePrevious()
-                    key "save_page_prev" action FilePagePrevious()
+                    hbox:
+                        textbutton _("<<"):
+                            text_kerning -3.5
+                            action rentale.FilePageJump(count = -10)
+
+                        textbutton _("<"):
+                            action FilePagePrevious()
 
                     if config.has_autosave:
                         textbutton _("{#auto_page}A") action FilePage("auto")
@@ -665,8 +674,13 @@ screen file_slots(title):
                     for page in range(1, 10):
                         textbutton "[page]" action FilePage(page)
 
-                    textbutton _(">") action FilePageNext()
-                    key "save_page_next" action FilePageNext()
+                    hbox:
+                        textbutton _(">"):
+                            action FilePageNext()
+                        
+                        textbutton _(">>"):
+                            text_kerning -3.5
+                            action rentale.FilePageJump(count = 10)
 
                 if config.has_sync:
                     if CurrentScreenName() == "save":
@@ -752,6 +766,20 @@ screen preferences():
                     idle "gui/RenTale/UI/Square.png"
                     hover Transform("gui/RenTale/UI/Square.png", matrixcolor = TintMatrix("#ff85ab"))
                     action [SetVariable("config.has_autosave", True), SetVariable("persistent.has_autosave", True)]
+
+            if config.has_quicksave:
+                label _("Quicksaves (Enabled)")
+                imagebutton:
+                    idle "gui/RenTale/UI/Square-Checked.png"
+                    hover Transform("gui/RenTale/UI/Square-Checked.png", matrixcolor = TintMatrix("#ff85ab"))
+                    action [SetVariable("config.has_quicksave", False), SetVariable("persistent.has_quicksave", False)]
+
+            else:
+                label _("Quicksaves (Disabled)")
+                imagebutton:
+                    idle "gui/RenTale/UI/Square.png"
+                    hover Transform("gui/RenTale/UI/Square.png", matrixcolor = TintMatrix("#ff85ab"))
+                    action [SetVariable("config.has_quicksave", True), SetVariable("persistent.has_quicksave", True)]
 
 
 screen Audio_Preferences():
