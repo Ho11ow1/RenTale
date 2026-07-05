@@ -151,11 +151,15 @@ define config.window_icon = "gui/window_icon.png"
 
 ## Additional config variables to be used
 define config.default_fullscreen = False
+
 define config.has_autosave = True
+define config.has_quicksave = True
 default persistent.has_autosave = True
+default persistent.has_quicksave = True
 
 init python:
     config.has_autosave = persistent.has_autosave
+    config.has_quicksave = persistent.has_quicksave
 
 ## Build configuration #########################################################
 ##
