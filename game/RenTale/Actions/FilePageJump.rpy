@@ -35,8 +35,8 @@ init -10 python in rentale:
                         target = 1 if wrap else max
                 else:
                     target = (chapter - 1) * 10 + offset
-                    if max is not None and target < 0:
-                        target = max if wrap else 1
+                    if target < 0:
+                        target = max if max is not None and wrap else 1
             else:
                 if selected not in ("auto", "quick"):
                     target = int(selected) + step
