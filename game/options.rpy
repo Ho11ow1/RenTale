@@ -157,6 +157,8 @@ define config.has_quicksave = True
 default persistent.has_autosave = True
 default persistent.has_quicksave = True
 
+default persistent._file_chapter = 0
+
 init python:
     config.has_autosave = persistent.has_autosave
     config.has_quicksave = persistent.has_quicksave
