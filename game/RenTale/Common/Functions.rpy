@@ -81,7 +81,7 @@ init python in rentale:
             renpy.store.rentale.week += 1
 
 # ========================= VALIDATION UTIL ========================= #
-    def sanitize_string(string: str | None):
+    def _sanitize_string(string: str | None):
         if string is not None and type(string) != str:
             raise RenTaleTypeError((str, type(None)), type(string))
         if string is None:
@@ -99,3 +99,7 @@ init python in rentale:
             raise RenTaleArgumentException(f"Forbidden operation detected: '{forbiddenFound.group()}' at index '{forbiddenFound.start()}' \n{formatted}")
 
         return string
+
+
+    def _calc_chapter(num: int):
+        return (num - 1) // 10

@@ -3,7 +3,7 @@ init -10 python in rentale:
         """
         Allows jumping multiple pages in the save & load screen
         """
-        def __init__(self, max = None, wrap = False, auto = True, quick = True, count = 1):
+        def __init__(self, max: int | None = None, wrap: bool = False, auto: bool = True, quick: bool = True, step: int = 1):
             if max is not None and type(max) != int:
                 raise RenTaleTypeError((int, type(None)), type(max))
             if type(wrap) != bool:
@@ -12,49 +12,73 @@ init -10 python in rentale:
                 raise RenTaleTypeError(bool, type(auto))
             if type(quick) != bool:
                 raise RenTaleTypeError(bool, type(quick))
-            if type(count) != int:
-                raise RenTaleTypeError(int, type(count))
-
-            if count == 0:
+            if type(step) != int:
+                raise RenTaleTypeError(int, type(step))
+            if step == 0:
                 return
+
 
             autoEnabled = renpy.config.has_autosave and auto
             quickEnabled = renpy.config.has_quicksave and quick
-            configOffset = (1 if autoEnabled else 0) + (1 if quickEnabled else 0)
+            selected = renpy.store.persistent._file_page
+            chapter = renpy.store.persistent._file_chapter
+            jump = abs(step) == 10
+            target = None
 
-            page = renpy.store.persistent._file_page
-            idx = 0
-            if page == "auto":
-                idx = 0
-            elif page == "quick":
-                idx = 1 if autoEnabled else 0
+
+            if jump:
+                offset = ((int(selected) - 1) % 10) + 1 if unicode(selected).isnumeric() else 1
+                
+                if step > 0:
+                    target = (chapter + 1) * 10 + offset
+                    if max is not None and target > max:
+                        target = 1 if wrap else max
+                else:
+                    target = (chapter - 1) * 10 + offset
+                    if max is not None and target < 0:
+                        target = max if wrap else 1
             else:
-                idx = configOffset + int(page) - 1
+                if selected not in ("auto", "quick"):
+                    target = int(selected) + step
 
-            maxNum = (configOffset + max) if max is not None else None
-            target = idx + count
+                    if max is not None:
+                        if target > max:
+                            if wrap:
+                                target = "auto" if autoEnabled else "quick" if quickEnabled else None
+                            else:
+                                target = max
+                        elif target < 1:
+                            target = max if wrap else "quick" if quickEnabled else "auto" if autoEnabled else None
+                    else:
+                        if target < 1:
+                            target = "quick" if quickEnabled else "auto" if autoEnabled else None
 
-            if maxNum is not None:
-                if wrap:
-                    target %= maxNum
-                elif target < 0 or target >= maxNum:
-                    target = None
-            elif target < 0:
-                target = None
 
             if target is None:
-                page = None
-            elif target < configOffset:
-                page = "auto" if (autoEnabled and target == 0) else "quick"
-            else:
-                page = str((target - configOffset) + 1)
+                if selected == "auto":
+                    if step > 0 and quickEnabled:
+                        target = "quick"
+                    elif step < 0:
+                        target = max if wrap else None 
 
-            self.Page = page
+                elif selected == "quick":
+                    if step > 0:
+                        target = "1"
+                    elif step < 0 and autoEnabled:
+                        target = "auto"
+                    else:
+                        target = max if wrap else None
+
+
+            self.Page = str(target) if target is not None else None
 
 
         def __call__(self):
             if not self.get_sensitive():
                 return
+
+            if unicode(self.Page).isnumeric():
+                renpy.store.persistent._file_chapter = _calc_chapter(int(self.Page))
 
             renpy.store.persistent._file_page = self.Page
             renpy.restart_interaction()

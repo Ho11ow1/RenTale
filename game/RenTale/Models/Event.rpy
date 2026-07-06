@@ -21,7 +21,7 @@ init -100 python in rentale:
             self.IsUnlocked = isUnlocked
             self.IsAutomatic = isAutomatic
             self.IsCompleted = isCompleted
-            self.UnlockCondition = sanitize_string(unlockCondition)
+            self.UnlockCondition = _sanitize_string(unlockCondition)
 
             all_locations[self.Location].append(self)
 

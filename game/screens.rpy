@@ -659,10 +659,10 @@ screen file_slots(title):
                     hbox:
                         textbutton _("<<"):
                             text_kerning -3.5
-                            action rentale.FilePageJump(count = -10)
+                            action rentale.FilePageJump(step = -10)
 
                         textbutton _("<"):
-                            action FilePagePrevious()
+                            action rentale.FilePageJump(step = -1)
 
                     if config.has_autosave:
                         textbutton _("{#auto_page}A") action FilePage("auto")
@@ -670,17 +670,16 @@ screen file_slots(title):
                     if config.has_quicksave:
                         textbutton _("{#quick_page}Q") action FilePage("quick")
 
-                    ## range(1, 10) gives the numbers from 1 to 9.
-                    for page in range(1, 10):
+                    for page in range((persistent._file_chapter * 10) + 1, (persistent._file_chapter * 10) + 11):
                         textbutton "[page]" action FilePage(page)
 
                     hbox:
                         textbutton _(">"):
-                            action FilePageNext()
+                            action rentale.FilePageJump(step = 1)
                         
                         textbutton _(">>"):
                             text_kerning -3.5
-                            action rentale.FilePageJump(count = 10)
+                            action rentale.FilePageJump(step = 10)
 
                 if config.has_sync:
                     if CurrentScreenName() == "save":
