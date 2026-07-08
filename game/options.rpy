@@ -163,6 +163,15 @@ init python:
     config.has_autosave = persistent.has_autosave
     config.has_quicksave = persistent.has_quicksave
 
+## URL PROMO ##################################################################################################################
+##
+## TODO: UPDATE URL VARIABLES TO YOUR NEEDS | ELSE LEAVE AS NONE
+# region URL VARIABLES
+define url_patreon = None
+define url_discord = None
+define url_hover_sound = None
+# endregion
+
 ## Build configuration #########################################################
 ##
 ## This section controls how Ren'Py turns your project into distribution files.
