@@ -17,3 +17,5 @@ label splashscreen:
 label before_main_menu:
     $ Discord.Init()
     $ Discord.Update("", "")
+
+    return
