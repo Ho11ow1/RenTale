@@ -177,10 +177,8 @@ define url_hover_sound = None
 ## This section controls how Ren'Py turns your project into distribution files.
 
 init python:
-    import random
-
     def CreateRPAName(seed) -> str:
-        rng = random.Random(seed)
+        rng = renpy.random.Random(seed)
 
         leftBits = list()
         rightBits = list()
