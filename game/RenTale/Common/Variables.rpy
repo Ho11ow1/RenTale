@@ -30,7 +30,7 @@ define rentale.gallery_list = set() # HashSet<GalleryItem> (Named list for simpl
 default rentale.inventory = rentale.Inventory()
 
 # =============== SAFETY =============== #
-init -10 python in rentale:
+init python in rentale:
     import re
 
     blacklisted_patterns = [
