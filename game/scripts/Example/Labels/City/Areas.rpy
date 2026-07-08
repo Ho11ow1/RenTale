@@ -15,6 +15,9 @@ label Label_City_Library:
 
 label Label_City_Park:
 
+    if not E_Meet_Willow.IsCompleted:
+        "Maybe if you meet someone elsewhere something will happen here"
+    
     $ E_Meet_Alice.play()
 
     call screen LocationSelect

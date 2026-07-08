@@ -19,5 +19,5 @@ default E_Meet_Alice = rentale.Event(
     name = "Meet_Alice",
     location = L_City_Park,
     label = "Label_Event_Park_1",
-    isUnlocked = True
+    unlockCondition = "E_Meet_Willow.IsCompleted"
 )
