@@ -46,9 +46,9 @@ init -100 python in rentale:
 
         def play(self) -> None:
             """
-            Calls the associated Ren'Py label if the event has not already been completed
+            Calls the associated Ren'Py label if the event has not been completed and the UnlockCondition is None or evaluates to True
             """
-            if self.IsCompleted:
+            if self.IsCompleted or not self.check_condition():
                 return
 
             self.IsCompleted = True
