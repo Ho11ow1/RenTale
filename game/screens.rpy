@@ -358,16 +358,16 @@ screen main_menu():
 
         showif url_patreon is not None:
             imagebutton:
-                idle "images/logos/small/patreon.png"
-                hover Transform("images/logos/small/patreon.png", matrixcolor = BrightnessMatrix(0.1))
+                idle "images/logos/normal/patreon.png"
+                hover Transform("images/logos/normal/patreon.png", matrixcolor = BrightnessMatrix(0.1))
 
                 hover_sound (url_hover_sound if url_hover_sound is not None else None)
                 action OpenURL(url_patreon)
 
         showif url_discord is not None:
             imagebutton:
-                idle "images/logos/small/discord.png"
-                hover Transform("images/logos/small/discord.png", matrixcolor = BrightnessMatrix(0.1))
+                idle "images/logos/normal/discord.png"
+                hover Transform("images/logos/normal/discord.png", matrixcolor = BrightnessMatrix(0.1))
 
                 hover_sound (url_hover_sound if url_hover_sound is not None else None)
                 action OpenURL(url_discord)
