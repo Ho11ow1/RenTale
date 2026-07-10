@@ -201,6 +201,7 @@ init python:
     AudioRPA = CreateRPAName("audio")
     GuiRPA = CreateRPAName("gui")
     LibsRPA = CreateRPAName("libs")
+    PackagesRPA = CreateRPAName("python-packages")
 
     ## The following functions take file patterns. File patterns are case-
     ## insensitive, and matched against the path relative to the base directory,
@@ -244,6 +245,7 @@ init python:
     build.archive(AudioRPA, "all")
     build.archive(GuiRPA, "all")
     build.archive(LibsRPA, "all")
+    build.archive(PackagesRPA, "all")
 
     # ===============
     # Classify specific files to be places into the RPA archives
@@ -255,6 +257,7 @@ init python:
     build.classify("game/audio/**", AudioRPA)
     build.classify("game/gui/**", GuiRPA)
     build.classify("game/libs/**", LibsRPA)
+    build.classify("game/python-packages/**", PackagesRPA)
 
     ## To archive files, classify them as 'archive'.
 
