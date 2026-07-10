@@ -70,3 +70,10 @@ init -100 python:
                 raise RenTaleTypeError(str, type(relationship))
             
             self.Relationship = relationship
+
+        
+        def change_note(self, note: str) -> None:
+            if type(note) != str:
+                raise RenTaleTypeError(str, type(note))
+
+            self.Note = note
