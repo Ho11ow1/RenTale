@@ -11,13 +11,13 @@ init -100 python:
     class ExtendedCharacter(renpy.character.ADVCharacter):
         def __init__(self, name, color, note = "", relationship = "", **properties):
             if type(name) != str:
-                raise RenTaleTypeError(str, type(name))
+                raise rentale.RenTaleTypeError(str, type(name))
             if type(color) != str:
-                raise RenTaleTypeError(str, type(color))
+                raise rentale.RenTaleTypeError(str, type(color))
             if type(note) != str:
-                raise RenTaleTypeError(str, type(note))
+                raise rentale.RenTaleTypeError(str, type(note))
             if type(relationship) != str:
-                raise RenTaleTypeError(str, type(relationship))
+                raise rentale.RenTaleTypeError(str, type(relationship))
             # Init actual character
             super(ExtendedCharacter, self).__init__(name, color = color, **properties)
             # Base properties
@@ -37,9 +37,9 @@ init -100 python:
 
         def increase_stat(self, stat: StatType, amount: int) -> None:
             if type(stat) != StatType:
-                raise RenTaleTypeError(StatType, type(stat))
+                raise rentale.RenTaleTypeError(StatType, type(stat))
             if type(amount) != int:
-                raise RenTaleTypeError(int, type(amount))
+                raise rentale.RenTaleTypeError(int, type(amount))
             
             match stat:
                 case StatType.Friendship:
@@ -52,9 +52,9 @@ init -100 python:
 
         def decrease_stat(self, stat: StatType, amount: int) -> None:
             if type(stat) != StatType:
-                raise RenTaleTypeError(StatType, type(stat))
+                raise rentale.RenTaleTypeError(StatType, type(stat))
             if type(amount) != int:
-                raise RenTaleTypeError(int, type(amount))
+                raise rentale.RenTaleTypeError(int, type(amount))
 
             match stat:
                 case StatType.Friendship:
@@ -67,13 +67,13 @@ init -100 python:
 
         def change_relationship(self, relationship: str) -> None:
             if type(relationship) != str:
-                raise RenTaleTypeError(str, type(relationship))
+                raise rentale.RenTaleTypeError(str, type(relationship))
             
             self.Relationship = relationship
 
         
         def change_note(self, note: str) -> None:
             if type(note) != str:
-                raise RenTaleTypeError(str, type(note))
+                raise rentale.RenTaleTypeError(str, type(note))
 
             self.Note = note

@@ -14,7 +14,7 @@ init python:
         DISCORD_RPC = None
 
         @classmethod
-        def Init(cls) -> None:
+        def init(cls) -> None:
             if cls.DISCORD_RPC is None:
                 try:
                     cls.DISCORD_RPC = Presence(cls.APP_ID)
@@ -26,7 +26,12 @@ init python:
 
 
         @classmethod
-        def Update(cls, state = None, details = None) -> None:
+        def update(cls, details: str | None = None, state: str | None = None) -> None:
+            if details is not None and type(details) != str:
+                raise rentale.RenTaleTypeError((str, type(None)), type(details))
+            if state is not None and type(state) != str:
+                raise rentale.RenTaleTypeError((str, type(None)), type(state))
+
             if cls.DISCORD_RPC is None:
                 cls.Init()
 
