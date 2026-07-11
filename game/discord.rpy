@@ -33,7 +33,7 @@ init python:
                 raise rentale.RenTaleTypeError((str, type(None)), type(state))
 
             if cls.DISCORD_RPC is None:
-                cls.Init()
+                cls.init()
 
             if cls.DISCORD_RPC is None:
                 return
