@@ -43,7 +43,7 @@ init python in rentale:
 
 
 # ========================= TIME MANAGEMENT ========================= #
-    def advance_time(count: int = 1):
+    def advance_time(count: int = 1) -> None:
         """
         Advances the time of day by 'count' periods. Automatically advances the day and week when necessary
         """
@@ -59,7 +59,7 @@ init python in rentale:
                 advance_days(1)
 
 
-    def advance_days(count: int = 1):
+    def advance_days(count: int = 1) -> None:
         if type(count) != int:
             raise RenTaleTypeError(int, type(count))
 
@@ -69,11 +69,11 @@ init python in rentale:
             current_index = day_names.index(day_name)
             renpy.store.rentale.day_name = day_names[(current_index + 1) % length]
 
-            if ((day_count - 1) % days_per_week) == 0:
+            if ((day_count - 1) % len(day_names)) == 0:
                 advance_weeks(1)
 
 
-    def advance_weeks(count: int = 1):
+    def advance_weeks(count: int = 1) -> None:
         if type(count) != int:
             raise RenTaleTypeError(int, type(count))
 
@@ -81,13 +81,13 @@ init python in rentale:
             renpy.store.rentale.week += 1
 
 # ========================= VALIDATION UTIL ========================= #
-    def _sanitize_string(string: str | None):
+    def _sanitize_string(string: str | None) -> str | None:
         if string is not None and type(string) != str:
             raise RenTaleTypeError((str, type(None)), type(string))
         if string is None:
             return string
 
-        forbiddenFound = blacklisted_regex.search(string)
+        forbiddenFound = _blacklisted_regex.search(string)
         if forbiddenFound:
             arr = string.split(';')
             lines = list()
@@ -101,5 +101,5 @@ init python in rentale:
         return string
 
 
-    def _calc_chapter(num: int):
+    def _calc_chapter(num: int) -> int:
         return (num - 1) // 10

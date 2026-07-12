@@ -13,11 +13,9 @@ default rentale.current_location = None # Location
 # =============== TIME SYSTEM =============== #
 define rentale.time_of_day_names = [ "Morning", "Noon", "Afternoon", "Evening", "Night"]
 define rentale.day_names = [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ]
-define rentale.days_per_week = 7
 define rentale.weekend_indexes = [ 5, 6 ]
 
 default rentale.time_of_day_num = 0
-default rentale.time_of_day_name = rentale.time_of_day_names[0]
 default rentale.day_count = 1
 default rentale.day_name = rentale.day_names[0]
 default rentale.week = 1
@@ -33,7 +31,7 @@ default rentale.inventory = rentale.Inventory()
 init python in rentale:
     import re
 
-    blacklisted_patterns = [
+    _blacklisted_patterns = [
         r'\bos\b',
         r'\bsys\b',
         r'\bimport\b',
@@ -47,4 +45,4 @@ init python in rentale:
         r'\bgetattr\b',
         r'\bsetattr\b',
     ]
-    blacklisted_regex = re.compile('|'.join(blacklisted_patterns), re.IGNORECASE)
+    _blacklisted_regex = re.compile('|'.join(_blacklisted_patterns), re.IGNORECASE)
