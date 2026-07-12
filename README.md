@@ -1,55 +1,47 @@
 # RenTale
-[![Version: 2.0.0](https://img.shields.io/badge/Version-2.0.0-blue.svg)](#)
+[![Version: 2.1.0](https://img.shields.io/badge/Version-2.1.0-blue.svg)](#)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/license/MIT)<br/>
 **A strongly typed Ren'Py framework for building Visual Novels without the usual runtime chaos.**<br/>
-Locations, Events, Characters, Inventory, Audio, Time, Gallery, and Flags all ready to go.
+Events, Flags, Gallery, Locations and more ready out of the box.
 
 ---
 ## Features
 
 ### Systems
-- `Location`, `Event`, `FlagRef`, `Inventory`, and `Gallery` systems, all type-checked and auto-registered.
-
-### Characters
-- `ExtendedCharacter` wraps Ren'Py's built-in character with relationship stats and labels.
+- `Event`, `FlagRef`, `Gallery`, `Inventory`, and `Location`, type-checked and auto-registered on creation.
 
 ### Managers
-- Static utility classes for Audio and Time
+- Static utility classes for `Audio` and `Time`, with a consistent get/set-style API
 
 ### Type Safety
-- Runtime validation, custom exceptions, and sandboxed event actions.
+- Runtime type validation with custom Exceptions and sandboxed event actions
 
 ### Build
 - Custom pipeline that strips junk and packages assets into deterministic RPA archives.
-- Each concern gets its own archive — RenTale core, user scripts, audio, and other assets are all separated.
+- Each concern gets its own archive — RenTale core, user scripts, images, and other assets are all separated.
 
 ---
 ## Quick Example
 ```rpy
 # Define locations
-default L_City = Location("City", "label_city")
-default L_Park = Location("Park", "label_park", isUnlocked = False)
+default L_City_Library = rentale.Location("Library", "Label_City_Library", isUnlocked = False)
+default L_City_Park = rentale.Location("Park", "Label_City_Park", isUnlocked = False)
  
 # Define a character
-default Willow = ExtendedCharacter("Willow", color = "#1b1b1b", relationship = "The weeping one")
+default Alice = ExtendedCharacter("Alice", color = "#fbe7a1", note = "Creepy woman", relationship = "Stranger", what_color = "#fbe7a1")
  
 # Define an event
-default E_Meet_Willow = Event(
-    name = "Meet_Willow",
-    location = L_City,
-    isUnlocked = True,
-    isAutomatic = True,
-    action = (
-        "AudioManager.PlaySFX('audio/SFX/EventNotification.mp3');"
-        "Willow.IncreaseStat(StatType.Friendship, 10);"
-        "L_Park.Unlock();" 
-        "renpy.call('Label_Event_Meet_Willow');"
-    )
+default E_Meet_Alice = rentale.Event(
+    name = "Meet_Alice",
+    location = L_City_Park,
+    label = "Label_Event_Park_1",
+    unlockCondition = "E_Meet_Willow.IsCompleted"
 )
 
 # In a location label
-label label_city:
-    $ RenTale_TriggerAutomaticEvents()
+label Label_City_Main:
+
+    $ rentale.trigger_automatic_events()
     # ...
 ```
 
@@ -60,24 +52,6 @@ label label_city:
 |---------------------------|-------------------------------------------------------------------------------|
 | [API.md](game/RenTale/Docs/API.md)          | Core framework — all models, managers, functions, variables, and exceptions   |
 | [UserAPI.md](game/RenTale/Docs/UserAPI.md)  | User-level code — `ExtendedCharacter`, `StatType`, modification guide         |
-
----
- 
-## Code Style
-RenTale uses a **C# naming convention** rather than PEP 8:
- 
-| Element           | Convention          | Example                           |
-|-------------------|---------------------|-----------------------------------|
-| Classes           | `PascalCase`        | `ExtendedCharacter`, `FlagRef`    |
-| Methods           | `PascalCase`        | `Set()`, `Increment()`, `Unlock()`|
-| Public functions  | `RenTale_PascalCase`| `RenTale_TriggerAutomaticEvents()`|
-| Private functions | `RenTale_snake_case`| No example as they're internal    |
-| Public properties | `PascalCase`        | `Name`, `Friendship`              |
-| Files             | `PascalCase.rpy`    | matches class name                |
- 
-> This prioritises consistency with statically-typed languages and keeps RenTale internals visually distinct from user code.
-
-> If you prefer `snake_case`, nothing stops you from adapting things to your own style.
 
 ---
 ## Requirements
@@ -93,11 +67,13 @@ pip install --target game/python-packages pypresence
 ```
 
 ---
+
 ## Credits
 - This template takes inspiration from multiple games by multiple developers
 - As a source of providing credit to those that have insipired me please checkout [CREDITS](CREDITS.txt)
 
 ---
+
 ## License
 MIT License - see [LICENSE](LICENSE)
 
