@@ -5,13 +5,15 @@ init python:
     class Discord():
         START_TIME = time.time()
 
-        APP_ID = ""         # Update with your discord Application Id from "https://discord.com/developers/applications/APP_ID/information"
-        LARGE_IMAGE = ""    # Update this with the key of your application large image from "https://discord.com/developers/applications/APP_ID/rich-presence/assets"
-        LARGE_TEXT = ""     # Update this with the text you want to show when hovering over LARGE_IMAGE
-        SMALL_IMAGE = ""    # Update this with the key of your applications small image from "https://discord.com/developers/applications/APP_ID/rich-presence/assets"
-        SMALL_TEXT = ""     # Update this with the text you want to show when hovering over SMALL_IMAGE
+        APP_ID = None         # Update with your discord Application Id from "https://discord.com/developers/applications/APP_ID/information"
+        LARGE_IMAGE = None    # Update this with the key of your application large image from "https://discord.com/developers/applications/APP_ID/rich-presence/assets"
+        LARGE_TEXT = None     # Update this with the text you want to show when hovering over LARGE_IMAGE
+        SMALL_IMAGE = None    # Update this with the key of your applications small image from "https://discord.com/developers/applications/APP_ID/rich-presence/assets"
+        SMALL_TEXT = None     # Update this with the text you want to show when hovering over SMALL_IMAGE
 
         DISCORD_RPC = None
+        _current_details = ""
+        _current_state = ""
 
         @classmethod
         def init(cls) -> None:
@@ -34,12 +36,16 @@ init python:
 
             if cls.DISCORD_RPC is None:
                 cls.init()
-
             if cls.DISCORD_RPC is None:
                 return
 
             try:
-                cls.DISCORD_RPC.update(details = details, state = state, start = cls.START_TIME, large_image = cls.LARGE_IMAGE, large_text = cls.LARGE_TEXT, small_image = cls.SMALL_IMAGE, small_text = cls.SMALL_TEXT)
+                if details != cls._current_details or state != cls._current_state:
+                    cls._current_details = details
+                    cls._current_state = state
+                    cls.DISCORD_RPC.update(details = details, state = state, start = cls.START_TIME, large_image = cls.LARGE_IMAGE, large_text = cls.LARGE_TEXT, small_image = cls.SMALL_IMAGE, small_text = cls.SMALL_TEXT)
+                else:
+                    return
 
             except Exception as ex:
                 print("RPC Update error: ", ex)
