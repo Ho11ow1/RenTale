@@ -68,7 +68,7 @@ init -90 python in rentale:
             """
             Returns the current time of days name
             """
-            return time_of_day_name
+            return time_of_day_names[time_of_day_num]
 
         @staticmethod
         def get_day_name() -> str:
