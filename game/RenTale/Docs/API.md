@@ -1,379 +1,455 @@
-# RenTale API Reference
+# RenTale API Documentation
+## Everything in this document can be found under the `rentale` namespace.
 
-> For user-level code including [`ExtendedCharacter`](UserAPI.md#extendedcharacter) and [`StatType`](UserAPI.md#stattype) see [UserAPI](UserAPI.md)
+> For user-level code such as `ExtendedCharacter` or `Discord RPC` see [UserAPI](UserAPI.md)
 
 ---
 
-## [Actions](#actions)
+## Quick navigation
+| Type                      | Description              |
+| :------------------------ | :----------------------- |
+| [Action](#actions)        | RenTale Actions          |
+| [Variable](#variables)    | RenTale Variables        |
+| [Function](#functions)    | RenTale Functions        |
+| [Exception](#exceptions)  | Rentale Exceptions       |
+| [Model](#models)          | Rentale system models    |
+| [Manager](#managers)      | Rentale manager classes  |
+| [Guidelines](#guidelines) | Rentale usage guidelines |
 
-### [MoveTo](#moveto)
+---
 
-```rpy
-class MoveTo(Action):
+# [Action](#actions)
+
+## [FilePageJump](#actions_filepagejump)
+> This action mimics the default behaviour of the `FilePageNext()` and `FilePagePrevious()` built-in actions but with the added ability of specifying the step count.
+```py
+class FilePageJump(renpy.store.Action):
+    def __init__(self, max: int | None = None, wrap: bool = False, auto: bool = True, quick: bool = True, step: int = 1)
+```
+| Parameter                  | Type                     | Description                                             |
+| :------------------------ | :----------------------- | :------------------------------------------------------ |
+| max                       | `int` or `None`              | If not None, sets the max file page allowed to move to  |
+| wrap                       | `bool`              | if True and max if not None, allows wrapping from max to 1 and from 1 to max  |
+| auto                       | `bool`              | if True and config.has_autosave, allows stepping onto the auto save page  |
+| quick                       | `bool`              | if True and config.has_quicksave, allows stepping onto the quick save page  |
+
+
+## [MoveTo](#actions_moveto)
+> This action is used in tandem with the [`Location`](#models_location) Model and uses [`go_to`](#functions_go_to) internally to jump to the specified locations label if it is unlocked
+```py
+class MoveTo(renpy.store.Action):
     def __init__(self, location: Location)
 ```
-- location: `Location`
+| Parameter                  | Type                     | Description                                             |
+| :------------------------ | :----------------------- | :------------------------------------------------------ |
+| location | [`Location`](#models_location) | Specifies the location to use for the action|
 
-> Navigates to the given location if it is unlocked. Internally calls [`RenTale_GoTo`](#rentale_goto).
 
-### [SkipTime](#skiptime)
-
-```rpy
-class SkipTime(Action):
+## [SkipTime](#actions_skiptime)
+> This action is used to advance time related variables which can be found under [`Variables.Time`](#variables_time)
+```py
+class SkipTime(renpy.store.Action):
     def __init__(self, count: int = 1)
 ```
-- count: `Int` - Number of time periods to advance. Defaults to `1`
-
-> Advances the time of day `count` periods. 
-
-> Automatically advances the day and week when necessary
+| Parameter                  | Type                     | Description                                             |
+| :------------------------ | :----------------------- | :------------------------------------------------------ |
+| count | `int` | Specifies the amount of times of day to move forward - Automatically advances the day and week if necessary|
 
 ---
 
-## [Managers](#managers)
+# [Variable](#variables)
 
-### [AudioManager](#audiomanager)
-
-#### Static utility class for managing audio playback and volume across all channels.
-
+## [Developer](#variables_developer)
+> These specific variables exist to helper developers debug what's currently happening with specific ties to RenTale
 ```rpy
-AudioManager.SetMasterVolume(volume: float) -> None
-# Returns a value between 0.0 and 1.0
-AudioManager.GetMasterVolume() -> float
-
-AudioManager.PlayBGM(file: str, loop: bool = True, fadeIn: float = 0.0) -> None
-AudioManager.StopBGM(fadeOut: float | None = 0.0) -> None
-AudioManager.SetBGMVolume(volume: float) -> None
-# Returns a value between 0.0 and 1.0
-AudioManager.GetBGMVolume() -> float
-
-AudioManager.PlaySFX(file: str, fadeIn: float = 0.0) -> None
-AudioManager.StopSFX(fadeOut: float | None = 0.0) -> None
-AudioManager.SetSFXVolume(volume: float) -> None
-# Returns a value between 0.0 and 1.0
-AudioManager.GetSFXVolume() -> float
-AudioManager.PlayVO(file: str, fadeIn: float = 0.0) -> None
-AudioManager.StopVO(fadeOut: float | None = 0.0) -> None
-AudioManager.SetVOVolume(volume: float) -> None
-# Returns a value between 0.0 and 1.0
-AudioManager.GetVOVolume() -> float
+default all_characters = set()
+default all_flags = dict()
+default all_locations = dict()
 ```
+| Variable                  | Type                     | Description                                             |
+| :------------------------ | :----------------------- | :------------------------------------------------------ |
+| all_characters | set<[`ExtendedCharacter`](UserAPI.md#models_extendedcharacter)>| Allows viewing of all [`ExtendedCharacter`](UserAPI.md#models_extendedcharacter) instances - Auto-populated  |
+| all_flags | dict<`str`, [`FlagRef`](#models_flagref)>| Allows viewing of all [`FlagRef`](#models_flagref) instances and their associated names - Auto-populated  |
+| all_locations | dict<[`Location`](#models_location), List<[`Event`](#models_event)>>| Allows viewing of all [`Location`](#models_location) and a list of their associated [`Event`](#models_event) - Auto-populated  |
+| current_location | [`Location`](#models_location)| Specifies the current location the player is in - Set via the [`go_to`](#functions_go_to) or the [`MoveTo`](#actions_moveto) Action  |
 
-| Channel | Description                         |
-| ------- | ----------------------------------- |
-| Master  | Affects all channels simultaneously |
-| BGM     | Background music. Loops by default  |
-| SFX     | Sound effects. Does not loop        |
-| VO      | Voice over. Does not loop           |
 
-> Volume values must be between `0.0` and `1.0`
-
-### [TimeManager](#timemanager)
-
-#### Static utility class for reading the current in-game time state.
-
+## [Time](#variables_time)
+> These specific variables exist to implement a week based time system for your game
 ```rpy
-TimeManager.IsMorning() -> bool
-TimeManager.IsNoon() -> bool
-TimeManager.IsAfternoon() -> bool
-TimeManager.IsEvening() -> bool
-TimeManager.IsNight() -> bool
-# Returns true if TimeOfDay < Evening
-TimeManager.IsDaytime() -> bool
-# Returns true if TimeOfDay >= Evening
-TimeManager.IsNighttime() -> bool
-# Returns true if Day != Saturday || Sunday
-TimeManager.IsWeekday() -> bool
-# Returns true if Day == Saturday || Sunday
-TimeManager.IsWeekend() -> bool
-TimeManager.GetTimeOfDayName() -> str
-TimeManager.GetDayName() -> str
-TimeManager.GetDayCount() -> int
-TimeManager.GetWeek() -> int
-```
+define time_of_day_names = [ "Morning", "Noon", "Afternoon", "Evening", "Night"]
+define day_names = [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ]
+define weekend_indexes = [ 5, 6 ]
 
-> To advance time use the `SkipTime` action in a UI button or [`RenTale_Advance_Time(count: int = 1)`](#rentale_advance_time) directly.
+default time_of_day_num = 0
+default day_count = 1
+default day_name = rentale.day_names[0]
+default week = 1
+```
+| Variable                  | Type                     | Description                                             |
+| :------------------------ | :----------------------- | :------------------------------------------------------ |
+| time_of_day_names  |  list<`str`> | Defines the times of day your game will use |
+| day_names  | list<`str`>  | Defines the days and and order which your game will use |
+| weekend_indexes  | list<`str`>  | Defines the indexes that will constitute a "weekend" day. This is a variable as different games want to order their days differently |
+| time_of_day_num  | `int`  | Holds the index of the time of day so we can easily advance through the time system |
+| day_count  | `int`  | Holds the number of days that have passed |
+| day_name  |  `str` | Holds the name of the current day |
+| week  |  `int` | Holds the numer of weeks that have passed |
+
+
+## [Gallery](#variables_gallery)
+> These specific variables exist to implement an easy to use gallery system for your game
+```rpy
+default persistent.rentale_gallery = dict()
+define gallery_list = set()
+```
+| Variable                  | Type                     | Description                                             |
+| :------------------------ | :----------------------- | :------------------------------------------------------ |
+| persistent.rentale_gallery  |  dict<`str`, `bool`> | Holds the persistent state of each [`GalleryItem`](#models_galleryitem) as a name, isUnlocked kvp - Should not be touched manually  |
+| gallery_list  | set<[`GalleryItem`](#models_galleryitem)>  |  Holds [`GalleryItem`](#models_galleryitem) references so that they can be used and displayed in a gallery screen - Auto-populated |
+
+
+## [Inventory](#variables_inventory)
+> These specific variables exist to implement an easy to use inventory system for your game
+```rpy
+default inventory = rentale.Inventory()
+```
+| Variable                  | Type                     | Description                                             |
+| :------------------------ | :----------------------- | :------------------------------------------------------ |
+| inventory | [`Inventory`](#managers_inventory) | An instance of the [`Inventory`](#managers_inventory) manager class to provide save based inventory management |
 
 ---
 
-## [Inventory](#inventory)
+# [Function](#functions)
 
-#### System class for managing items inside of the Inventory. Automatically populated when an [`InventoryItem`](#inventoryitem) instance is created
+## [go_to](#functions_go_to)
+> Navigates to the given location if it exists and is unlocked
+```py
+def go_to(location: Location) -> None
+```
+| Parameter                  | Type                     | Description                                             |
+| :------------------------ | :----------------------- | :------------------------------------------------------ |
+| location | [`Location`](#models_location) | Specifies the [`location`](#models_location) to move to |
 
-```rpy
-Inventory.Add(item: InventoryItem) -> None
-Inventory.Remove(item: InventoryItem) -> None
-Inventory.Contains(item: InventoryItem) -> bool
+
+## [trigger_automatic_events](#functions_trigger_automatic_events)
+> Triggers all automatic events at the current location that are unlocked, pass their condition and have not been completed
+```py
+def trigger_automatic_events() -> None
+```
+
+
+## [generate_filtered_list](#functions_generate_filtered_list)
+> Returns a filtered set of [`GalleryItem`](#models_galleryitem) where the item name starts with the given prefix
+```py
+def generate_filtered_list(prefix: str) -> set
+```
+| Parameter                  | Type                     | Description                                             |
+| :------------------------ | :----------------------- | :------------------------------------------------------ |
+| prefix | `str` | Specifies the string used to filter the gallery list, Only items whos names begins with `prefix` will be returned in the set |
+
+
+## [advance_time](#functions_advance_time)
+> Advances the time of day by the specified amount of times
+```py
+def advance_time(count: int = 1) -> None
+```
+| Parameter                  | Type                     | Description                                             |
+| :------------------------ | :----------------------- | :------------------------------------------------------ |
+| count | `int` | Specifies the amount of times to advance the time of day - Automatically advances day and week when necessary |
+
+
+## [advance_days](#functions_advance_days)
+> Advances the specified amount of days within the week
+```py
+def advance_days(count: int = 1) -> None
+```
+| Parameter                  | Type                     | Description                                             |
+| :------------------------ | :----------------------- | :------------------------------------------------------ |
+| count | `int` | Specifies the amount of days to advance by - Automatically advances week when necessary |
+
+
+## [advance_weeks](#functions_advance_weeks)
+> Advances the specified amount of weeks 
+```py
+def advance_weeks(count: int = 1) -> None
+```
+| Parameter                  | Type                     | Description                                             |
+| :------------------------ | :----------------------- | :------------------------------------------------------ |
+| count | `int` | Specifies the amount of weeks to advance by |
+
+
+---
+
+# [Exception](#exceptions)
+
+## [RenTaleArgumentException](#exceptions_rentaleargumentexception)
+> This exception is raised when a parameter type is correct and the value is correct but something is just not allowed or went wrong | Example: "Cannot increment a 'Bool' flag"
+```py
+class RenTaleArgumentException(Exception)
+```
+
+## [RenTaleTypeError](#exceptions_rentaletypeerror)
+> This exception is raised when a parameter type is incorrect | Example: "Expected 'int' got 'str'"
+```py
+class RenTaleTypeError(TypeError)
+```
+
+## [RenTaleValueError](#exceptions_rentalevalueerror)
+> This exception is raised when a parameter is outside of the allowed range | Example: "Expected: positive number, got: -1"
+```py
+class RenTaleValueError(ValueError)
 ```
 
 ---
 
-## [Models](#models)
+# [Model](#models)
 
-### [Event](#event)
-
-```rpy
+## [Event](#models_event)
+> Creates an Event object which is associated with a Location allowing for automatic or manual event execution - Gets automatically added to: [`all_locations`](#variables_developer)
+```py
 class Event():
-    def __init__(self, name, location, isUnlocked = False, isAutomatic = False, isCompleted = False, unlockCondition = None, action = None)
+    def __init__(self, name, location, label, isUnlocked = False, isAutomatic = False, isCompleted = False, unlockCondition = None)
 ```
-| Parameter         | Type              | Default   | Description                                                                               |
-|-------------------|-------------------|-----------|-------------------------------------------------------------------------------------------|
-| name              | `String`          | required  | Unique name for the event                                                                 |
-| location          | `Location`        | required  | Location this event belongs to                                                            |
-| isUnlocked        | `Bool`            | `False`   | Whether the event is unlocked                                                             |
-| isAutomatic       | `Bool`            | `False`   | Whether the event triggers automatically                                                  |
-| isCompleted       | `Bool`            | `False`   | Whether the event has been completed                                                      |
-| unlockCondition   | `String` or `None`| `None`    | Python expression evaluated to determine if event can unlock                              |
-| action            | `String` or `None`| `None`    | Python expression(s) executed when the event plays. Separate multiple actions with `;`    |
+| Parameter                 | Type                     | Description                                             |
+| :------------------------ | :----------------------- | :------------------------------------------------------ |
+| name | `str` | A unique name for this event |
+| location | [`Location`](#models_location) | A location to which this event is connected to |
+| label | `str` | A renpy label that will be called when this event is played |
+| isUnlocked | `bool` | Defines if this event is already unlocked for the player |
+| isAutomatic | `bool` | Defines if this event will be played via the [`trigger_automatic_event`](#functions_trigger_automatic_events) functioon |
+| isCompleted | `bool` | States whether this event has already been played or not |
+| unlockConditioon | `str` or `None` | If not none defines the condition that must evaluate to true so that the event can play. If none no check is made |
 
-#### Methods
-```rpy
-# Unlocks the event
-Event.Unlock() -> None
-# Returns True if unlockCondition is None or the UnlockCondition evaluates to True
-Event.CheckCondition() -> bool
-# Marks the Event as completed and executes action if not already completed
-Event.Play() -> None
+### Methods
+```py
+def unlock(self) -> None:
+def check_condition(self) -> bool:
+def play(self) -> None:
 ```
+| Method                    | Return Type              | Description                                             |
+| :------------------------ | :----------------------- | :------------------------------------------------------ |
+| unlock | `None` | Unlocks this event if it has not already been unlocked |
+| check_condition | `bool` | Returns true if the `unlockCondition` is None or evaluates to True |
+| play | `None` | Calls the associated renpy label if this event has not been completed and `check_condition` returns True |
 
-> `Event` must be created via `default` and their [`Location`](#location) must be initialized first.
 
-> Use `init offset = 1` or higher in Event files to guarantee correct initialization order.
-
-> The `UnlockCondition` and `Action` parameters go through an internal function which raises an error if the string contains forbidden actions for user safety.
-
-> "Forbidden" actions are those which directly interact with the users system, This means things such as: import, os, sys, subprocess, exec, eval, open, etc... will be flagged.
-
-### [FlagRef](#flagref)
-#### Represents a simple type-safe wrapper for common / general game flags. Automatically registers into [`RenTale_All_Flags`](#rentale_all_flags) on creation.
-```rpy
+## [FlagRef](#models_flagref)
+> Acts as a small wrapper around basic flags providing type-safety for future usage - Gets automatically added to: [`all_flags`](#variables_developer)
+```py
 class FlagRef():
     def __init__(self, name, value)
 ```
-- name: `String`
-- value: `Int || Bool`
+| Parameter                 | Type                     | Description                                             |
+| :------------------------ | :----------------------- | :------------------------------------------------------ |
+| name | `str` | A unique name for this flag |
+| value | `int` or `bool` | Defines the type of this flag - Locked at creation |
 
-#### Methods
-```rpy
-# Sets the flag value. Raises an error if the value is different from the flags Value
-FlagRef.Set(value: int | bool) -> None
-# Toggles a Bool flag. Raises an error if the flag is an Int flag
-FlagRef.Toggle() -> None
-# Increments an Int flag. Raises an error if the flag is a Bool flag
-FlagRef.Increment(amount: int = 1) -> None
-# Decrements an Int flag. Raises an error if the flag is a bool flag
-FlagRef.Decrement(amount: int = 1) -> None
+### Methods
+```py
+def set(self, value: int | bool) -> None:
+def toggle(self) -> None:
+def increment(self, amount: int = 1) -> None:
+def decrement(self, amount: int = 1) -> None:
 ```
+| Method                    | Return Type              | Description                                             |
+| :------------------------ | :----------------------- | :------------------------------------------------------ |
+| set | `None` | Sets this flags value to `value` |
+| toggle | `None` | Toggles this flags value if it is a `bool` - True to False and vice-versa |
+| increment | `None` | Increments this flags value by `amount` if this flags `value` type is an `int` |
+| decrement | `None` | Decrements this flags value by `amount` if this flags `value` type is an `int` |
 
-> The `name` variable is used for event lookup / iteration using [`RenTale_All_Flags`](#rentale_all_flags)
 
-> The type of `value` is locked on creation. Passing a different type to `Set()` will raise a [`RenTaleTypeError`](#rentaletypeerror).
-
-> `FlagRef` must be created via `default`
-
-> It is recommended to bundle multiple FlagRefs into a class created via `default` or create each FlagRef as a seperate `default`
-
-### [GalleryItem](#galleryitem)
-#### Represents a scene in the gallery. Automatically registers into [`RenTale_Gallery_List`](#rentale_gallery_list) and [`persistent.RenTale_Gallery`](#persistentrentale_gallery) on creation.
-```rpy
+## [GalleryItem](#models_galleryitem)
+> Creates an object which can then be displayed in a gallery screen - Always define this variable - Gets automatically added to: [`persistent.rentale_gallery`](#variables_gallery) and [`gallery_list`](#variables_gallery)
+```py
 class GalleryItem():
     def __init__(self, name, label, thumbnail, scope = None, isUnlocked = False)
 ```
+| Parameter                 | Type                     | Description                                             |
+| :------------------------ | :----------------------- | :------------------------------------------------------ |
+| name | `str` | A unique name for this item |
+| label | `str` | A renpy label which will be called on executing the renpy `Replay()` Action |
+| thumbnail | `str` | A filepath for the image to be shown on the gallery screen |
+| scope | `dict` or `None` | A dictionary mapping variable name to value. These variables are set when entering the replay |
+| isUnlocked | `bool` | Dictates whether this item is unlocked or not |
 
-
-| Parameter | Type                  | Default   | Description                           |
-|-----------|-----------------------|-----------|---------------------------------------|
-| name      | `String`              | required  | Unique name, used as persistent key   |
-| label     | `String`              | required  | Ren'Py label to replay the scene      |
-| thumbnail | `String`              | required  | Image path for the gallery grid       |
-| scope     | `Dictionary` or `None`| `None`    | Scope passed to `Replay`              |
-| isUnlocked| `Bool`                | `False`   | Default unlock state on first run     |
-
-#### Methods
-```rpy
-# Unlocks the item in both the iterable list and persistent storage
-GalleryItem.Unlock() -> None
+### Methods
+```py
+def unlock(self) -> None:
 ```
+| Method                    | Return Type              | Description                                             |
+| :------------------------ | :----------------------- | :------------------------------------------------------ |
+| unlock | `None` | Unlocks this item if it is not already unlocked |
 
-> `GalleryItem` must be created via `define`
 
-### [InventoryItem](#inventoryitem)
-#### Represents an item in the player inventory. Automatically registers into `Inventory` on creation.
-```rpy
+## [InventoryItem](#models_inventoryitem)
+> Creates an object which can be used in the [`Inventory`](#managers_inventory) - Gets automatically added to the [`Inventory`](#managers_inventory)
+```py
 class InventoryItem():
     def __init__(self, name, quantity, isStackable, image = None, description = "")
 ```
+| Parameter                 | Type                     | Description                                             |
+| :------------------------ | :----------------------- | :------------------------------------------------------ |
+| name | `str` | A unique name for this item |
+| quantity | `int` | Defines the initial quantity of this item in the inventory |
+| isStackable | `bool` | Defines if this item can be received / removed (stacked) |
+| image | `str` or `None` | A filepath for the image to be shown on the inventory screen |
+| description | `str` | A description for this item which can be show in the inventory screen |
 
-| Parameter     | Type              | Default   | Description                       |
-|---------------|-------------------|-----------|-----------------------------------|
-| name          | `String`          | required  | Unique name for the item          |
-| quantity      | `Int`             | required  | Starting quantity                 |
-| isStackable   | `Bool`            | required  | Whether quantity can be modified  |
-| image         | `String` or `None`| `None`    | Image path for UI display         |
-| description   | `String`          | `""`      | Item description                  |
-
-#### Methods
-```rpy
-# Increases quantity if stackable
-InventoryItem.Receive(quantity: int = 1) -> None
-# Decreases quantity if stackable, floored at 0
-InventoryItem.Remove(quantity: int = 1) -> None
+### Methods
+```py
+def receive(self, quantity: int = 1) -> None:
+def remove(self, quantity: int = 1) -> None:
 ```
+| Method                    | Return Type              | Description                                             |
+| :------------------------ | :----------------------- | :------------------------------------------------------ |
+| receive | `None` | Increases the quantity of this item by `quantity` if it is stackable |
+| remove | `None` | Decreases the quantity ofthis item by `quantity` if it is stackable - limited to 0 |
 
-> `InventoryItem` must be initialized via `default`
 
-### [Location](#location)
-#### Represents a navigable game location. Automatically registers into [`RenTale_All_Locations`](#rentale_all_locations) on creation.
-```rpy
+## [Location](#models_location)
+> Represents a navigable game location - Gets automatically added to: [`all_locations`](#variables_developer)
+```py
 class Location():
     def __init__(self, name, label, isUnlocked = True)
 ```
+| Parameter                 | Type                     | Description                                             |
+| :------------------------ | :----------------------- | :------------------------------------------------------ |
+| name | `str` | A unique name for this location |
+| label | `str` | A renpy label to which this object is tied to |
+| isUnlocked | `bool` | Dictates whether this location is unlocked and available or not |
 
-| Parameter | Type      | Default   | Description                               |
-|-----------|-----------|-----------|-------------------------------------------|
-| name      | `String`  | required  | Unique name for the location              |
-| label     | `String`  | required  | Ren'Py label to jump to on navigation     |
-| isUnlocked| `Bool`    | `True`    | Whether the location can be navigated to  |
-
-#### Methods
-```rpy
-# Unlocks the location
-Location.Unlock() -> None
+### Methods
+```py
+def unlock(self) -> None
 ```
-
-> `Location` must be initialized via `default` and before Events
+| Method                    | Return Type              | Description                                             |
+| :------------------------ | :----------------------- | :------------------------------------------------------ |
+| unlock | `None` | Unlocks this location if it is not already unlocked |
 
 ---
 
-## [Functions](#functions)
+# [Manager](#managers)
 
-### [RenTale_GoTo](#rentale_goto)
-
-```rpy
-def RenTale_GoTo(location: Location) -> None
-```
-- location: `Location`
-
-> Navigates to the given location if it exists and is unlocked. Sets `RenTale_Current_Location` and jumps to `location.Label`.
-
-### [RenTale_TriggerAutomaticEvents](#rentale_triggerautomaticevents)
-
-```rpy
-def RenTale_TriggerAutomaticEvents() -> None
+## [Inventory](#managers_inventory)
+> Represents a save based inventory system which is easily accessed via: [`inventory`](#variables_inventory)
+```py
+class Inventory():
+    def __init__(self):
+        self.Items = set()
 ```
 
-> Iterates all events at [`RenTale_Current_Location`](#rentale_current_location) and plays any that are unlocked, automatic, not completed and pass `CheckCondition()`.
-
-> It is recommended to call this function at the top of each location label.
-
-### [RenTale_Generate_Filtered_List](#rentale_generate_filtered_list)
-
-```rpy
-def RenTale_Generate_Filtered_List(prefix: str) -> set
+### Methods
+```py
+def add(self, item: InventoryItem) -> None:
+def remove(self, item: InventoryItem) -> None:
+def contains(self, item: InventoryItem) -> bool:
 ```
-- prefix: `String` — Name prefix to filter by
+| Method                    | Return Type              | Description                                             |
+| :------------------------ | :----------------------- | :------------------------------------------------------ |
+| add | `None` | Adds the specified [`InventoryItem`](#models_inventoryitem) to the inventory if it is not already in the inventory |
+| remove | `None` | Removes the specified [`InventoryItem`](#models_inventoryitem) from the inventory if it is found in the inventory |
+| contains | `bool` | Returns true if the specified [`InventoryItem`](#models_inventoryitem) is found in the inventory |
 
-> Returns a filtered set of [`GalleryItem`](#galleryitem) objects from [`RenTale_Gallery_List`](#rentale_gallery_list) where `item.Name` starts with the given prefix. Used to populate `GalleryPage`.
 
-
-### [RenTale_Advance_Time](#rentale_advance_time)
-
-```rpy
-def RenTale_Advance_Time(count: int = 1) -> None
+## [TimeManager](#managers_timemanager)
+> Allows for getting state data for all [`Time Variables`](#variables_time)
+```py
+class TimeManager()
 ```
 
-> Advances the time of day `count` periods. 
+### Methods
+```py
+def is_morning() -> bool:
+def is_noon() -> bool:
+def is_afternoon() -> bool:
+def is_evening() -> bool:
+def is_night() -> bool:
 
-> Automatically advances the day and week when necessary
+def is_daytime() -> bool:
+def is_nighttime() -> bool:
+def is_weekday() -> bool:
+def is_weekend() -> bool:
+
+def get_day_count() -> int:
+def get_week() -> int:
+def get_day_name() -> str:
+def get_time_of_day_name() -> str:
+```
+| Method                    | Return Type              | Description                                             |
+| :------------------------ | :----------------------- | :------------------------------------------------------ |
+| is_morning | `bool` | Returns True if the current time of day is "Morning"|
+| is_noon | `bool` | Returns True if the current time of day is "Noon"|
+| is_afternoon | `bool` | Returns True if the current time of day is "Afternoon"|
+| is_evening | `bool` | Returns True if the current time of day is "Evening"|
+| is_night | `bool` | Returns True if the current time of day is "Night"|
+| | | |
+| is_daytime | `bool` | Returns true if the current time of day is earlier than "Evening" |
+| is_nighttime | `bool` | Returns true if the current time of day is later than "Afternoon" |
+| is_weekday | `bool` | Returns true if the current day is a week day |
+| is_weekend | `bool` | Returns true if the current day is not a week day |
+| | | |
+| get_day_count | `int` | Returns the amount of days that have passed since starting the save |
+| get_week | `int` | Returns the amount of weeks that have passed since starting the save |
+| get_day_name | `str` | Returns the name of the current day in the time system |
+| get_time_of_day_name | `str` | Returns the name of the current time of day in the time system |
+
+
+## [AudioManager](#managers_audiomanager)
+> Serves as an alternative way to play audio and modify values on built-in and custom channel - Does not use renpy.voice
+```py
+class TimeManager()
+```
+
+### Methods
+```py
+def play_music(file: str, loop: bool = True, fadeIn: float = 0.0, fadeOut: float | None = None, tight: bool = False, ifChanged: bool = False) -> None:
+def stop_music(fadeOut: float | None = None) -> None:
+def set_music_volume(cls, volume: float) -> None:
+def get_music_volume(cls) -> float:
+
+def play_sound(file: str, fadeIn: float = 0.0, ifChanged: bool = False) -> None:
+def stop_sound(fadeOut: float | None = None) -> None:
+def set_sound_volume(cls, volume: float) -> None:
+def get_sound_volume(cls) -> float:
+
+def play_voice(file: str, fadeIn: float = 0.0, ifChanged: bool = False) -> None:
+def stop_voice(fadeOut: float | None = None) -> None:
+def set_voice_volume(cls, volume: float) -> None:
+def get_voice_volume(cls) -> float:
+
+def play_custom(file: str, channel: str, loop: bool = False, fadeIn: float = 0.0, fadeOut: float | None = None, tight: bool = False, ifChanged: bool = False) -> None:
+def stop_custom(channel: str, fadeOut: float | None = None) -> None:
+def set_custom_volume(channel: str, volume: float) -> None:
+def get_custom_volume(channel: str) -> float:
+```
+| Method                    | Return Type              | Description                                             |
+| :------------------------ | :----------------------- | :------------------------------------------------------ |
+| play_music | `None` | Plays the specified `audio file` on the `music` channel|
+| stop_music | `None` | Stops whatever is currently playing on the `music` channel|
+| set_music_volume | `None` | Sets the volume of the `music` channel|
+| get_music_volume | `float` | Returns the current volume of the `music` channel|
+| | | |
+| play_sound | `None` | Plays the specified `audio file` on the `sound` channel|
+| stop_sound | `None` | Stops whatever is currently playing on the `sound` channel|
+| set_sound_volume | `None` | Sets the volume of the `sound` channel|
+| get_sound_volume | `float` | Returns the current volume of the `sound` channel|
+| | | |
+| play_voice | `None` | Plays the specified `audio file` on the `voice` channel|
+| stop_voice | `None` | Stops whatever is currently playing on the `voice` channel|
+| set_voice_volume | `None` | Sets the volume of the `voice` channel|
+| get_voice_volume | `float` | Returns the current volume of the `voice` channel|
+| | | |
+| play_custom | `None` | Plays the specified `audio file` on the specified `channel`|
+| stop_custom | `None` | Stops whatever is currently playing on the specified `channel`|
+| set_custom_volume | `None` | Sets the volume of the specified `channel`|
+| get_custom_volume | `float` | Returns the current volume of the specified `channel`|
+> voice methods play audio on the voice channel rather than using renpy.voice as running it may break renpy auto-voicing and thus id-generation
 
 ---
 
-## [Exceptions](#exceptions)
+# [Guidelines](#guidelines)
+- [Locations](#models_location) must be created before any [Events](#models_event)
+- [GalleryItem](#model_galleryitem)'s should be defined rather than defaulted
 
-### [RenTaleTypeError](#rentaletypeerror)
-#### Raised when an argument is of the wrong type.
-```rpy
-raise RenTaleTypeError(expected, got)
-```
-- expected: `type` or `tuple[type]` — The expected type(s)
-- got: `type` — The received type via `type(value)`
-
-### [RenTaleValueError](#rentalevalueerror)
-#### Raised when an argument is the correct type but an invalid value.
-```rpy
-raise RenTaleValueError(expected, got)
-```
-- expected: `String` — Description of the expected value range
-- got: value — The received value
-
-### [RenTaleArgumentException](#rentaleargumentexception)
-#### Raised when an operation is invalid for the current state regardless of argument type or value.
-```rpy
-raise RenTaleArgumentException(message)
-```
-- message: `String` — Description of why the operation is invalid
-
----
-
-## [Variables](#variables)
-
-
-### [RenTale_All_Characters](#rentale_all_characters)
-#### Provides an iterable registry for all [`ExtendedCharacter`](UserAPI.md#extendedcharacter) instances.
-```rpy
-default RenTale_All_Characters = set() # HashSet<ExtendedCharacter>
-```
-
-
-### [RenTale_All_Flags](#rentale_all_flags)
-#### Provides an iterable registry for all [`FlagRef`](#flagref) instances, allowing for data lookup, display, and modification.
-```rpy
-default RenTale_All_Flags = dict() # Dictionary<String, FlagRef>
-```
-
-
-### [RenTale_All_Locations](#rentale_all_locations)
-#### Provides an iterable registry for all [`Locations`](#location) and their associated events.
-```rpy
-default RenTale_All_Locations = dict() # Dictionary<Location, List<Event>>
-```
-
-### [RenTale_Current_Location](#rentale_current_location)
-#### Represents a reference to the current active [`Location`](#location).
-```rpy
-default RenTale_Current_Location = None # Location
-```
-
-
-### [RenTale_Gallery_List](#rentale_gallery_list)
-#### Represents an iterable list of `GalleryItem` for the gallery.
-```rpy
-define RenTale_Gallery_List = set() # HashSet<GalleryItem> (Named list for simplicity, HashSet for uniqueness)
-```
-
-
-### [persistent.RenTale_Gallery](#persistent_rentale_gallery)
-#### Represents a mapping that allows for game wide gallery unlocks.
-```rpy
-default persistent.RenTale_Gallery = dict() # Dictionary<Name, IsUnlocked> (Derived from GalleryItem)
-```
-
-> Although publicly accessible, this variable should not be touched or modified in any way, it purely exists as a reference to game wide data and nothing more.
-
-> To unlock anything within the gallery please use [`GalleryItem.Unlock()`](#galleryitem)
-
----
-
-## [Guidelines](#guidelines)
-
-### Default vs Define
-- Default variables will be stored under the store namespace which will increase save file size
-- Define variables will be re-created at startup time and never stored
-
-- - `Default` | Location, Event, InventoryItem, FlagRef (state must persist across saves)
-- - `Define` | GalleryItem (unlock state lives in persistent, object reconstructed on startup)
-
-### DocStrings
-#### All methods for each class have simple docstrings to explain what each methods does, renpy support for intellisense isn't the best and as such they are less detailed than this Document
-
-If you find any issues during usage, please create a github Issue [Here](https://github.com/Ho11ow1/RenTale/issues)

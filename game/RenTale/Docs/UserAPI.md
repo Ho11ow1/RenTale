@@ -1,84 +1,72 @@
-# RenTale UserAPI Reference
-
-> User-level code lives under `game/scripts/` and is provided as `.rpy` files for full modification.
-
-> For core RenTale systems see [API](API.md)
+# RenTale User-level API Documentation
+## Everything in this document can be found under the default `renpy` namespace. No prefixing with `rentale.` is required
 
 ---
 
-## [StatType](#stattype)
+## Quick navigation
+| Type                       | Description                      |
+| :------------------------- | :------------------------------- |
+| [Model](#models)           | User level models                |
+| [Integration](#integration)| User level platfrom integrations |
 
-```rpy
+---
+
+# [Model](#models)
+
+## [StatType](#models_stattype)
+> A simple enum defining the trackable stat categories for an [`ExtendedCharacter`](#models_extendedcharacter)
+```py
 class StatType(Enum):
     Friendship = 0
     Love = 1
     Lust = 2
 ```
 
-> `StatType` is user-modifiable. Add or remove stats to fit your game's needs.
+
+## [ExtendedCharacter](#models_extendedcharacter)
+> Extends Ren'Py's ADVCharacter with relationship stats, a bio note, and a relationship label - Gets automatically added to: [`all_characters`](API.md#variables_developer)
+```py
+class ExtendedCharacter(renpy.character.ADVCharacter):
+    def __init__(self, name, color, note = "", relationship = "", **properties)
+```
+| Parameter                 | Type                     | Description                                             |
+| :------------------------ | :----------------------- | :------------------------------------------------------ |
+| name | `str` | The character's display name |
+| color | `str` | The characters display name color |
+| note | `str` | A short bio note - Example: for a character card note |
+| relationship | `str` | This character's relation to the player |
+| **properties | `**kwargs` | Any additional properties passed through to the Ren'Py `Character()` class Example: `what_color = "#d7d1a9"`
+
+### Methods
+```py
+def increase_stat(self, stat: StatType, amount: int) -> None:
+def decrease_stat(self, stat: StatType, amount: int) -> None:
+def change_relationship(self, relationship: str) -> None:
+def change_note(self, note: str) -> None:
+```
+| Method                    | Return Type              | Description                                             |
+| :------------------------ | :----------------------- | :------------------------------------------------------ |
+| increase_stat | `None` | Increases the given `stat` by `amount` |
+| decrease_stat | `None` | Decreases the given `stat` by `amount` |
+| change_relationship | `None` | Sets this characters `Relationship` to `relationship` |
+| change_note | `None` | Sets this characters `Note` to `note` |
 
 ---
 
-## [ExtendedCharacter](#extendedcharacter)
+# [Integration](#integrations)
 
-#### Extends Ren'Py's `ADVCharacter` with relationship stats and a modifiable relationship label.
-
-```rpy
-class ExtendedCharacter(ADVCharacter):
-    def __init__(self, name, color, relationship = "", **properties)
+## [Discord](#integrations_discord)
+> A wrapper around `pypresence` for managing Discord Rich Presence status
+```py
+class Discord()
 ```
 
-| Parameter    | Type     | Default  | Description                                |
-| ------------ | -------- | -------- | ------------------------------------------ |
-| name         | `String` | required | Character display name                     |
-| color        | `String` | required | Dialogue name color                        |
-| relationship | `String` | `""`     | Relationship label shown in UI             |
-| **properties |          |          | Any additional Ren'Py character properties |
-
-#### Stats
-
-| Stat       | Type  | Default | Description     |
-| ---------- | ----- | ------- | --------------- |
-| Friendship | `Int` | `0`     | Can be negative |
-| Love       | `Int` | `0`     | Can be negative |
-| Lust       | `Int` | `0`     | Can be negative |
-
-#### Methods
-
-```rpy
-# Increases the given stat by amount
-ExtendedCharacter.IncreaseStat(stat: StatType, amount: int) -> None
-# Decreases the given stat by amount. Stats can go negative
-ExtendedCharacter.DecreaseStat(stat: StatType, amount: int) -> None
-# Changes the relationship label
-ExtendedCharacter.ChangeRelationship(relationship: str) -> None
+### Methods
+```py
+def init(cls) -> None:
+def update(cls, details: str | None = None, state: str | None = None) -> None:
 ```
-
-#### Example
-
-```rpy
-default Willow = ExtendedCharacter("Willow", color = "#1b1b1b", relationship = "The weeping one")
-
-# Increase friendship via event action
-action = "Willow.IncreaseStat(StatType.Friendship, 10); renpy.call('event_willow_meeting')"
-
-# Conditional stat change inside a label
-label event_willow_meeting:
-    menu:
-        "Be kind":
-            $ Willow.IncreaseStat(StatType.Love, 5)
-        "Be rude":
-            $ Willow.DecreaseStat(StatType.Friendship, 10)
-
-    return
-```
-
-> `ExtendedCharacter` works alongside standard Ren'Py `Character` instances.
-
-> Use `Character` for narrators and minor characters, `ExtendedCharacter` for love interests and important NPCs.
-
-> `ExtendedCharacter` must be initialized via `default` just like standard `Character`
-
----
-
-If you find any issues during usage, please create a github Issue [Here](https://github.com/Ho11ow1/RenTale/issues)
+| Method                    | Return Type              | Description                                             |
+| :------------------------ | :----------------------- | :------------------------------------------------------ |
+| init | `None` | Connects with the currently running discord client and sets the users presence |
+| update | `None` | Updates the rich presence with the given `details` and `state`, Runs `init()` if not already connected |
