@@ -159,6 +159,8 @@ default persistent.has_quicksave = True
 
 default persistent._file_chapter = 0
 
+default persistent.textbox_opacity = 1.0
+
 init python:
     config.has_autosave = persistent.has_autosave
     config.has_quicksave = persistent.has_quicksave

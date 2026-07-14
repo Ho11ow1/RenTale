@@ -99,6 +99,7 @@ screen say(who, what):
 
     window:
         id "window"
+        background Frame(Transform("gui/textbox.png", xalign = 0.5, yalign = 1.0, alpha = persistent.textbox_opacity))
 
         if who is not None:
 
@@ -895,6 +896,9 @@ screen Dialogue_Preferences():
                 selected_hover Transform("gui/RenTale/UI/Square-Checked.png", matrixcolor = TintMatrix("#ff85ab"))
                 hover Transform("gui/RenTale/UI/Square.png", matrixcolor = TintMatrix("#ff85ab"))
                 action InvertSelected(Preference("transitions", "toggle"))
+
+            label _("Text box opacity")
+            bar value FieldValue(persistent, "textbox_opacity", range = 1.0, style = "slider")
 
 
 style pref_label is gui_label
