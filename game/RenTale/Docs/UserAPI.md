@@ -27,15 +27,14 @@ class StatType(Enum):
 > Extends Ren'Py's ADVCharacter with relationship stats, a bio note, and a relationship label - Gets automatically added to: [`all_characters`](API.md#variables_developer)
 ```py
 class ExtendedCharacter(renpy.character.ADVCharacter):
-    def __init__(self, name, color, note = "", relationship = "", **properties)
+    def __init__(self, name, note = "", relationship = "", **properties):
 ```
 | Parameter                 | Type                     | Description                                             |
 | :------------------------ | :----------------------- | :------------------------------------------------------ |
 | name | `str` | The character's display name |
-| color | `str` | The characters display name color |
 | note | `str` | A short bio note - Example: for a character card note |
 | relationship | `str` | This character's relation to the player |
-| **properties | `**kwargs` | Any additional properties passed through to the Ren'Py `Character()` class Example: `what_color = "#d7d1a9"`
+| **properties | `**kwargs` | Any additional properties passed through to the Ren'Py `Character()` class Example: `color = "#F9A4C7", what_color = "#d7d1a9"`
 
 ### Methods
 ```py
@@ -51,6 +50,42 @@ def change_note(self, note: str) -> None:
 | change_relationship | `None` | Sets this characters `Relationship` to `relationship` |
 | change_note | `None` | Sets this characters `Note` to `note` |
 
+### Extras
+> Intellisense for these properties varies
+```py
+@property
+    def Name(self) -> str:
+@Name.setter
+    def Name(self, value) -> None:
+
+@property
+    def Color(self) -> str:
+@Color.setter
+    def Color(self, value) -> None:
+
+@property
+    def WhatColor(self) -> str:
+@WhatColor.setter
+    def WhatColor(self, value) -> None:
+```
+#### Example usage:
+```rpy
+
+# After this statement when Alexandra says anything or anyone says [Alexandra.Name] it will show as "Alex"
+$ Alexandra.Name = "Alex"
+
+# With this scope when Isabella speaks in the replay her name will be "Bella" and her dialogue color will be pink
+scope = {
+    "Isabella.Name": "A",
+    "Isabella.WhatColor": "#F9A8B4"
+}
+```
+| Property/Setter           | Return Type              | Description                                             |
+| :------------------------ | :----------------------- | :------------------------------------------------------ |
+| Name | `str`/`None` | Allows for character name modification in game and in gallery replay scope       |
+| Color | `str`/`None` | Allows for character name color modification in game and in gallery replay scope |
+| WhatColor | `str`/`None` | Allows for character text color modification in game and in gallery replay scope |
+
 ---
 
 # [Integration](#integrations)
@@ -58,15 +93,16 @@ def change_note(self, note: str) -> None:
 ## [Discord](#integrations_discord)
 > A wrapper around `pypresence` for managing Discord Rich Presence status
 ```py
-class Discord()
+class Discord():
+    state_dict = {}
 ```
 
 ### Methods
 ```py
 def init(cls) -> None:
-def update(cls, details: str | None = None, state: str | None = None) -> None:
+def update(cls, dictKey: str) -> None:
 ```
 | Method                    | Return Type              | Description                                             |
 | :------------------------ | :----------------------- | :------------------------------------------------------ |
-| init | `None` | Connects with the currently running discord client and sets the users presence |
-| update | `None` | Updates the rich presence with the given `details` and `state`, Runs `init()` if not already connected |
+| init | `None` | Connects with the currently running discord client |
+| update | `None` | Updates the rich presence with information at the given key from `state_dict`|
