@@ -9,20 +9,9 @@ init -100 python:
 
 init -100 python:
     class ExtendedCharacter(renpy.character.ADVCharacter):
-        def __init__(self, name, color, note = "", relationship = "", **properties):
-            if type(name) != str:
-                raise rentale.RenTaleTypeError(str, type(name))
-            if type(color) != str:
-                raise rentale.RenTaleTypeError(str, type(color))
-            if type(note) != str:
-                raise rentale.RenTaleTypeError(str, type(note))
-            if type(relationship) != str:
-                raise rentale.RenTaleTypeError(str, type(relationship))
+        def __init__(self, name, note = "", relationship = "", **properties):
             # Init actual character
-            super(ExtendedCharacter, self).__init__(name, color = color, **properties)
-            # Base properties
-            self.Name = name
-            self.Color = color
+            super().__init__(name, **properties)
             # Custom stats
             self.Friendship = 0
             self.Love = 0
@@ -77,3 +66,33 @@ init -100 python:
                 raise rentale.RenTaleTypeError(str, type(note))
 
             self.Note = note
+
+
+# ============================== DYNAMIC MODIFICATION METHODS | PARTIAL ONLY ============================== #
+        @property
+        def Name(self) -> str:
+            return self.name
+
+        @Name.setter
+        def Name(self, value) -> None:
+            self.name = value
+
+
+        @property
+        def Color(self) -> str:
+            val = self.who_args.get("color")
+            return val if val is not None else renpy.gui.text_color
+
+        @Color.setter
+        def Color(self, value) -> None:
+            self.who_args["color"] = value
+
+
+        @property
+        def WhatColor(self) -> str:
+            val = self.what_args.get("color")
+            return val if val is not None else renpy.gui.text_color
+
+        @WhatColor.setter
+        def WhatColor(self, value) -> None:
+            self.what_args["color"] = value
