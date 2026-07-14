@@ -16,6 +16,6 @@ label splashscreen:
 # ===================================================================================== #
 label before_main_menu:
     $ Discord.init()
-    $ Discord.update()
+    $ Discord.update("mainmenu")
 
     return

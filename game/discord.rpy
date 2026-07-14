@@ -1,51 +1,66 @@
 init python:
     import time
-    from pypresence import Presence
+    import pypresence
 
     class Discord():
         START_TIME = time.time()
-
-        APP_ID = None         # Update with your discord Application Id from "https://discord.com/developers/applications/APP_ID/information"
-        LARGE_IMAGE = None    # Update this with the key of your application large image from "https://discord.com/developers/applications/APP_ID/rich-presence/assets"
-        LARGE_TEXT = None     # Update this with the text you want to show when hovering over LARGE_IMAGE
-        SMALL_IMAGE = None    # Update this with the key of your applications small image from "https://discord.com/developers/applications/APP_ID/rich-presence/assets"
-        SMALL_TEXT = None     # Update this with the text you want to show when hovering over SMALL_IMAGE
-
         DISCORD_RPC = None
-        _current_details = ""
-        _current_state = ""
+
+        APP_ID = ""  # Update with your discord Application Id from "https://discord.com/developers/applications/APP_ID/information".
+        
+        state_dict = {                  # Update this dictionary as desired for your game, "mainmenu" is provided as an example.
+            "mainmenu": {
+                "details": "Doing nothing",
+                "state": None,
+                "large_image": None,
+                "large_text": None,
+                "small_image": None,
+                "small_text": None,
+            }
+        }
 
         @classmethod
         def init(cls) -> None:
             if cls.DISCORD_RPC is None:
                 try:
-                    cls.DISCORD_RPC = Presence(cls.APP_ID)
+                    cls.DISCORD_RPC = pypresence.Presence(cls.APP_ID)
                     cls.DISCORD_RPC.connect()
 
                 except Exception as ex:
-                    print("RPC Init error: ", ex)
+                    print(f"RenTale DiscordRPC | Init error: {ex}")
                     cls.DISCORD_RPC = None
 
 
         @classmethod
-        def update(cls, details: str | None = None, state: str | None = None) -> None:
-            if details is not None and type(details) != str:
-                raise rentale.RenTaleTypeError((str, type(None)), type(details))
-            if state is not None and type(state) != str:
-                raise rentale.RenTaleTypeError((str, type(None)), type(state))
+        def update(cls, dictKey: str) -> None:
+            if type(dictKey) != str:
+                raise RenTaleTypeError(str, type(dictKey))
 
             if cls.DISCORD_RPC is None:
                 cls.init()
             if cls.DISCORD_RPC is None:
                 return
 
+            args = None
             try:
-                if details != cls._current_details or state != cls._current_state:
-                    cls._current_details = details
-                    cls._current_state = state
-                    cls.DISCORD_RPC.update(details = details, state = state, start = cls.START_TIME, large_image = cls.LARGE_IMAGE, large_text = cls.LARGE_TEXT, small_image = cls.SMALL_IMAGE, small_text = cls.SMALL_TEXT)
-                else:
-                    return
+                args = cls.state_dict[dictKey]
+
+            except Exception:
+                print(f"RenTale DiscordRPC | key '{dictKey}' not found in 'source_dict'")
+                return
+
+            try:
+                cls.DISCORD_RPC.update(
+                    details = args["details"], state = args["state"],
+                    start = cls.START_TIME, 
+                    large_image = args["large_image"], large_text = args["large_text"], 
+                    small_image = args["small_image"], small_text = args["small_text"])
+
+            except pypresence.PipeClosed:
+                cls.DISCORD_RPC = None
+                print("RenTale DiscordRPC | Failed to update - Pipe was closed")
+                cls.init()
+                cls.update(dictKey)
 
             except Exception as ex:
-                print("RPC Update error: ", ex)
+                print(f"RenTale DiscordRPC | Update Discord RPC failed: {ex}")
