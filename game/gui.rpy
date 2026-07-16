@@ -274,7 +274,6 @@ style pref_vpgrid:
     yalign 0.5
     spacing 50
     xoffset 30
-    yoffset 100
 
 style pref_hbox:
     spacing gui.pref_spacing

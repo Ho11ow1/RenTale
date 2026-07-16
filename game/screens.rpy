@@ -99,7 +99,7 @@ screen say(who, what):
 
     window:
         id "window"
-        background Frame(Transform("gui/textbox.png", xalign = 0.5, yalign = 1.0, alpha = persistent.textbox_opacity))
+        background Frame(Transform("gui/textbox.png", alpha = persistent.textbox_opacity))
 
         if who is not None:
 
