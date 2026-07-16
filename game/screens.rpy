@@ -99,7 +99,7 @@ screen say(who, what):
 
     window:
         id "window"
-        background Frame(Transform("gui/textbox.png", xalign = 0.5, yalign = 1.0, alpha = persistent.textbox_opacity))
+        background Frame(Transform("gui/textbox.png", alpha = persistent.textbox_opacity))
 
         if who is not None:
 
@@ -899,6 +899,9 @@ screen Dialogue_Preferences():
 
             label _("Text box opacity")
             bar value FieldValue(persistent, "textbox_opacity", range = 1.0, style = "slider")
+
+            label _("Text box height")
+            bar value FieldValue(persistent, "textbox_height", offset = 100, range = 250, style = "slider")
 
 
 style pref_label is gui_label
