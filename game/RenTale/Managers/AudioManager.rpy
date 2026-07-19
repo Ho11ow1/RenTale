@@ -162,7 +162,7 @@ init -90 python in rentale:
 
 # =============== VOICE CHANNEL =============== #
         @staticmethod
-        def play_custom(file: str, channel: str, loop: bool = False, fadeIn: float = 0.0, fadeOut: float | None = None, tight: bool = False, ifChanged: bool = False) -> None:
+        def play_custom(file: str, channel: str, loop: bool = None, fadeIn: float = 0.0, fadeOut: float | None = None, tight: bool = False, ifChanged: bool = False) -> None:
             """
             Plays the specified audio file on the specified channel
             """
@@ -172,8 +172,8 @@ init -90 python in rentale:
                 raise RenTaleTypeError(str, type(channel))
             if not renpy.music.channel_defined(channel):
                 raise RenTaleArgumentException(f"Audio channel {channel} is not defined.")
-            if type(loop) != bool:
-                raise RenTaleTypeError(bool, type(loop))
+            if loop is not None and type(loop) != bool:
+                raise RenTaleTypeError((bool, type(None)), type(loop))
             if type(fadeIn) != float:
                 raise RenTaleTypeError(float, type(fadeIn))
             if fadeOut is not None and type(fadeOut) != float:
