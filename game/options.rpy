@@ -149,31 +149,55 @@ define config.save_directory = "RenTale"
 
 define config.window_icon = "gui/window_icon.png"
 
-## Additional config variables to be used
+## ADDITIONAL SETTINGS VARIABLES ##################################################
+# region ADDITIONAL SETTINGS
+# Set default config variables for a good starting point
 define config.default_fullscreen = False
-
 define config.has_autosave = True
 define config.has_quicksave = True
+define config.default_music_volume = 0.5
+define config.default_sfx_volume = 0.5
+define config.default_voice_volume = 0.5
+
+# Variables that dictate the state of the quickmenu
+default persistent.quickmenu_position_x = 0.0
+default persistent.quickmenu_enabled = True
+default persistent.quickmenu_rollback_enabled = True
+default persistent.quickmenu_history_enabled = True
+default persistent.quickmenu_skip_enabled = True
+default persistent.quickmenu_autosave_enabled = True
+default persistent.quickmenu_save_enabled = True
+default persistent.quickmenu_quicksave_enabled = True
+default persistent.quickmenu_quickload_enabled = True
+default persistent.quickmenu_prefs_enabled = True
+
+# Variables that dictate whether the game should have quick and auto save enabled along with accessing them via the file_slots screens | Does not disable manual invocations via the quickmenu
 default persistent.has_autosave = True
 default persistent.has_quicksave = True
 
+# Variables which allow for moving across filepages above page 9
 default persistent._file_chapter = 0
 
+# Variables which allow for customising the textbox visuals
 default persistent.textbox_opacity = 1.0
+default persistent.textbox_height = 270
+default persistent.textbox_width = 1130
 
+# Quick python block to restore variables to persistent state on re-launch
 init python:
     config.has_autosave = persistent.has_autosave
     config.has_quicksave = persistent.has_quicksave
-
+    renpy.store.quick_menu = persistent.quickmenu_enabled
+# endregion
 ## URL PROMO ##################################################################################################################
-##
+# region URL SELF PROMO
 ## TODO: UPDATE URL VARIABLES TO YOUR NEEDS | ELSE LEAVE AS NONE
-# region URL VARIABLES
+## Updating these variables will display the appropriate icon aswell as handle opening the URL in the users browser. | See more in `screens.rpy - screen main_menu`.
+## Additionally SubscribeStar is also supported however it is more rare and as such must be implemented personally. The process is just a simple copy paste.
 define url_patreon = None
 define url_discord = None
 define url_hover_sound = None
 # endregion
-
 ## Build configuration #########################################################
 ##
 ## This section controls how Ren'Py turns your project into distribution files.
@@ -204,6 +228,7 @@ init python:
     GuiRPA = CreateRPAName("gui")
     LibsRPA = CreateRPAName("libs")
     PackagesRPA = CreateRPAName("python-packages")
+    FontsRPA = CreateRPAName("fonts")
 
     ## The following functions take file patterns. File patterns are case-
     ## insensitive, and matched against the path relative to the base directory,
@@ -248,6 +273,7 @@ init python:
     build.archive(GuiRPA, "all")
     build.archive(LibsRPA, "all")
     build.archive(PackagesRPA, "all")
+    build.archive(FontsRPA, "all")
 
     # ===============
     # Classify specific files to be places into the RPA archives
@@ -260,6 +286,7 @@ init python:
     build.classify("game/gui/**", GuiRPA)
     build.classify("game/libs/**", LibsRPA)
     build.classify("game/python-packages/**", PackagesRPA)
+    build.classify("game/fonts", FontsRPA)
 
     ## To archive files, classify them as 'archive'.
 

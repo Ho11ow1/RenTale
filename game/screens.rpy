@@ -96,19 +96,59 @@ style frame:
 ## https://www.renpy.org/doc/html/screen_special.html#say
 
 screen say(who, what):
+    style_prefix "say"
 
     window:
         id "window"
+        ypos 1080 - (persistent.textbox_height) - (32 if persistent.quickmenu_enabled else 0)
+        xsize persistent.textbox_width + 274
+        ysize persistent.textbox_height
         background Frame(Transform("gui/textbox.png", alpha = persistent.textbox_opacity))
 
-        if who is not None:
+        vbox:
+            xpos gui.name_xpos
+            ypos 20
+            xsize persistent.textbox_width
+            spacing 10
 
-            window:
-                id "namebox"
-                style "namebox"
-                text who id "who"
+            if who is not None:
+                window:
+                    id "namebox"
+                    style "namebox"
+                    text who id "who"
 
-        text what id "what"
+            text what id "what"
+
+
+    ## If there's a side image, display it above the text. Do not display on
+    ## the phone variant - there's no room.
+    if not renpy.variant("small"):
+        add SideImage() xalign 0.0 yalign 1.0
+
+
+screen multiple_say(who, what, multiple):
+    style_prefix "say"
+
+    window:
+        id "window"
+        ypos 1080 - (persistent.textbox_height * multiple[0]) - (32 if persistent.quickmenu_enabled else 0)
+        xsize persistent.textbox_width + 274
+        ysize persistent.textbox_height
+        background Frame(Transform("gui/textbox.png", alpha = persistent.textbox_opacity))
+
+        vbox:
+            xpos gui.name_xpos
+            ypos 20
+            xsize persistent.textbox_width
+            spacing 10
+
+            if who is not None:
+                window:
+                    id "namebox"
+                    style "namebox"
+                    text who id "who"
+
+            text what id "what"
 
 
     ## If there's a side image, display it above the text. Do not display on
@@ -132,35 +172,39 @@ style namebox_label is say_label
 
 style window:
     xalign 0.5
-    xfill True
-    yalign gui.textbox_yalign
-    ysize gui.textbox_height
 
-    background Image("gui/textbox.png", xalign=0.5, yalign=1.0)
+
+style block2_multiple2_say_window:
+    yalign -0.1
+
 
 style namebox:
-    xpos gui.name_xpos
-    xanchor gui.name_xalign
     xsize gui.namebox_width
-    ypos gui.name_ypos
     ysize gui.namebox_height
 
     background Frame("gui/namebox.png", gui.namebox_borders, tile=gui.namebox_tile, xalign=gui.name_xalign)
     padding gui.namebox_borders.padding
+
 
 style say_label:
     properties gui.text_properties("name", accent=True)
     xalign gui.name_xalign
     yalign 0.5
 
+
 style say_dialogue:
     properties gui.text_properties("dialogue")
 
     xpos gui.dialogue_xpos
-    xsize gui.dialogue_width
-    ypos gui.dialogue_ypos
 
-    adjust_spacing False
+
+# style window:
+    # xalign 0.5
+    # xfill True
+    # yalign gui.textbox_yalign
+    # ysize gui.textbox_height
+
+    # background Image("gui/textbox.png", xalign=0.5, yalign=1.0)
 
 ## Input screen ################################################################
 ##
@@ -176,15 +220,24 @@ screen input(prompt):
     style_prefix "input"
 
     window:
+        ypos 1080 - (persistent.textbox_height) - (32 if persistent.quickmenu_enabled else 0)
+        xsize persistent.textbox_width + 274
+        ysize persistent.textbox_height
+        background Frame(Transform("gui/textbox.png", alpha = persistent.textbox_opacity))
 
         vbox:
-            xanchor gui.dialogue_text_xalign
-            xpos gui.dialogue_xpos
-            xsize gui.dialogue_width
-            ypos gui.dialogue_ypos
+            xpos gui.name_xpos
+            ypos 20
+            xsize persistent.textbox_width
+            spacing 50
 
             text prompt style "input_prompt"
-            input id "input"
+
+            hbox:
+                spacing 5
+
+                text "> " color gui.text_color
+                input id "input"
 
 style input_prompt is default
 
@@ -241,23 +294,30 @@ screen quick_menu():
     ## Ensure this appears on top of other screens.
     zorder 100
 
-    if quick_menu:
+    if quick_menu and persistent.quickmenu_enabled:
 
         hbox:
             style_prefix "quick"
             style "quick_menu"
-            xalign 0.0
+            xalign persistent.quickmenu_position_x
             yalign 1.0
 
-            textbutton _("Back") action Rollback()
-            textbutton _("History") action ShowMenu('history')
-            textbutton _("Skip") action Skip() alternate Skip(fast=True, confirm=True)
-            textbutton _("Auto") action Preference("auto-forward", "toggle")
-            textbutton _("Save") action ShowMenu('save')
-            if config.has_quicksave:
+            if persistent.quickmenu_rollback_enabled :
+                textbutton _("Back") action Rollback()
+            if persistent.quickmenu_history_enabled:
+                textbutton _("History") action ShowMenu('history')
+            if persistent.quickmenu_skip_enabled:
+                textbutton _("Skip") action Skip() alternate Skip(fast=True, confirm=True)
+            if persistent.quickmenu_autosave_enabled:
+                textbutton _("Auto") action Preference("auto-forward", "toggle")
+            if persistent.quickmenu_save_enabled:
+                textbutton _("Save") action ShowMenu('save')
+            if persistent.quickmenu_quicksave_enabled:
                 textbutton _("Q.Save") action QuickSave()
+            if persistent.quickmenu_quicksave_enabled:
                 textbutton _("Q.Load") action QuickLoad()
-            textbutton _("Prefs") action ShowMenu('preferences')
+            if persistent.quickmenu_prefs_enabled:
+                textbutton _("Prefs") action ShowMenu('preferences')
 
 
 ## This code ensures that the quick_menu screen is displayed in-game, whenever
@@ -270,10 +330,6 @@ default quick_menu = True
 style quick_menu is hbox
 style quick_button is default
 style quick_button_text is button_text
-
-style quick_menu:
-    xalign 0.5
-    yalign 1.0
 
 style quick_button:
     properties gui.button_properties("quick_button")
@@ -298,34 +354,34 @@ screen navigation():
         yalign 0.08
         spacing 30
         
-        textbutton _("SAVE") action ShowMenu("save")
+        textbutton _("SAVE") action ShowMenu("save") text_style "custom_menu_btn"
         imagebutton:
             idle "gui/RenTale/UI/Separator.png"
             sensitive False
 
-        textbutton _("LOAD") action ShowMenu("load")
+        textbutton _("LOAD") action ShowMenu("load") text_style "custom_menu_btn"
         imagebutton:
             idle "gui/RenTale/UI/Separator.png"
             sensitive False
 
-        textbutton _("AUDIO") action ShowMenu("Audio_Preferences")
+        textbutton _("AUDIO") action ShowMenu("Audio_Preferences") text_style "custom_menu_btn"
         imagebutton:
             idle "gui/RenTale/UI/Separator.png"
             sensitive False
 
-        textbutton _("DIALOGUE") action ShowMenu("Dialogue_Preferences")
+        textbutton _("DIALOGUE") action ShowMenu("Dialogue_Preferences") text_style "custom_menu_btn"
         imagebutton:
             idle "gui/RenTale/UI/Separator.png"
             sensitive False
 
-        textbutton _("SETTINGS") action ShowMenu("preferences")
+        textbutton _("SETTINGS") action ShowMenu("preferences") text_style "custom_menu_btn"
 
         if _in_replay:
             imagebutton:
                 idle "gui/RenTale/UI/Separator.png"
                 sensitive False
 
-            textbutton _("END REPLAY") action EndReplay(confirm=True)
+            textbutton _("END REPLAY") action EndReplay(confirm=True) text_style "custom_menu_btn"
 
 
 style navigation_button is gui_button
@@ -380,11 +436,11 @@ screen main_menu():
         yalign 0.98
         spacing 75
 
-        textbutton _("NEW GAME") action Start()
-        textbutton _("CONTINUE") action ShowMenu("load")
-        textbutton _("OPTIONS") action ShowMenu("preferences")
-        textbutton _("GALLERY") action ShowMenu("Gallery")
-        textbutton _("QUIT") action Quit(True)
+        textbutton _("NEW GAME") action Start() text_style "custom_menu_btn"
+        textbutton _("CONTINUE") action ShowMenu("load") text_style "custom_menu_btn"
+        textbutton _("OPTIONS") action ShowMenu("preferences") text_style "custom_menu_btn"
+        textbutton _("GALLERY") action ShowMenu("Gallery") text_style "custom_menu_btn"
+        textbutton _("QUIT") action Quit(True) text_style "custom_menu_btn"
         text _("VERSION [config.version]") yalign 0.5
 
 
@@ -487,12 +543,18 @@ screen game_menu(title, scroll=None, yinitial=0.0, spacing=0):
     use navigation
 
     hbox:
-        yalign 1.0
         xalign 0.0
-        spacing 13
-        textbutton _("RETURN") action Return()
-        textbutton _("MAIN MENU") action MainMenu()
-        textbutton _("QUIT") action Quit(True)
+        yalign 0.0
+        spacing 20
+
+        textbutton _("MAIN MENU") action MainMenu() text_style "custom_menu_btn"
+        textbutton _("QUIT") action Quit(True) text_style "custom_menu_btn"
+
+    hbox:
+        xalign 0.0
+        yalign 1.0
+
+        textbutton _("RETURN") action Return() text_style "custom_menu_btn"
 
     label title
 
@@ -641,7 +703,8 @@ screen file_slots(title):
                 style_prefix "slot"
 
                 xalign 0.5
-                yalign 0.5
+                yalign 0.1
+                xoffset -200
 
                 spacing gui.slot_spacing
 
@@ -652,17 +715,20 @@ screen file_slots(title):
                     button:
                         action FileAction(slot)
 
-                        has vbox
+                        vbox:
 
-                        add FileScreenshot(slot) xalign 0.5
+                            add FileScreenshot(slot) xalign 0.5
 
-                        text FileTime(slot, format=_("{#file_time}%B %d %Y, %H:%M"), empty=_("empty slot")):
-                            style "slot_time_text"
+                            text FileTime(slot, format=_("{#file_time}%B %d %Y, %H:%M"), empty=_("empty slot")):
+                                style "slot_time_text"
+                                color gui.idle_color
+                                hover_color gui.hover_color
+                                selected_color gui.accent_color
 
-                        text FileSaveName(slot):
-                            style "slot_name_text"
+                            text FileSaveName(slot):
+                                style "slot_name_text"
 
-                        key "save_delete" action FileDelete(slot)
+                            key "save_delete" action FileDelete(slot)
 
             ## Buttons to access other pages.
             vbox:
@@ -670,6 +736,7 @@ screen file_slots(title):
 
                 xalign 0.5
                 yalign 1.0
+                xoffset -200
 
                 key "save_page_prev" action FilePagePrevious()
                 key "save_page_next" action FilePageNext()
@@ -680,39 +747,49 @@ screen file_slots(title):
                     spacing gui.page_spacing
 
                     hbox:
+                        xalign 0.5
+                        spacing 25
+
                         textbutton _("<<"):
+                            text_style "custom_menu_btn"
                             text_kerning -3.5
                             action rentale.FilePageJump(step = -10)
 
                         textbutton _("<"):
+                            text_style "custom_menu_btn"
                             action rentale.FilePageJump(step = -1)
 
                     if config.has_autosave:
-                        textbutton _("{#auto_page}A") action FilePage("auto")
+                        textbutton _("{#auto_page}A") action FilePage("auto"):
+                            text_style "custom_menu_btn"
 
                     if config.has_quicksave:
-                        textbutton _("{#quick_page}Q") action FilePage("quick")
+                        textbutton _("{#quick_page}Q") action FilePage("quick"):
+                            text_style "custom_menu_btn"
 
                     for page in range((persistent._file_chapter * 10) + 1, (persistent._file_chapter * 10) + 11):
-                        textbutton "[page]" action FilePage(page)
+                        textbutton "[page]" action FilePage(page):
+                            text_style "custom_menu_btn"
 
                     hbox:
                         textbutton _(">"):
+                            text_style "custom_menu_btn"
                             action rentale.FilePageJump(step = 1)
                         
                         textbutton _(">>"):
+                            text_style "custom_menu_btn"
                             text_kerning -3.5
                             action rentale.FilePageJump(step = 10)
 
-                if config.has_sync:
-                    if CurrentScreenName() == "save":
-                        textbutton _("Upload Sync"):
-                            action UploadSync()
-                            xalign 0.5
-                    else:
-                        textbutton _("Download Sync"):
-                            action DownloadSync()
-                            xalign 0.5
+                # if config.has_sync:
+                #     if CurrentScreenName() == "save":
+                #         textbutton _("Upload Sync"):
+                #             action UploadSync()
+                #             xalign 0.5
+                #     else:
+                #         textbutton _("Download Sync"):
+                #             action DownloadSync()
+                #             xalign 0.5
 
 
 style page_label is gui_label
@@ -760,145 +837,347 @@ screen preferences():
     tag menu
 
     use game_menu(_("")):
-        style_prefix "pref"
+        # style_prefix "pref"
 
-        vpgrid:
-            cols 2
+        vbox:
+            style "custom_pref_vbox"
 
             hbox:
-                label _("Display")
+                xminimum 500
+                xmaximum 500
+                spacing 20
+
+                label _("Display"):
+                    yoffset 5
+                    text_style "custom_pref_label_text"
+
                 imagebutton:
                     idle "gui/RenTale/UI/Separator.png"
                     sensitive False
 
+                hbox:
+                    spacing 20
+
+                    textbutton _("Window") action Preference("display", "window")
+                    textbutton _("Fullscreen") action Preference("display", "fullscreen")
+
             hbox:
-                textbutton _("Window") action Preference("display", "window")
-                textbutton _("Fullscreen") action Preference("display", "fullscreen")
+                if persistent.has_autosave:
+                    label _("Autosaves (Enabled)"):
+                        style "custom_pref_label"
+                    imagebutton:
+                        idle "gui/RenTale/UI/Square-Checked.png"
+                        hover Transform("gui/RenTale/UI/Square-Checked.png", matrixcolor = TintMatrix(gui.hover_color))
+                        action [SetVariable("config.has_autosave", False), SetVariable("persistent.has_autosave", False)]
+                else:
+                    label _("Autosaves (Disabled)"):
+                        style "custom_pref_label"
+                    imagebutton:
+                        idle "gui/RenTale/UI/Square.png"
+                        hover Transform("gui/RenTale/UI/Square.png", matrixcolor = TintMatrix(gui.hover_color))
+                        action [SetVariable("config.has_autosave", True), SetVariable("persistent.has_autosave", True)]
 
-            if config.has_autosave:
-                label _("Autosaves (Enabled)")
-                imagebutton:
-                    idle "gui/RenTale/UI/Square-Checked.png"
-                    hover Transform("gui/RenTale/UI/Square-Checked.png", matrixcolor = TintMatrix("#ff85ab"))
-                    action [SetVariable("config.has_autosave", False), SetVariable("persistent.has_autosave", False)]
+            hbox:
+                if persistent.has_quicksave:
+                    label _("Quicksaves (Enabled)"):
+                        style "custom_pref_label"
+                    imagebutton:
+                        idle "gui/RenTale/UI/Square-Checked.png"
+                        hover Transform("gui/RenTale/UI/Square-Checked.png", matrixcolor = TintMatrix(gui.hover_color))
+                        action [SetVariable("config.has_quicksave", False), SetVariable("persistent.has_quicksave", False)]
+                else:
+                    label _("Quicksaves (Disabled)"):
+                        style "custom_pref_label"
+                    imagebutton:
+                        idle "gui/RenTale/UI/Square.png"
+                        hover Transform("gui/RenTale/UI/Square.png", matrixcolor = TintMatrix(gui.hover_color))
+                        action [SetVariable("config.has_quicksave", True), SetVariable("persistent.has_quicksave", True)]
 
-            else:
-                label _("Autosaves (Disabled)")
-                imagebutton:
-                    idle "gui/RenTale/UI/Square.png"
-                    hover Transform("gui/RenTale/UI/Square.png", matrixcolor = TintMatrix("#ff85ab"))
-                    action [SetVariable("config.has_autosave", True), SetVariable("persistent.has_autosave", True)]
+            hbox:
+                if persistent.quickmenu_enabled:
+                    label _("Quickmenu (Enabled)"):
+                        style "custom_pref_label"
+                    imagebutton:
+                        idle "gui/RenTale/UI/Square-Checked.png"
+                        hover Transform("gui/RenTale/UI/Square-Checked.png", matrixcolor = TintMatrix(gui.hover_color))
+                        action [SetVariable("quick_menu", False), SetVariable("persistent.quickmenu_enabled", False)]
+                else:
+                    label _("Quickmenu (Disabled)"):
+                        style "custom_pref_label"
+                    imagebutton:
+                        idle "gui/RenTale/UI/Square.png"
+                        hover Transform("gui/RenTale/UI/Square.png", matrixcolor = TintMatrix(gui.hover_color))
+                        action [SetVariable("quick_menu", True), SetVariable("persistent.quickmenu_enabled", True)]
 
-            if config.has_quicksave:
-                label _("Quicksaves (Enabled)")
+            hbox:
+                xminimum 500
+                xmaximum 500
+                spacing 20
+                
+                label _("Quickmenu position"):
+                    yoffset 5
+                    text_style "custom_pref_label_text"
                 imagebutton:
-                    idle "gui/RenTale/UI/Square-Checked.png"
-                    hover Transform("gui/RenTale/UI/Square-Checked.png", matrixcolor = TintMatrix("#ff85ab"))
-                    action [SetVariable("config.has_quicksave", False), SetVariable("persistent.has_quicksave", False)]
+                    idle "gui/RenTale/UI/Separator.png"
+                    sensitive False
 
-            else:
-                label _("Quicksaves (Disabled)")
+                hbox:
+                    spacing 20
+
+                    if persistent.quickmenu_position_x == 0.0:
+                        textbutton "Left" action [SetVariable("persistent.quickmenu_position_x", 0.0)] xoffset -5
+                    else:
+                        textbutton "Left" action [SetVariable("persistent.quickmenu_position_x", 0.0)] xoffset -5
+                    if persistent.quickmenu_position_x == 0.5:
+                        textbutton "Center" action [SetVariable("persistent.quickmenu_position_x", 0.5)] xoffset -5
+                    else:
+                        textbutton "Center" action [SetVariable("persistent.quickmenu_position_x", 0.5)] xoffset -5
+                    if persistent.quickmenu_position_x == 1.0:
+                        textbutton "Right" action [SetVariable("persistent.quickmenu_position_x", 1.0)] xoffset -5
+                    else:
+                        textbutton "Right" action [SetVariable("persistent.quickmenu_position_x", 1.0)] xoffset -5
+
+            hbox:
+                spacing 20
+
+                label _("Quickmenu items"):
+                    yoffset 5
+                    text_style "custom_pref_label_text"
                 imagebutton:
-                    idle "gui/RenTale/UI/Square.png"
-                    hover Transform("gui/RenTale/UI/Square.png", matrixcolor = TintMatrix("#ff85ab"))
-                    action [SetVariable("config.has_quicksave", True), SetVariable("persistent.has_quicksave", True)]
+                    idle "gui/RenTale/UI/Separator.png"
+                    sensitive False
+
+                hbox:
+                    spacing 20
+
+                    if persistent.quickmenu_rollback_enabled:
+                        textbutton "Back" action [SetVariable("persistent.quickmenu_rollback_enabled", False)]:
+                            text_style "custom_pref_quickmenu_enabled"
+                    else:
+                        textbutton "Back" action [SetVariable("persistent.quickmenu_rollback_enabled", True)]:
+                            text_style "custom_pref_quickmenu_disabled"
+                    if persistent.quickmenu_history_enabled:
+                        textbutton "History" action [SetVariable("persistent.quickmenu_history_enabled", False)]:
+                            text_style "custom_pref_quickmenu_enabled"
+                    else:
+                        textbutton "History" action [SetVariable("persistent.quickmenu_history_enabled", True)]:
+                            text_style "custom_pref_quickmenu_disabled"
+                    if persistent.quickmenu_skip_enabled:
+                        textbutton "Skip" action [SetVariable("persistent.quickmenu_skip_enabled", False)]:
+                            text_style "custom_pref_quickmenu_enabled"
+                    else:
+                        textbutton "Skip" action [SetVariable("persistent.quickmenu_skip_enabled", True)]:
+                            text_style "custom_pref_quickmenu_disabled"
+                    if persistent.quickmenu_autosave_enabled:
+                        textbutton "Auto" action [SetVariable("persistent.quickmenu_autosave_enabled", False)]:
+                            text_style "custom_pref_quickmenu_enabled"
+                    else:
+                        textbutton "Auto" action [SetVariable("persistent.quickmenu_autosave_enabled", True)]:
+                            text_style "custom_pref_quickmenu_disabled"
+                    if persistent.quickmenu_save_enabled:
+                        textbutton "Save" action [SetVariable("persistent.quickmenu_save_enabled", False)]:
+                            text_style "custom_pref_quickmenu_enabled"
+                    else:
+                        textbutton "Save" action [SetVariable("persistent.quickmenu_save_enabled", True)]:
+                            text_style "custom_pref_quickmenu_disabled"
+                    if persistent.quickmenu_quicksave_enabled:
+                        textbutton "Q.Save" action [SetVariable("persistent.quickmenu_quicksave_enabled", False)]:
+                            text_style "custom_pref_quickmenu_enabled"
+                    else:
+                        textbutton "Q.Save" action [SetVariable("persistent.quickmenu_quicksave_enabled", True)]:
+                            text_style "custom_pref_quickmenu_disabled"
+                    if persistent.quickmenu_quickload_enabled:
+                        textbutton "Q.Load" action [SetVariable("persistent.quickmenu_quickload_enabled", False)]:
+                            text_style "custom_pref_quickmenu_enabled"
+                    else:
+                        textbutton "Q.Load" action [SetVariable("persistent.quickmenu_quickload_enabled", True)]:
+                            text_style "custom_pref_quickmenu_disabled"
+                    if persistent.quickmenu_prefs_enabled:
+                        textbutton "Prefs" action [SetVariable("persistent.quickmenu_prefs_enabled", False)]:
+                            text_style "custom_pref_quickmenu_enabled"
+                    else:
+                        textbutton "Prefs" action [SetVariable("persistent.quickmenu_prefs_enabled", True)]:
+                            text_style "custom_pref_quickmenu_disabled"
+
 
 
 screen Audio_Preferences():
 
     tag menu
 
-    style_prefix "pref"
-
     use game_menu(_("")):
 
-        vpgrid:
-            cols 2
+        vbox:
+            style "custom_pref_vbox"
 
             hbox:
-                label _("Volume Master")
-            bar value Preference("main volume")
+                label _("Volume Master"):
+                    style "custom_pref_label"
+                bar value Preference("main volume"):
+                    style "custom_pref_slider"
 
             if config.has_music:
-                hbox:            
-                    label _("Volume BGM")
-                bar value Preference("music volume")
+                hbox:
+                    label _("Volume BGM"):
+                        style "custom_pref_label"
+                    bar value Preference("music volume"):
+                        style "custom_pref_slider"
 
             if config.has_sound:
                 hbox:
-                    label _("Volume SFX")
-                bar value Preference("sound volume")
+                    label _("Volume SFX"):
+                        style "custom_pref_label"
+                    bar value Preference("sound volume"):
+                        style "custom_pref_slider"
 
             if config.has_voice:
                 hbox:
-                    label _("Volume VO")
-                bar value Preference("voice volume")
+                    label _("Volume VO"):
+                        style "custom_pref_label"
+                    bar value Preference("voice volume"):
+                        style "custom_pref_slider"
             
-            hbox:            
-                label _("Mute All")
-            imagebutton:
-                idle "gui/RenTale/UI/Square.png"
-                selected_idle "gui/RenTale/UI/Square-Checked.png"
-                selected_hover Transform("gui/RenTale/UI/Square-Checked.png", matrixcolor = TintMatrix("#ff85ab"))
-                hover Transform("gui/RenTale/UI/Square.png", matrixcolor = TintMatrix("#ff85ab"))
-                action Preference("all mute", "toggle")
+            hbox:
+                label _("Mute All"):
+                    style "custom_pref_label"
+                imagebutton:
+                    idle "gui/RenTale/UI/Square.png"
+                    selected_idle "gui/RenTale/UI/Square-Checked.png"
+                    selected_hover Transform("gui/RenTale/UI/Square-Checked.png", matrixcolor = TintMatrix(gui.hover_color))
+                    hover Transform("gui/RenTale/UI/Square.png", matrixcolor = TintMatrix(gui.hover_color))
+                    action Preference("all mute", "toggle")
 
 
 screen Dialogue_Preferences():
     
     tag menu
     
-    style_prefix "pref"
-    
     use game_menu(_("")):
 
-        vpgrid:
-            cols 2
+        vbox:
+            style "custom_pref_vbox"
 
             hbox:
-                label _("Rollback Side")
+                xminimum 500
+                xmaximum 500
+                spacing 20
+
+                label _("Rollback Side"):
+                    yoffset 5
+                    text_style "custom_pref_label_text"
                 imagebutton:
                     idle "gui/RenTale/UI/Separator.png"
                     sensitive False
 
+                hbox:
+                    spacing 20
+
+                    textbutton _("Disable") action Preference("rollback side", "disable")
+                    textbutton _("Left") action Preference("rollback side", "left")
+                    textbutton _("Right") action Preference("rollback side", "right")
+
             hbox:
-                textbutton _("Disable") action Preference("rollback side", "disable")
-                textbutton _("Left") action Preference("rollback side", "left")
-                textbutton _("Right") action Preference("rollback side", "right")
+                label _("Text Speed"):
+                    style "custom_pref_label"
+                bar value Preference("text speed"):
+                    style "custom_pref_slider"
 
-            label _("Text Speed")
-            bar value Preference("text speed")
+            hbox:
+                label _("Auto-Forward Time"):
+                    style "custom_pref_label"
+                bar value Preference("auto-forward time"):
+                    style "custom_pref_slider"
 
-            label _("Auto-Forward Time")
-            bar value Preference("auto-forward time")
+            hbox:
+                label _("Skip Unseen Text"):
+                    style "custom_pref_label"
+                imagebutton:
+                    idle "gui/RenTale/UI/Square.png"
+                    selected_idle "gui/RenTale/UI/Square-Checked.png"
+                    selected_hover Transform("gui/RenTale/UI/Square-Checked.png", matrixcolor = TintMatrix(gui.hover_color))
+                    hover Transform("gui/RenTale/UI/Square.png", matrixcolor = TintMatrix(gui.hover_color))
+                    action Preference("skip", "toggle")
+
+            hbox:
+                label _("Skip After Choices"):
+                    style "custom_pref_label"
+                imagebutton:
+                    idle "gui/RenTale/UI/Square.png"
+                    selected_idle "gui/RenTale/UI/Square-Checked.png"
+                    selected_hover Transform("gui/RenTale/UI/Square-Checked.png", matrixcolor = TintMatrix(gui.hover_color))
+                    hover Transform("gui/RenTale/UI/Square.png", matrixcolor = TintMatrix(gui.hover_color))
+                    action Preference("after choices", "toggle")
+
+            hbox:
+                label _("Skip Transitions"):
+                    style "custom_pref_label"
+                imagebutton:
+                    idle "gui/RenTale/UI/Square.png"
+                    selected_idle "gui/RenTale/UI/Square-Checked.png"
+                    selected_hover Transform("gui/RenTale/UI/Square-Checked.png", matrixcolor = TintMatrix(gui.hover_color))
+                    hover Transform("gui/RenTale/UI/Square.png", matrixcolor = TintMatrix(gui.hover_color))
+                    action InvertSelected(Preference("transitions", "toggle"))
+
+            hbox:
+                label _("Text box opacity"):
+                    style "custom_pref_label"
+                bar value FieldValue(persistent, "textbox_opacity", range = 1.0, style = "slider"):
+                    style "custom_pref_slider"
+            
+            hbox:
+                label _("Text box height"):
+                    style "custom_pref_label"
+                bar value FieldValue(persistent, "textbox_height", offset = 225, range = 125, style = "slider"):
+                    style "custom_pref_slider"
+            
+            hbox:
+                style "custom_pref_hbox"
+                label _("Text box width"):
+                    style "custom_pref_label"
+                bar value FieldValue(persistent, "textbox_width", offset = 1000, range = 646, style = "slider"):
+                    style "custom_pref_slider"
 
 
-            label _("Skip Unseen Text")
-            imagebutton:
-                idle "gui/RenTale/UI/Square.png"
-                selected_idle "gui/RenTale/UI/Square-Checked.png"
-                selected_hover Transform("gui/RenTale/UI/Square-Checked.png", matrixcolor = TintMatrix("#ff85ab"))
-                hover Transform("gui/RenTale/UI/Square.png", matrixcolor = TintMatrix("#ff85ab"))
-                action Preference("skip", "toggle")
+style custom_pref_label:
+    xsize 460
+    yoffset -15
 
-            label _("Skip After Choices")
-            imagebutton:
-                idle "gui/RenTale/UI/Square.png"
-                selected_idle "gui/RenTale/UI/Square-Checked.png"
-                selected_hover Transform("gui/RenTale/UI/Square-Checked.png", matrixcolor = TintMatrix("#ff85ab"))
-                hover Transform("gui/RenTale/UI/Square.png", matrixcolor = TintMatrix("#ff85ab"))
-                action Preference("after choices", "toggle")
+style custom_pref_label_text:
+    color "#FFFFFF"
 
-            label _("Skip Transitions")
-            imagebutton:
-                idle "gui/RenTale/UI/Square.png"
-                selected_idle "gui/RenTale/UI/Square-Checked.png"
-                selected_hover Transform("gui/RenTale/UI/Square-Checked.png", matrixcolor = TintMatrix("#ff85ab"))
-                hover Transform("gui/RenTale/UI/Square.png", matrixcolor = TintMatrix("#ff85ab"))
-                action InvertSelected(Preference("transitions", "toggle"))
+style custom_pref_slider:
+    xsize 400
 
-            label _("Text box opacity")
-            bar value FieldValue(persistent, "textbox_opacity", range = 1.0, style = "slider")
+style custom_pref_vbox:
+    xalign 0.5
+    yalign 0.5
+    spacing 40
+    xoffset 70
+    yoffset 20
+
+style custom_pref_hbox:
+    yalign 0.5
+
+style custom_pref_quickmenu_enabled:
+    font gui.interface_text_font
+    color gui.accent_color
+    hover_color gui.hover_color
+    yoffset 5
+    size 23
+
+style custom_pref_quickmenu_disabled:
+    font gui.interface_text_font
+    color gui.idle_color
+    hover_color gui.hover_color
+    yoffset 5
+    size 23
+
+style custom_menu_btn:
+    font gui.interface_text_font
+    color "#FFFFFF"
+    insensitive_color gui.idle_color
+    hover_color gui.hover_color
+    selected_color gui.accent_color
 
 
 style pref_label is gui_label
@@ -1614,16 +1893,14 @@ screen quick_menu():
 
     zorder 100
 
-    if quick_menu:
+    hbox:
+        style "quick_menu"
+        style_prefix "quick"
 
-        hbox:
-            style "quick_menu"
-            style_prefix "quick"
-
-            textbutton _("Back") action Rollback()
-            textbutton _("Skip") action Skip() alternate Skip(fast=True, confirm=True)
-            textbutton _("Auto") action Preference("auto-forward", "toggle")
-            textbutton _("Menu") action ShowMenu()
+        textbutton _("Back") action Rollback()
+        textbutton _("Skip") action Skip() alternate Skip(fast=True, confirm=True)
+        textbutton _("Auto") action Preference("auto-forward", "toggle")
+        textbutton _("Menu") action ShowMenu()
 
 
 style window:
