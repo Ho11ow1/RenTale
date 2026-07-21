@@ -11,5 +11,5 @@ screen LocationSelect():
 
             text "Where would you like to go?"
             for location in rentale.all_locations:
-                if location.IsUnlocked:
-                    textbutton location.Name action rentale.MoveTo(location)
+                if location.is_unlocked:
+                    textbutton location.name action rentale.MoveTo(location)

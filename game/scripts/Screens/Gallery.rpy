@@ -30,10 +30,10 @@ screen GalleryPage(filteredList):
                     padding (0, 0)
                     xysize (360, 200)
 
-                    if item.IsUnlocked:
-                        idle item.Thumbnail
-                        hover Transform(item.Thumbnail, matrixcolor = BrightnessMatrix(0.1))
-                        action Replay(item.Label, item.Scope, False)
+                    if item.is_unlocked:
+                        idle item.image
+                        hover Transform(item.image, matrixcolor = BrightnessMatrix(0.1))
+                        action Replay(item.label, item.scope, False)
                         sensitive True
                     else:
                         idle "images/RenTale/Gallery/Locked.png"
