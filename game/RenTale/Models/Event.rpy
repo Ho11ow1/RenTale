@@ -1,6 +1,6 @@
 init -100 python in rentale:
     class Event():
-        def __init__(self, name, location, label, isUnlocked = False, isAutomatic = False, isCompleted = False, unlockCondition = None):
+        def __init__(self, name, location, label, is_unlocked = False, is_automatic = False, is_completed = False, unlock_condition = None):
             """
             Represents a game event tied to a Location. Automatically registers into rentale.all_locations at the given location on creation.
             """
@@ -12,47 +12,51 @@ init -100 python in rentale:
                 raise RenTaleTypeError(str, type(label))
             if label not in renpy.get_all_labels():
                 raise RenTaleArgumentException(f"Label '{label}' is not defined.")
-            if type(isUnlocked) != bool:
-                raise RenTaleTypeError(bool, type(isUnlocked))
-            if type(isAutomatic) != bool:
-                raise RenTaleTypeError(bool, type(isAutomatic))
+            if type(is_unlocked) != bool:
+                raise RenTaleTypeError(bool, type(is_unlocked))
+            if type(is_automatic) != bool:
+                raise RenTaleTypeError(bool, type(is_automatic))
+            if type(is_completed) != bool:
+                raise RenTaleTypeError(bool, type(is_completed))
+            if unlock_condition is not None and type(unlock_condition) != str:
+                raise RenTaleTypeError((str, type(None)), type(unlock_condition))
 
-            self.Name = name
-            self.Location = location
-            self.Label = label
-            self.IsUnlocked = isUnlocked
-            self.IsAutomatic = isAutomatic
-            self.IsCompleted = isCompleted
-            self.UnlockCondition = _sanitize_string(unlockCondition)
+            self.name = name
+            self.location = location
+            self.label = label
+            self.is_unlocked = is_unlocked
+            self.is_automatic = is_automatic
+            self.is_completed = is_completed
+            self.unlock_condition = _sanitize_string(unlock_condition)
 
-            all_locations[self.Location].append(self)
+            all_locations[self.location].append(self)
 
 
         def unlock(self) -> None:
             """
-            Sets the 'IsUnlocked' variable to true if not already true
+            Sets the 'is_unlocked' variable to true if not already true
             """
-            if not self.IsUnlocked:
-                self.IsUnlocked = True
+            if not self.is_unlocked:
+                self.is_unlocked = True
 
 
         def check_condition(self) -> bool:
             """
-            Returns true if the 'UnlockCondition' is None or evaluates to True
+            Returns true if the 'unlock_condition' is None or evaluates to True
             """
-            if self.UnlockCondition is None:
+            if self.unlock_condition is None:
                 return True
 
-            return eval(self.UnlockCondition, vars(renpy.store))
+            return eval(self.unlock_condition, vars(renpy.store))
 
 
         def play(self) -> None:
             """
-            Calls the associated Ren'Py label if the event has not been completed and the UnlockCondition is None or evaluates to True
+            Calls the associated Ren'Py label if the event has not been completed and the unlock_condition is None or evaluates to True
             """
-            if self.IsCompleted or not self.check_condition():
+            if self.is_completed or not self.check_condition():
                 return
 
-            self.IsCompleted = True
+            self.is_completed = True
 
-            renpy.call(self.Label)
+            renpy.call(self.label)

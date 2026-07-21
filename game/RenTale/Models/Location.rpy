@@ -1,6 +1,6 @@
 init -100 python in rentale:
     class Location():
-        def __init__(self, name, label, isUnlocked = True):
+        def __init__(self, name, label, is_unlocked = True):
             """
             Represents a navigable game location. Automatically registers into rentale.all_locations on creation.
             """
@@ -10,12 +10,12 @@ init -100 python in rentale:
                 raise RenTaleTypeError(str, type(label))
             if label not in renpy.get_all_labels():
                 raise RenTaleArgumentException(f"Label '{label}' is not defined.")
-            if type(isUnlocked) != bool:
-                raise RenTaleTypeError(bool, type(isUnlocked))
+            if type(is_unlocked) != bool:
+                raise RenTaleTypeError(bool, type(is_unlocked))
 
-            self.Name = name
-            self.Label = label
-            self.IsUnlocked = isUnlocked
+            self.name = name
+            self.label = label
+            self.is_unlocked = is_unlocked
 
             all_locations[self] = list()
 
@@ -24,5 +24,5 @@ init -100 python in rentale:
             """
             Sets the 'IsUnlocked' variable to true if not already true
             """
-            if not self.IsUnlocked:
-                self.IsUnlocked = True
+            if not self.is_unlocked:
+                self.is_unlocked = True

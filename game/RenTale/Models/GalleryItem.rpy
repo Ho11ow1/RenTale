@@ -1,6 +1,6 @@
 init -100 python in rentale:
     class GalleryItem():
-        def __init__(self, name, label, thumbnail, scope = None, isUnlocked = False):
+        def __init__(self, name, label, image, scope = None, is_unlocked = False):
             """
             Represents a gallery scene. Automatically registers into rentale.gallery_list and persistent.rentale_gallery on creation.
             """
@@ -8,31 +8,31 @@ init -100 python in rentale:
                 raise RenTaleTypeError(str, type(name))
             if type(label) != str:
                 raise RenTaleTypeError(str, type(label))
-            if type(thumbnail) != str:
-                raise RenTaleTypeError(str, type(thumbnail))
+            if type(image) != str:
+                raise RenTaleTypeError(str, type(image))
             if scope is not None and type(scope) != dict:
                 raise RenTaleTypeError((dict, type(None)), type(scope))
-            if type(isUnlocked) != bool:
-                raise RenTaleTypeError(bool, type(isUnlocked))
+            if type(is_unlocked) != bool:
+                raise RenTaleTypeError(bool, type(is_unlocked))
 
-            self.Name = name
-            self.Label = label
-            self.Thumbnail = thumbnail
-            self.Scope = {} if scope is None else scope
+            self.name = name
+            self.label = label
+            self.image = image
+            self.scope = {} if scope is None else scope
 
             if name not in renpy.store.persistent.rentale_gallery:
-                renpy.store.persistent.rentale_gallery[name] = isUnlocked
-                self.IsUnlocked = isUnlocked
+                renpy.store.persistent.rentale_gallery[name] = is_unlocked
+                self.is_unlocked = is_unlocked
             else:
-                self.IsUnlocked = renpy.store.persistent.rentale_gallery[name]
+                self.is_unlocked = renpy.store.persistent.rentale_gallery[name]
 
             gallery_list.add(self)
 
         
         def unlock(self) -> None:
             """
-            Sets the 'IsUnlocked' variable to true and unlocks itself in the gallery if not already unlocked
+            Sets the 'is_unlocked' variable to true and unlocks itself in the gallery if not already unlocked
             """
-            if not self.IsUnlocked:
-                self.IsUnlocked = True
-                renpy.store.persistent.rentale_gallery[self.Name] = True
+            if not self.is_unlocked:
+                self.is_unlocked = True
+                renpy.store.persistent.rentale_gallery[self.name] = True

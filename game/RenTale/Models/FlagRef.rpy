@@ -9,51 +9,51 @@ init -100 python in rentale:
             if type(value) not in (int, bool):
                 raise RenTaleTypeError((int, bool), type(value))
 
-            self.Name = name
-            self.Value = value
+            self.name = name
+            self.value = value
 
             all_flags[name] = self
 
 
         def set(self, value: int | bool) -> None:
             """
-            Sets the 'Value' variable to the passed in 'value'
+            Sets the 'value' variable to the passed in 'value'
             """
-            if type(value) != type(self.Value):
-                raise RenTaleTypeError(type(self.Value), type(value))
+            if type(value) != type(self.value):
+                raise RenTaleTypeError(type(self.value), type(value))
             
-            self.Value = value
+            self.value = value
 
 
         def toggle(self) -> None:
             """
-            Toggles the 'Value' from false to true and vice versa
+            Toggles the 'value' from false to true and vice versa
             """
-            if type(self.Value) != bool:
+            if type(self.value) != bool:
                 raise RenTaleArgumentException("Cannot toggle an 'Int' flag")
 
-            self.Value = not self.Value
+            self.value = not self.value
 
 
         def increment(self, amount: int = 1) -> None:
             """
-            Increases the 'Value' by the given 'amount'
+            Increases the 'value' by the given 'amount'
             """
             if type(amount) != int:
                 raise RenTaleTypeError(int, type(amount))
-            if type(self.Value) != int:
+            if type(self.value) != int:
                 raise RenTaleArgumentException("Cannot increment a 'Bool' flag")
 
-            self.set(self.Value + amount)
+            self.set(self.value + amount)
 
         
         def decrement(self, amount: int = 1) -> None:
             """
-            Decreases the 'Value' by the given 'amount'
+            Decreases the 'value' by the given 'amount'
             """
             if type(amount) != int:
                 raise RenTaleTypeError(int, type(amount))
-            if type(self.Value) != int:
+            if type(self.value) != int:
                 raise RenTaleArgumentException("Cannot decrement a 'Bool' flag")
 
-            self.set(self.Value - amount)
+            self.set(self.value - amount)

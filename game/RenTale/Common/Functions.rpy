@@ -8,9 +8,9 @@ init python in rentale:
             raise RenTaleTypeError(Location, type(location))
             
         if location in all_locations:
-            if location.IsUnlocked:
+            if location.is_unlocked:
                 renpy.store.rentale.current_location = location
-                renpy.jump(location.Label)
+                renpy.jump(location.label)
 
 
 # ========================= EVENT HANDLING ========================= #
@@ -19,9 +19,9 @@ init python in rentale:
         Triggers all automatic events at the current location that are unlocked, pass their condition and have not been completed
         """
         for event in all_locations[current_location]:
-            if event.IsCompleted:
+            if event.is_completed:
                 continue
-            if event.IsUnlocked and event.IsAutomatic and event.check_condition():
+            if event.is_unlocked and event.is_automatic and event.check_condition():
                 event.play()
 
 
@@ -36,7 +36,7 @@ init python in rentale:
         filtered = set()
 
         for item in gallery_list:
-            if item.Name.startswith(prefix):
+            if item.name.startswith(prefix):
                 filtered.add(item)
 
         return filtered
