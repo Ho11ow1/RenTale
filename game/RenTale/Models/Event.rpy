@@ -1,6 +1,6 @@
 init -100 python in rentale:
     class Event():
-        def __init__(self, name, location, label, is_unlocked = False, is_automatic = False, is_completed = False, unlock_condition = None):
+        def __init__(self, name: str, location, label: str, is_unlocked: bool = False, is_automatic: bool = False, is_completed: bool = False, unlock_condition: bool | None = None):
             """
             Represents a game event tied to a Location. Automatically registers into rentale.all_locations at the given location on creation.
             """

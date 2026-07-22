@@ -1,6 +1,6 @@
 init -100 python in rentale:
     class GalleryItem():
-        def __init__(self, name, label, image, scope = None, is_unlocked = False):
+        def __init__(self, name: str, label: str, image: str, scope: dict | None = None, is_unlocked: bool = False):
             """
             Represents a gallery scene. Automatically registers into rentale.gallery_list and persistent.rentale_gallery on creation.
             """

@@ -1,6 +1,6 @@
 init -100 python in rentale:
     class Location():
-        def __init__(self, name, label, is_unlocked = True):
+        def __init__(self, name: str, label: str, is_unlocked: bool = True):
             """
             Represents a navigable game location. Automatically registers into rentale.all_locations on creation.
             """
@@ -22,7 +22,7 @@ init -100 python in rentale:
 
         def unlock(self) -> None:
             """
-            Sets the 'IsUnlocked' variable to true if not already true
+            Sets the 'is_unlocked' variable to true if not already true
             """
             if not self.is_unlocked:
                 self.is_unlocked = True

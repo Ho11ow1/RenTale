@@ -26,6 +26,7 @@ define rentale.gallery_list = set() # HashSet<GalleryItem> (Named list for simpl
 
 # =============== INVENTORY SYSTEM =============== #
 default rentale.inventory = rentale.Inventory()
+default rentale.all_items = set()
 
 # =============== SAFETY =============== #
 init python in rentale:

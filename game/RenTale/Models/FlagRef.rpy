@@ -1,6 +1,6 @@
 init -100 python in rentale:
     class FlagRef():
-        def __init__(self, name, value):
+        def __init__(self, name: str, value: int | bool):
             """
             Type-safe flag wrapper. Accepts Int or Bool. Type is locked on creation.
             """
