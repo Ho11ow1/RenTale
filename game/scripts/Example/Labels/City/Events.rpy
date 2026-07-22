@@ -1,6 +1,7 @@
 label Label_Event_City_1:
     $ L_City_Park.unlock()
     $ L_City_Library.unlock()
+    $ rentale.advance_time()
 
     return
 
@@ -28,7 +29,9 @@ label Label_Event_Library_1:
 
 
     $ GI_Willow_Meet.unlock()
-    $ WillowFlags.HaveMet.set(True),
+    $ WillowFlags.HaveMet.set(True)
+    $ rentale.inventory.item_gain(II_Wine_Red, 3) # Will only allow for quantity = 1 because this item is not stackable
+    $ rentale.advance_time()
 
     return
 
@@ -47,6 +50,7 @@ label Label_Event_Park_1:
             Alice "It was nice talking to you [Player.Name], Same time next week?"
 
 
+
         "Sit next to her in silence":
             $ Alice.increase_stat(StatType.Friendship, 2)
 
@@ -55,5 +59,7 @@ label Label_Event_Park_1:
 
     $ GI_Alice_Meet.unlock()
     $ AliceFlags.HaveMet.set(True)
+    $ rentale.inventory.item_gain(II_Apple, 3)
+    $ rentale.advance_time()
 
     return

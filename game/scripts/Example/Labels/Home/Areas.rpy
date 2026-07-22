@@ -1,5 +1,17 @@
 label RenTale_Label_Example:
 
+    call screen QTE_Simple()
+
+    if _return:
+        e "You clicked in time."
+    else:
+        e "You failed to click in time."
+
+    e "Anyways, let's move on."
+
+    show screen InventoryBSDisplay
+    show screen TimeDisplay
+
     $ Player.Name = renpy.input(default = "Calli", prompt = "What's your name?", length = 8).strip()
 
     $ rentale.go_to(L_Home_Bedroom)
