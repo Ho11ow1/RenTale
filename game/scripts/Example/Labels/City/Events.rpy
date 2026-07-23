@@ -47,7 +47,7 @@ label Label_Event_Park_1:
             $ Alice.increase_stat(StatType.Friendship, 5)
             $ Alice.increase_stat(StatType.Love, 2)
 
-            Alice "It was nice talking to you [Player.Name], Same time next week?"
+            Alice "It was nice talking to you [Player.name], Same time next week?"
 
 
 

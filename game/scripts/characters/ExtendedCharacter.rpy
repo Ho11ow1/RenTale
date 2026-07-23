@@ -2,9 +2,9 @@ init -100 python:
     from enum import Enum
 
     class StatType(Enum):
-        Friendship = 0
-        Love = 1
-        Lust = 2
+        friendship = 0
+        love = 1
+        lust = 2
 
 
 init -100 python:
@@ -13,13 +13,13 @@ init -100 python:
             # Init actual character
             super().__init__(name, **properties)
             # Custom stats
-            self.Friendship = 0
-            self.Love = 0
-            self.Lust = 0
+            self.friendship = 0
+            self.love = 0
+            self.lust = 0
             # Small character note for a bio / card note
-            self.Note = note
+            self.note = note
             # Specific relation to player
-            self.Relationship = relationship
+            self.relationship = relationship
 
             rentale.all_characters.add(self)
 
@@ -31,12 +31,12 @@ init -100 python:
                 raise rentale.RenTaleTypeError(int, type(amount))
             
             match stat:
-                case StatType.Friendship:
-                    self.Friendship += amount
-                case StatType.Love:
-                    self.Love += amount
-                case StatType.Lust:
-                    self.Lust += amount
+                case StatType.friendship:
+                    self.friendship += amount
+                case StatType.love:
+                    self.love += amount
+                case StatType.lust:
+                    self.lust += amount
 
 
         def decrease_stat(self, stat: StatType, amount: int) -> None:
@@ -46,53 +46,44 @@ init -100 python:
                 raise rentale.RenTaleTypeError(int, type(amount))
 
             match stat:
-                case StatType.Friendship:
-                    self.Friendship -= amount
-                case StatType.Love:
-                    self.Love -= amount
-                case StatType.Lust:
-                    self.Lust -= amount
+                case StatType.friendship:
+                    self.friendship -= amount
+                case StatType.love:
+                    self.love -= amount
+                case StatType.lust:
+                    self.lust -= amount
 
 
         def change_relationship(self, relationship: str) -> None:
             if type(relationship) != str:
                 raise rentale.RenTaleTypeError(str, type(relationship))
             
-            self.Relationship = relationship
+            self.relationship = relationship
 
         
         def change_note(self, note: str) -> None:
             if type(note) != str:
                 raise rentale.RenTaleTypeError(str, type(note))
 
-            self.Note = note
+            self.note = note
 
 
 # ============================== DYNAMIC MODIFICATION METHODS | PARTIAL ONLY ============================== #
         @property
-        def Name(self) -> str:
-            return self.name
-
-        @Name.setter
-        def Name(self, value) -> None:
-            self.name = value
-
-
-        @property
-        def Color(self) -> str:
+        def color(self) -> str:
             val = self.who_args.get("color")
             return val if val is not None else gui.text_color
 
-        @Color.setter
-        def Color(self, value) -> None:
+        @color.setter
+        def color(self, value) -> None:
             self.who_args["color"] = value
 
 
         @property
-        def WhatColor(self) -> str:
+        def what_color(self) -> str:
             val = self.what_args.get("color")
             return val if val is not None else gui.text_color
 
-        @WhatColor.setter
-        def WhatColor(self, value) -> None:
+        @what_color.setter
+        def what_color(self, value) -> None:
             self.what_args["color"] = value

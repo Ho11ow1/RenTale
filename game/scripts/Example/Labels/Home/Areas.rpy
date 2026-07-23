@@ -12,7 +12,7 @@ label RenTale_Label_Example:
     show screen InventoryBSDisplay
     show screen TimeDisplay
 
-    $ Player.Name = renpy.input(default = "Calli", prompt = "What's your name?", length = 8).strip()
+    $ Player.name = renpy.input(default = "Calli", prompt = "What's your name?", length = 8).strip()
 
     $ rentale.go_to(L_Home_Bedroom)
 

@@ -3,7 +3,7 @@ define GI_Alice_Meet = rentale.GalleryItem(
     label = "Label_Event_Park_1",
     image = "images/RenTale/Gallery/Alice/Unlocked.png",
     scope = {
-        "Alice.Color": "#F8A9C6",
-        "Alice.WhatColor": "#FFFFFF"
+        "Alice.color": "#F8A9C6",
+        "Alice.what_color": "#FFFFFF"
     }
 )
