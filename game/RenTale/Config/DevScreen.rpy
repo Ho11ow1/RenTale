@@ -169,13 +169,13 @@ screen RenTale_DeveloperPanel():
                     elif active_tab == 5:
                         for character in sorted(rentale.all_characters, key = lambda c: c.name):
                             use RenTale_dev_card(character.name, [
-                                ("Color:", character.Color),
-                                ("TextColor:", character.WhatColor),
-                                ("Relationship:", character.Relationship),
-                                ("Note:", character.Note),
-                                ("Friendship:", character.Friendship),
-                                ("Love:", character.Love),
-                                ("Lust:", character.Lust)
+                                ("Color:", character.color),
+                                ("TextColor:", character.what_color),
+                                ("Relationship:", character.relationship),
+                                ("Note:", character.note),
+                                ("Friendship:", character.friendship),
+                                ("Love:", character.love),
+                                ("Lust:", character.lust)
                             ])
 
 
