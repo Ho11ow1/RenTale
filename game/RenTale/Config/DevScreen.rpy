@@ -57,7 +57,7 @@ screen RenTale_DeveloperPanel():
                             selected (active_tab == 3)
                             action SetScreenVariable("active_tab", 3)
 
-                        textbutton _("{b}Inventory{/b}"):
+                        textbutton _("{b}InventoryItems{/b}"):
                             style "RenTale_dev_tab_button"
                             selected (active_tab == 4)
                             action SetScreenVariable("active_tab", 4)
@@ -120,10 +120,11 @@ screen RenTale_DeveloperPanel():
 
                     # ========================= LOCATIONS ========================= #
                     elif active_tab == 1:
-                        for location in rentale.all_locations.keys():
-                            use RenTale_dev_card(location.Name, [
-                                ("Label:", location.Label),
-                                ("Is Unlocked:", location.IsUnlocked)
+                        for location in sorted(rentale.all_locations.keys(), key = lambda l: l.name):
+                            use RenTale_dev_card(location.name, [
+                                ("Label:", location.label),
+                                ("Is Unlocked:", location.is_unlocked),
+                                ("Events:", [event.name for event in rentale.all_locations[location]])
                             ])
 
 
@@ -133,39 +134,43 @@ screen RenTale_DeveloperPanel():
                             
                             null height 4
 
-                            for event in list:
-                                use RenTale_dev_card(event.Name, [
-                                    ("Location:", event.Location.Name),
-                                    ("Label:", event.Label),
-                                    ("Is Unlocked:", event.IsUnlocked),
-                                    ("Is Automatic:", event.IsAutomatic),
-                                    ("Is Completed:", event.IsCompleted),
-                                    ("Unlock Condition:", event.UnlockCondition if event.UnlockCondition else "None"),
+                            for event in sorted(list, key = lambda e: e.name):
+                                use RenTale_dev_card(event.name, [
+                                    ("Location:", event.location.name),
+                                    ("Label:", event.label),
+                                    ("Is Unlocked:", event.is_unlocked),
+                                    ("Is Automatic:", event.is_automatic),
+                                    ("Is Completed:", event.is_completed),
+                                    ("Unlock Condition:", event.unlock_condition if event.unlock_condition else "None"),
                                 ])
                                 
 
 
                     # ========================= FLAGS ========================= #
                     elif active_tab == 3:
-                        for name, flag in rentale.all_flags.items():
-                            use RenTale_dev_row(f"{name}:", f"{flag.Value}")
+                        for name, flag in sorted(rentale.all_flags.items(), key = lambda n: n):
+                            use RenTale_dev_row(f"{name}:", f"{flag.value}")
 
 
-                    # ========================= Inventory ========================= #
+                    # ========================= InventoryItems ========================= #
                     elif active_tab == 4:
-                        for item in rentale.inventory.Items:
-                            use RenTale_dev_card(item.Name, [
-                                    ("Quantity:", item.Quantity),
-                                    ("Is Stackable:", item.IsStackable),
-                                    ("Image:", item.Image if item.Image else "None"),
-                                    ("Description:", item.Description)
+                        for item in sorted(rentale.all_items, key = lambda item: item.name):
+                            use RenTale_dev_card(item.name, [
+                                    ("In Inventory:", rentale.inventory.contains(item)),
+                                    ("Quantity:", item.quantity),
+                                    ("Is Stackable:", item.is_stackable),
+                                    ("Image:", item.image if item.image else "None"),
+                                    ("Description:", item.description),
+                                    ("Cost:", item.cost)
                                 ])
 
 
                     # ========================= ExtendedCharacters ========================= #
                     elif active_tab == 5:
-                        for character in rentale.all_characters:
-                            use RenTale_dev_card(character.Name, [
+                        for character in sorted(rentale.all_characters, key = lambda c: c.name):
+                            use RenTale_dev_card(character.name, [
+                                ("Color:", character.Color),
+                                ("TextColor:", character.WhatColor),
                                 ("Relationship:", character.Relationship),
                                 ("Note:", character.Note),
                                 ("Friendship:", character.Friendship),
@@ -176,12 +181,12 @@ screen RenTale_DeveloperPanel():
 
                     # ========================= GALLERY ========================= #
                     elif active_tab == 6:
-                        for gi in rentale.gallery_list:
-                            use RenTale_dev_card(gi.Name, [
-                                    ("Label:", gi.Label),
-                                    ("Thumbnail:", gi.Thumbnail),
-                                    ("Scope:", gi.Scope if gi.Scope else "{{}"),
-                                    ("IsUnlocked:", gi.IsUnlocked)
+                        for gi in sorted(rentale.gallery_list, key = lambda gi: gi.name):
+                            use RenTale_dev_card(gi.name, [
+                                    ("Label:", gi.label),
+                                    ("Image:", gi.image),
+                                    ("Scope:", gi.scope if gi.scope else "{{}"),
+                                    ("Is Unlocked:", gi.is_unlocked)
                                 ])
 
 
@@ -242,12 +247,11 @@ screen RenTale_dev_card(name, kvp_list):
 
                                 text "[key.strip()]" style "RenTale_dev_card_kvp_label_text"
 
-                            if ';' in str(value):
-                                $ arr = str(value).split(';')
-                                $ formatted = "; \n".join(arr)
-                                
-                                text "[formatted]" style "RenTale_dev_card_kvp_value_text"
-
+                            if type(value) == dict:
+                                vbox:
+                                    $ joined = ", ".join(f"{k} | {v}" for k, v in value.items())
+                                    text "[joined]" style "RenTale_dev_card_kvp_value_text"
+                            
                             else:
                                 text "[str(value).strip()]" style "RenTale_dev_card_kvp_value_text"
 
