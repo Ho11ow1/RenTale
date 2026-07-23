@@ -81,7 +81,7 @@ init -100 python:
         @property
         def Color(self) -> str:
             val = self.who_args.get("color")
-            return val if val is not None else renpy.gui.text_color
+            return val if val is not None else gui.text_color
 
         @Color.setter
         def Color(self, value) -> None:
@@ -91,7 +91,7 @@ init -100 python:
         @property
         def WhatColor(self) -> str:
             val = self.what_args.get("color")
-            return val if val is not None else renpy.gui.text_color
+            return val if val is not None else gui.text_color
 
         @WhatColor.setter
         def WhatColor(self, value) -> None:
