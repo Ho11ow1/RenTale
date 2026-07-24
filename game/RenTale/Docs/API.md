@@ -55,6 +55,30 @@ class SkipTime(renpy.store.Action):
 | :------------------------ | :----------------------- | :------------------------------------------------------ |
 | count | `int` | Specifies the amount of times of day to move forward - Automatically advances the day and week if necessary|
 
+
+## [BuyItem](#actions_buyitem)
+> This action is used in tandem with [`InventoryItem`](#models_inventoryitem) and [`Inventory`](#managers_inventory) to enable buying items via the UI
+```py
+class BuyItem(renpy.store.Action):
+    def __init__(self, item: InventoryItem, amount: int):
+```
+| Parameter                  | Type                     | Description                                             |
+| :------------------------ | :----------------------- | :------------------------------------------------------ |
+| item | [`InventoryItem`](#models_inventoryitem) | Specifies the InventoryItem that will partake in the Buy action|
+| amount | `int` | Specifies the amount of the `item` that will be bought |
+
+
+## [SellItem](#actions_sellitem)
+> This action is used in tandem with [`InventoryItem`](#models_inventoryitem) and [`Inventory`](#managers_inventory) to enable selling items via the UI
+```py
+class SellItem(renpy.store.Action):
+    def __init__(self, item: InventoryItem, amount: int):
+```
+| Parameter                  | Type                     | Description                                             |
+| :------------------------ | :----------------------- | :------------------------------------------------------ |
+| item | [`InventoryItem`](#models_inventoryitem) | Specifies the InventoryItem that will partake in the Sell action|
+| amount | `int` | Specifies the amount of the `item` that will be sold |
+
 ---
 
 # [Variable](#variables)
@@ -65,6 +89,7 @@ class SkipTime(renpy.store.Action):
 default all_characters = set()
 default all_flags = dict()
 default all_locations = dict()
+default all_items = set()
 ```
 | Variable                  | Type                     | Description                                             |
 | :------------------------ | :----------------------- | :------------------------------------------------------ |
@@ -72,6 +97,7 @@ default all_locations = dict()
 | all_flags | dict<`str`, [`FlagRef`](#models_flagref)>| Allows viewing of all [`FlagRef`](#models_flagref) instances and their associated names - Auto-populated  |
 | all_locations | dict<[`Location`](#models_location), List<[`Event`](#models_event)>>| Allows viewing of all [`Location`](#models_location) and a list of their associated [`Event`](#models_event) - Auto-populated  |
 | current_location | [`Location`](#models_location)| Specifies the current location the player is in - Set via the [`go_to`](#functions_go_to) or the [`MoveTo`](#actions_moveto) Action  |
+| all_items | set<[`InventoryItem`](#models_inventoryitem)> | Allows viewing of all [`InventoryItem`](#models_inventoryitem) instances - Auto-populated |
 
 
 ## [Time](#variables_time)
@@ -209,17 +235,17 @@ class RenTaleValueError(ValueError)
 > Creates an Event object which is associated with a Location allowing for automatic or manual event execution - Gets automatically added to: [`all_locations`](#variables_developer)
 ```py
 class Event():
-    def __init__(self, name, location, label, isUnlocked = False, isAutomatic = False, isCompleted = False, unlockCondition = None)
+    def __init__(self, name: str, location, label: str, is_unlocked: bool = False, is_automatic: bool = False, is_completed: bool = False, unlock_condition: bool | None = None):
 ```
 | Parameter                 | Type                     | Description                                             |
 | :------------------------ | :----------------------- | :------------------------------------------------------ |
 | name | `str` | A unique name for this event |
 | location | [`Location`](#models_location) | A location to which this event is connected to |
 | label | `str` | A renpy label that will be called when this event is played |
-| isUnlocked | `bool` | Defines if this event is already unlocked for the player |
-| isAutomatic | `bool` | Defines if this event will be played via the [`trigger_automatic_event`](#functions_trigger_automatic_events) functioon |
-| isCompleted | `bool` | States whether this event has already been played or not |
-| unlockConditioon | `str` or `None` | If not none defines the condition that must evaluate to true so that the event can play. If none no check is made |
+| is_unlocked | `bool` | Defines if this event is already unlocked for the player |
+| is_automatic | `bool` | Defines if this event will be played via the [`trigger_automatic_event`](#functions_trigger_automatic_events) functioon |
+| is_completed | `bool` | States whether this event has already been played or not |
+| unlock_conditioon | `str` or `None` | If not none defines the condition that must evaluate to true so that the event can play. If none no check is made |
 
 ### Methods
 ```py
@@ -230,7 +256,7 @@ def play(self) -> None:
 | Method                    | Return Type              | Description                                             |
 | :------------------------ | :----------------------- | :------------------------------------------------------ |
 | unlock | `None` | Unlocks this event if it has not already been unlocked |
-| check_condition | `bool` | Returns true if the `unlockCondition` is None or evaluates to True |
+| check_condition | `bool` | Returns true if the `unlock_condition` is None or evaluates to True |
 | play | `None` | Calls the associated renpy label if this event has not been completed and `check_condition` returns True |
 
 
@@ -238,7 +264,7 @@ def play(self) -> None:
 > Acts as a small wrapper around basic flags providing type-safety for future usage - Gets automatically added to: [`all_flags`](#variables_developer)
 ```py
 class FlagRef():
-    def __init__(self, name, value)
+    def __init__(self, name: str, value: int | bool):
 ```
 | Parameter                 | Type                     | Description                                             |
 | :------------------------ | :----------------------- | :------------------------------------------------------ |
@@ -264,15 +290,15 @@ def decrement(self, amount: int = 1) -> None:
 > Creates an object which can then be displayed in a gallery screen - Always define this variable - Gets automatically added to: [`persistent.rentale_gallery`](#variables_gallery) and [`gallery_list`](#variables_gallery)
 ```py
 class GalleryItem():
-    def __init__(self, name, label, thumbnail, scope = None, isUnlocked = False)
+    def __init__(self, name: str, label: str, image: str, scope: dict | None = None, is_unlocked: bool = False):
 ```
 | Parameter                 | Type                     | Description                                             |
 | :------------------------ | :----------------------- | :------------------------------------------------------ |
 | name | `str` | A unique name for this item |
 | label | `str` | A renpy label which will be called on executing the renpy `Replay()` Action |
-| thumbnail | `str` | A filepath for the image to be shown on the gallery screen |
+| image | `str` | A filepath for the image to be shown on the gallery screen |
 | scope | `dict` or `None` | A dictionary mapping variable name to value. These variables are set when entering the replay |
-| isUnlocked | `bool` | Dictates whether this item is unlocked or not |
+| is_unlocked | `bool` | Dictates whether this item is unlocked or not |
 
 ### Methods
 ```py
@@ -287,38 +313,33 @@ def unlock(self) -> None:
 > Creates an object which can be used in the [`Inventory`](#managers_inventory) - Gets automatically added to the [`Inventory`](#managers_inventory)
 ```py
 class InventoryItem():
-    def __init__(self, name, quantity, isStackable, image = None, description = "")
+    def __init__(self, name: str, is_stackable: bool = False, image: str | None = None, description: str = "", cost: int = 0):
 ```
 | Parameter                 | Type                     | Description                                             |
 | :------------------------ | :----------------------- | :------------------------------------------------------ |
 | name | `str` | A unique name for this item |
-| quantity | `int` | Defines the initial quantity of this item in the inventory |
-| isStackable | `bool` | Defines if this item can be received / removed (stacked) |
+| is_stackable | `bool` | Defines if more than 1 of this item can be held at a time |
 | image | `str` or `None` | A filepath for the image to be shown on the inventory screen |
 | description | `str` | A description for this item which can be show in the inventory screen |
+| cost | `int` | Defines and arbitrary `cost` of this item for use in buying and seeling this item |
 
-### Methods
+### Extras
 ```py
-def receive(self, quantity: int = 1) -> None:
-def remove(self, quantity: int = 1) -> None:
+self.quantity = 0
 ```
-| Method                    | Return Type              | Description                                             |
-| :------------------------ | :----------------------- | :------------------------------------------------------ |
-| receive | `None` | Increases the quantity of this item by `quantity` if it is stackable |
-| remove | `None` | Decreases the quantity ofthis item by `quantity` if it is stackable - limited to 0 |
-
+> An InventoryItem also has a quantity variable. quantity = 0, Exists but not in inventory | quantity >= 1, Exists and is in inventory
 
 ## [Location](#models_location)
 > Represents a navigable game location - Gets automatically added to: [`all_locations`](#variables_developer)
 ```py
 class Location():
-    def __init__(self, name, label, isUnlocked = True)
+    def __init__(self, name: str, label: str, is_unlocked: bool = True):
 ```
 | Parameter                 | Type                     | Description                                             |
 | :------------------------ | :----------------------- | :------------------------------------------------------ |
 | name | `str` | A unique name for this location |
 | label | `str` | A renpy label to which this object is tied to |
-| isUnlocked | `bool` | Dictates whether this location is unlocked and available or not |
+| is_unlocked | `bool` | Dictates whether this location is unlocked and available or not |
 
 ### Methods
 ```py
@@ -337,21 +358,40 @@ def unlock(self) -> None
 ```py
 class Inventory():
     def __init__(self):
+        self.money = 0
         self.Items = set()
 ```
 
 ### Methods
 ```py
-def add(self, item: InventoryItem) -> None:
+def add(self, item: InventoryItem, quantity: int | None = None) -> None:
 def remove(self, item: InventoryItem) -> None:
 def contains(self, item: InventoryItem) -> bool:
+def money_set(self, amount: int) -> None:
+def money_gain(self, amount: int) -> None:
+def money_lose(self, amount: int) -> None:
+def item_set_quantity(self, item: InventoryItem, quantity: int) -> None:
+def item_gain(self, item: InventoryItem, quantity: int) -> None:
+def item_lose(self, item: InventoryItem, quantity: int) -> None:
+def item_buy(self, item: InventoryItem, quantity: int) -> bool:
+def item_sell(self, item: InventoryItem, quantity: int) -> None:
 ```
 | Method                    | Return Type              | Description                                             |
 | :------------------------ | :----------------------- | :------------------------------------------------------ |
-| add | `None` | Adds the specified [`InventoryItem`](#models_inventoryitem) to the inventory if it is not already in the inventory |
-| remove | `None` | Removes the specified [`InventoryItem`](#models_inventoryitem) from the inventory if it is found in the inventory |
+| add | `None` | Adds the specified [`InventoryItem`](#models_inventoryitem) to the inventory if it is not already in the inventory. For stackable items, sets the quantity to the given `quantity` (or `1` if not provided); non-stackable items are always set to a quantity of `1` |
+| remove | `None` | Removes the specified [`InventoryItem`](#models_inventoryitem) from the inventory if it is found in the inventory, and resets its quantity to `0` |
 | contains | `bool` | Returns true if the specified [`InventoryItem`](#models_inventoryitem) is found in the inventory |
-
+| | | |
+| money_set | `None` | Sets the inventory's money to the given `amount`, clamped to a minimum of `0` |
+| money_gain | `None` | Increases the inventory's money by the given `amount` |
+| money_lose | `None` | Decreases the inventory's money by the given `amount`, clamped to a minimum of `0` |
+| | | |
+| item_set_quantity | `None` | Sets the specified [`InventoryItem`](#models_inventoryitem)'s quantity to the given value, clamped to a minimum of `1`. If the item is not already in the inventory, it is added first |
+| item_gain | `None` | Increases the specified [`InventoryItem`](#models_inventoryitem)'s quantity by the given `quantity`. If the item is not already in the inventory, it is added instead; if it is present but not stackable, no change is made |
+| item_lose | `None` | Decreases the specified [`InventoryItem`](#models_inventoryitem)'s quantity by the given `quantity`. If the resulting quantity would be `0` or less, the item is removed entirely |
+| | | |
+| item_buy | `bool` | Attempts to purchase `quantity` of the specified [`InventoryItem`](#models_inventoryitem). Returns `False` if there isn't enough money, or if the item is non-stackable and already owned. Otherwise deducts the cost, adds the item(s), and returns `True` |
+| item_sell | `None` | Sells `quantity` of the specified [`InventoryItem`](#models_inventoryitem) if it is in the inventory, adding the corresponding money and reducing/removing the item. |
 
 ## [TimeManager](#managers_timemanager)
 > Allows for getting state data for all [`Time Variables`](#variables_time)
@@ -419,7 +459,7 @@ def stop_voice(fadeOut: float | None = None) -> None:
 def set_voice_volume(cls, volume: float) -> None:
 def get_voice_volume(cls) -> float:
 
-def play_custom(file: str, channel: str, loop: bool = False, fadeIn: float = 0.0, fadeOut: float | None = None, tight: bool = False, ifChanged: bool = False) -> None:
+def play_custom(file: str, channel: str, loop: bool = None, fadeIn: float = 0.0, fadeOut: float | None = None, tight: bool = False, ifChanged: bool = False) -> None:
 def stop_custom(channel: str, fadeOut: float | None = None) -> None:
 def set_custom_volume(channel: str, volume: float) -> None:
 def get_custom_volume(channel: str) -> float:

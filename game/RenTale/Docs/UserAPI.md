@@ -17,9 +17,9 @@
 > A simple enum defining the trackable stat categories for an [`ExtendedCharacter`](#models_extendedcharacter)
 ```py
 class StatType(Enum):
-    Friendship = 0
-    Love = 1
-    Lust = 2
+    friendship = 0
+    love = 1
+    lust = 2
 ```
 
 
@@ -54,37 +54,32 @@ def change_note(self, note: str) -> None:
 > Intellisense for these properties varies
 ```py
 @property
-    def Name(self) -> str:
-@Name.setter
-    def Name(self, value) -> None:
-
-@property
-    def Color(self) -> str:
+    def color(self) -> str:
 @Color.setter
-    def Color(self, value) -> None:
+    def color(self, value) -> None:
 
 @property
-    def WhatColor(self) -> str:
+    def what_color(self) -> str:
 @WhatColor.setter
-    def WhatColor(self, value) -> None:
+    def what_color(self, value) -> None:
 ```
 #### Example usage:
 ```rpy
 
-# After this statement when Alexandra says anything or anyone says [Alexandra.Name] it will show as "Alex"
-$ Alexandra.Name = "Alex"
+# After this statement when Alexandra says anything or anyone says [Alexandra.name] it will show as "Alex"
+$ Alexandra.name = "Alex"
 
 # With this scope when Isabella speaks in the replay her name will be "Bella" and her dialogue color will be pink
 scope = {
-    "Isabella.Name": "A",
-    "Isabella.WhatColor": "#F9A8B4"
+    "Isabella.name": "Bella",
+    "Isabella.what_color": "#F9A8B4"
 }
 ```
 | Property/Setter           | Return Type              | Description                                             |
 | :------------------------ | :----------------------- | :------------------------------------------------------ |
-| Name | `str`/`None` | Allows for character name modification in game and in gallery replay scope       |
-| Color | `str`/`None` | Allows for character name color modification in game and in gallery replay scope |
-| WhatColor | `str`/`None` | Allows for character text color modification in game and in gallery replay scope |
+| name | `str`/`None` | Allows for character name modification and retrieval       |
+| color | `str`/`None` | Allows for character name color modification and retrieval |
+| what_color | `str`/`None` | Allows for character text color modification and retrieval |
 
 ---
 
