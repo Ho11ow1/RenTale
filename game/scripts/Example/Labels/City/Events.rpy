@@ -14,16 +14,16 @@ label Label_Event_Library_1:
 
     menu:
         "Join her and talk":
-            $ Willow.increase_stat(StatType.Friendship, 10)
-            $ Willow.increase_stat(StatType.Love, 1)
-            $ Willow.increase_stat(StatType.Lust, 2)
+            $ Willow.increase_stat(StatType.friendship, 10)
+            $ Willow.increase_stat(StatType.love, 1)
+            $ Willow.increase_stat(StatType.lust, 2)
 
             Willow "Oh uh... hi"
             Willow "I'm really sorry but i have to go or i'll be late, Bye!"
 
 
         "Wave and quickly leave":
-            $ Willow.increase_stat(StatType.Friendship, 1)
+            $ Willow.increase_stat(StatType.friendship, 1)
 
             Willow "Hi..."
 
@@ -44,15 +44,15 @@ label Label_Event_Park_1:
 
     menu:
         "Join her and talk":
-            $ Alice.increase_stat(StatType.Friendship, 5)
-            $ Alice.increase_stat(StatType.Love, 2)
+            $ Alice.increase_stat(StatType.friendship, 5)
+            $ Alice.increase_stat(StatType.love, 2)
 
             Alice "It was nice talking to you [Player.name], Same time next week?"
 
 
 
         "Sit next to her in silence":
-            $ Alice.increase_stat(StatType.Friendship, 2)
+            $ Alice.increase_stat(StatType.friendship, 2)
 
             Alice "Don't be nervous, i won't bite"
 
