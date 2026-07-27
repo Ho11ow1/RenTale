@@ -1,7 +1,7 @@
-init 999 python:
-    def RenTale_ShowDevScreen():
-        if config.developer:
+init 999 python in rentale:
+    def ShowDevScreen():
+        if renpy.config.developer:
             renpy.show_screen("RenTale_DevScreen")
 
-    config.start_callbacks.append(RenTale_ShowDevScreen)
-    config.after_load_callbacks.append(RenTale_ShowDevScreen)
+    renpy.config.start_callbacks.append(ShowDevScreen)
+    renpy.config.after_load_callbacks.append(ShowDevScreen)

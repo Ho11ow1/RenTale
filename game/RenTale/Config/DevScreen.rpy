@@ -20,7 +20,7 @@ screen RenTale_DeveloperPanel():
     zorder 999
     tag RenTale_Dev_Screen_Panel
 
-    add RenTale_color_bg_dim
+    add rentale.style.color_bg_dim
 
     default active_tab = 0
 
@@ -80,7 +80,7 @@ screen RenTale_DeveloperPanel():
                         action Hide("RenTale_DeveloperPanel")
 
             frame:
-                background RenTale_color_separator
+                background rentale.style.color_separator
                 xfill True
                 ysize 2
                 padding (0, 0)
@@ -210,7 +210,7 @@ screen RenTale_dev_row(label, value):
 
             # separator line
             frame:
-                background RenTale_color_separator
+                background rentale.style.color_separator
                 xfill True
                 ysize 2
                 padding (0, 0)
@@ -233,7 +233,7 @@ screen RenTale_dev_card(name, kvp_list):
                 frame:
                     xsize 3
                     ymaximum listHeight
-                    background RenTale_color_accent_primary
+                    background rentale.style.color_accent_primary
                     padding (0, 0)
 
                 vbox:
@@ -256,7 +256,7 @@ screen RenTale_dev_card(name, kvp_list):
                                 text "[str(value).strip()]" style "RenTale_dev_card_kvp_value_text"
 
             frame:
-                background RenTale_color_separator
+                background rentale.style.color_separator
                 xfill True
                 ysize 2
                 padding (0, 0)
