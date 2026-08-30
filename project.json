@@ -10,5 +10,19 @@
   "android_build": "Release",
   "tutorial": false,
   "renamed_all": true,
-  "renamed_steam": true
+  "renamed_steam": true,
+
+  "renpy_launcher": {
+        "open_directory": {
+            "game": "game",
+            "base": ".",
+            "images": "game/images",
+            "audio": "game/audio",
+            "gui": "game/gui",
+            "libs": "game/libs",
+            "fonts": "game/fonts",
+            "movies": "game/movies",
+            "scripts": "game/scripts"
+        }
+    }
 }
