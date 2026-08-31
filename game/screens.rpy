@@ -402,22 +402,20 @@ style navigation_button_text:
 ## https://www.renpy.org/doc/html/screen_special.html#main-menu
 
 screen main_menu():
-
     ## This ensures that any other menu screen is replaced.
     tag menu
+    style_prefix "main_menu"
 
     add gui.main_menu_background
 
     vbox:
-        yoffset 20
-        xoffset 30
+        offset (30, 20)
         spacing 20
 
         showif url_patreon is not None:
             imagebutton:
                 idle "images/logos/normal/patreon.png"
                 hover Transform("images/logos/normal/patreon.png", matrixcolor = BrightnessMatrix(0.1))
-
                 hover_sound (url_hover_sound if url_hover_sound is not None else None)
                 action OpenURL(url_patreon)
 
@@ -425,15 +423,12 @@ screen main_menu():
             imagebutton:
                 idle "images/logos/normal/discord.png"
                 hover Transform("images/logos/normal/discord.png", matrixcolor = BrightnessMatrix(0.1))
-
                 hover_sound (url_hover_sound if url_hover_sound is not None else None)
                 action OpenURL(url_discord)
 
 
     hbox:
-        xfill True
-        xoffset 50
-        yalign 0.98
+        align (0.5, 0.98)
         spacing 75
 
         textbutton _("NEW GAME") action Start() text_style "custom_menu_btn"
@@ -441,7 +436,7 @@ screen main_menu():
         textbutton _("OPTIONS") action ShowMenu("preferences") text_style "custom_menu_btn"
         textbutton _("GALLERY") action ShowMenu("Gallery") text_style "custom_menu_btn"
         textbutton _("QUIT") action Quit(True) text_style "custom_menu_btn"
-        text _("VERSION [config.version]") yalign 0.5
+        text "VERSION [config.version]" yalign 0.5 color gui.text_color
 
 
 style main_menu_frame is empty
@@ -702,8 +697,7 @@ screen file_slots(title):
             grid gui.file_slot_cols gui.file_slot_rows:
                 style_prefix "slot"
 
-                xalign 0.5
-                yalign 0.1
+                align (0.5, 0.1)
                 xoffset -200
 
                 spacing gui.slot_spacing
@@ -734,8 +728,7 @@ screen file_slots(title):
             vbox:
                 style_prefix "page"
 
-                xalign 0.5
-                yalign 1.0
+                align (0.5, 1.0)
                 xoffset -200
 
                 key "save_page_prev" action FilePagePrevious()
@@ -1149,11 +1142,9 @@ style custom_pref_slider:
     xsize 400
 
 style custom_pref_vbox:
-    xalign 0.5
-    yalign 0.5
+    align (0.5, 0.5)
+    offset (70, 20)
     spacing 40
-    xoffset 70
-    yoffset 20
 
 style custom_pref_hbox:
     yalign 0.5

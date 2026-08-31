@@ -143,7 +143,6 @@ screen RenTale_DeveloperPanel():
                                     ("Is Completed:", event.is_completed),
                                     ("Unlock Condition:", event.unlock_condition if event.unlock_condition else "None"),
                                 ])
-                                
 
 
                     # ========================= FLAGS ========================= #
@@ -156,13 +155,13 @@ screen RenTale_DeveloperPanel():
                     elif active_tab == 4:
                         for item in sorted(rentale.all_items, key = lambda item: item.name):
                             use RenTale_dev_card(item.name, [
-                                    ("In Inventory:", rentale.inventory.contains(item)),
-                                    ("Quantity:", item.quantity),
-                                    ("Is Stackable:", item.is_stackable),
-                                    ("Image:", item.image if item.image else "None"),
-                                    ("Description:", item.description),
-                                    ("Cost:", item.cost)
-                                ])
+                                ("In Inventory:", rentale.inventory.contains(item)),
+                                ("Quantity:", item.quantity),
+                                ("Is Stackable:", item.is_stackable),
+                                ("Image:", item.image if item.image else "None"),
+                                ("Description:", item.description),
+                                ("Cost:", item.cost)
+                            ])
 
 
                     # ========================= ExtendedCharacters ========================= #
@@ -218,7 +217,8 @@ screen RenTale_dev_row(label, value):
 
 # ========================= CARD ROW (Events, Locations, etc.) ========================= #
 screen RenTale_dev_card(name, kvp_list):
-    $ listHeight = len(kvp_list) * 18
+    default listHeight = (len(kvp_list) * 18)
+
     frame:
         style "RenTale_dev_card_frame"
 
