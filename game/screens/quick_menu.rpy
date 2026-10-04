@@ -18,19 +18,19 @@ screen quick_menu():
             if persistent.quickmenu_rollback_enabled :
                 textbutton _("Back") action Rollback()
             if persistent.quickmenu_history_enabled:
-                textbutton _("History") action ShowMenu('history')
+                textbutton _("History") action ShowMenu("history")
             if persistent.quickmenu_skip_enabled:
                 textbutton _("Skip") action Skip() alternate Skip(fast=True, confirm=True)
             if persistent.quickmenu_autosave_enabled:
                 textbutton _("Auto") action Preference("auto-forward", "toggle")
             if persistent.quickmenu_save_enabled:
-                textbutton _("Save") action ShowMenu('save')
+                textbutton _("Save") action ShowMenu("save")
             if persistent.quickmenu_quicksave_enabled:
                 textbutton _("Q.Save") action QuickSave()
             if persistent.quickmenu_quicksave_enabled:
                 textbutton _("Q.Load") action QuickLoad()
             if persistent.quickmenu_prefs_enabled:
-                textbutton _("Prefs") action ShowMenu('preferences')
+                textbutton _("Prefs") action ShowMenu("preferences")
 
 
 style quick_button is default:

@@ -42,22 +42,18 @@ screen notify(message):
     frame at notify_appear:
         text "[message!tq]"
 
-    timer 3.25 action Hide('notify')
+    timer 3.25 action Hide("notify")
 
 
-style skip_frame is empty
-style skip_text is gui_text
-style skip_triangle is skip_text
-
-style skip_frame:
+style skip_frame is empty:
     ypos gui.skip_ypos
     background Frame("gui/skip.png", gui.skip_frame_borders, tile=gui.frame_tile)
     padding gui.skip_frame_borders.padding
 
-style skip_text:
+style skip_text is gui_text:
     size gui.notify_text_size
 
-style skip_triangle:
+style skip_triangle is skip_text:
     font "DejaVuSans.ttf"
 
 style notify_frame is empty
