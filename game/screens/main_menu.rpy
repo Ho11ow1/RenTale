@@ -5,7 +5,7 @@ screen main_menu():
     add gui.main_menu_background
 
     vbox:
-        align(0.0, 0.0)
+        align (0.0, 0.0)
         offset (30, 20)
         spacing 20
 
@@ -44,7 +44,7 @@ style main_menu_frame is empty:
 
 
 style main_menu_text is gui_text:
-    properties gui.text_properties("main_menu", accent=True)
+    properties gui.text_properties("main_menu", accent = True)
 
 
 style main_menu_title is main_menu_text:

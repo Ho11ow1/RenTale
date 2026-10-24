@@ -3,13 +3,11 @@ screen input(prompt):
 
     window:
         ypos 1080 - (persistent.textbox_height) - (32 if persistent.quickmenu_enabled else 0)
-        xsize persistent.textbox_width + 274
-        ysize persistent.textbox_height
+        xysize (persistent.textbox_width + 274, persistent.textbox_height)
         background Frame(Transform("gui/textbox.png", alpha = persistent.textbox_opacity))
 
         vbox:
-            xpos gui.name_xpos
-            ypos 20
+            pos (gui.name_xpos, 20)
             xsize persistent.textbox_width
             spacing 50
 
@@ -34,8 +32,7 @@ screen confirm(message, yes_action, no_action):
     frame:
 
         vbox:
-            xalign .5
-            yalign .5
+            align (0.5, 0.5)
             spacing 45
 
             label _(message):
@@ -65,10 +62,9 @@ style input:
 style confirm_prompt is gui_prompt
 
 style confirm_frame is gui_frame:
-    background Frame([ "gui/confirm_frame.png", "gui/frame.png"], gui.confirm_frame_borders, tile=gui.frame_tile)
+    background Frame(["gui/confirm_frame.png", "gui/frame.png"], gui.confirm_frame_borders, tile = gui.frame_tile)
     padding gui.confirm_frame_borders.padding
-    xalign .5
-    yalign .5
+    align (0.5, 0.5)
 
 style confirm_prompt_text is gui_prompt_text:
     textalign 0.5

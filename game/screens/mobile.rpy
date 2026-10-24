@@ -18,7 +18,7 @@ screen quick_menu():
         style_prefix "quick"
 
         textbutton _("Back") action Rollback()
-        textbutton _("Skip") action Skip() alternate Skip(fast=True, confirm=True)
+        textbutton _("Skip") action Skip() alternate Skip(fast = True, confirm = True)
         textbutton _("Auto") action Preference("auto-forward", "toggle")
         textbutton _("Menu") action ShowMenu()
 
@@ -66,37 +66,37 @@ style pref_vbox:
 style bar:
     variant "small"
     ysize gui.bar_size
-    left_bar Frame("gui/phone/bar/left.png", gui.bar_borders, tile=gui.bar_tile)
-    right_bar Frame("gui/phone/bar/right.png", gui.bar_borders, tile=gui.bar_tile)
+    left_bar Frame("gui/phone/bar/left.png", gui.bar_borders, tile = gui.bar_tile)
+    right_bar Frame("gui/phone/bar/right.png", gui.bar_borders, tile = gui.bar_tile)
 
 style vbar:
     variant "small"
     xsize gui.bar_size
-    top_bar Frame("gui/phone/bar/top.png", gui.vbar_borders, tile=gui.bar_tile)
-    bottom_bar Frame("gui/phone/bar/bottom.png", gui.vbar_borders, tile=gui.bar_tile)
+    top_bar Frame("gui/phone/bar/top.png", gui.vbar_borders, tile = gui.bar_tile)
+    bottom_bar Frame("gui/phone/bar/bottom.png", gui.vbar_borders, tile = gui.bar_tile)
 
 style scrollbar:
     variant "small"
     ysize gui.scrollbar_size
-    base_bar Frame("gui/phone/scrollbar/horizontal_[prefix_]bar.png", gui.scrollbar_borders, tile=gui.scrollbar_tile)
-    thumb Frame("gui/phone/scrollbar/horizontal_[prefix_]thumb.png", gui.scrollbar_borders, tile=gui.scrollbar_tile)
+    base_bar Frame("gui/phone/scrollbar/horizontal_[prefix_]bar.png", gui.scrollbar_borders, tile = gui.scrollbar_tile)
+    thumb Frame("gui/phone/scrollbar/horizontal_[prefix_]thumb.png", gui.scrollbar_borders, tile = gui.scrollbar_tile)
 
 style vscrollbar:
     variant "small"
     xsize gui.scrollbar_size
-    base_bar Frame("gui/phone/scrollbar/vertical_[prefix_]bar.png", gui.vscrollbar_borders, tile=gui.scrollbar_tile)
-    thumb Frame("gui/phone/scrollbar/vertical_[prefix_]thumb.png", gui.vscrollbar_borders, tile=gui.scrollbar_tile)
+    base_bar Frame("gui/phone/scrollbar/vertical_[prefix_]bar.png", gui.vscrollbar_borders, tile = gui.scrollbar_tile)
+    thumb Frame("gui/phone/scrollbar/vertical_[prefix_]thumb.png", gui.vscrollbar_borders, tile = gui.scrollbar_tile)
 
 style slider:
     variant "small"
     ysize gui.slider_size
-    base_bar Frame("gui/phone/slider/horizontal_[prefix_]bar.png", gui.slider_borders, tile=gui.slider_tile)
+    base_bar Frame("gui/phone/slider/horizontal_[prefix_]bar.png", gui.slider_borders, tile = gui.slider_tile)
     thumb "gui/phone/slider/horizontal_[prefix_]thumb.png"
 
 style vslider:
     variant "small"
     xsize gui.slider_size
-    base_bar Frame("gui/phone/slider/vertical_[prefix_]bar.png", gui.vslider_borders, tile=gui.slider_tile)
+    base_bar Frame("gui/phone/slider/vertical_[prefix_]bar.png", gui.vslider_borders, tile = gui.slider_tile)
     thumb "gui/phone/slider/vertical_[prefix_]thumb.png"
 
 style slider_vbox:

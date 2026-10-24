@@ -8,13 +8,11 @@ screen say(who, what):
     window:
         id "window"
         ypos 1080 - (persistent.textbox_height) - (32 if persistent.quickmenu_enabled else 0)
-        xsize persistent.textbox_width + 274
-        ysize persistent.textbox_height
+        xysize (persistent.textbox_width + 274, persistent.textbox_height)
         background Frame(Transform("gui/textbox.png", alpha = persistent.textbox_opacity))
 
         vbox:
-            xpos gui.name_xpos
-            ypos 20
+            pos (gui.name_xpos, 20)
             xsize persistent.textbox_width
             spacing 10
 
@@ -36,13 +34,11 @@ screen multiple_say(who, what, multiple):
     window:
         id "window"
         ypos 1080 - (persistent.textbox_height * multiple[0]) - (32 if persistent.quickmenu_enabled else 0)
-        xsize persistent.textbox_width + 274
-        ysize persistent.textbox_height
+        xysize (persistent.textbox_width + 274, persistent.textbox_height)
         background Frame(Transform("gui/textbox.png", alpha = persistent.textbox_opacity))
 
         vbox:
-            xpos gui.name_xpos
-            ypos 20
+            pos (gui.name_xpos, 20)
             xsize persistent.textbox_width
             spacing 10
 
@@ -71,17 +67,15 @@ style block2_multiple2_say_window:
 
 
 style namebox is default:
-    xsize gui.namebox_width
-    ysize gui.namebox_height
+    xysize (gui.namebox_width, gui.namebox_height)
 
-    background Frame("gui/namebox.png", gui.namebox_borders, tile=gui.namebox_tile, xalign=gui.name_xalign)
+    background Frame("gui/namebox.png", gui.namebox_borders, tile = gui.namebox_tile, xalign = gui.name_xalign)
     padding gui.namebox_borders.padding
 
 
 style say_label is default:
-    properties gui.text_properties("name", accent=True)
-    xalign gui.name_xalign
-    yalign 0.5
+    properties gui.text_properties("name", accent = True)
+    align (gui.name_xalign, 0.5)
 
 
 style say_dialogue is default:

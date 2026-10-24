@@ -1,33 +1,32 @@
 define config.nvl_list_length = gui.nvl_list_length
 
-screen nvl(dialogue, items=None):
+screen nvl(dialogue, items = None):
 
     window:
         style "nvl_window"
 
-        has vbox:
+        vbox:
             spacing gui.nvl_spacing
 
-        ## Displays dialogue in either a vpgrid or the vbox.
-        if gui.nvl_height:
+            ## Displays dialogue in either a vpgrid or the vbox.
+            if gui.nvl_height:
 
-            vpgrid:
-                cols 1
-                yinitial 1.0
+                vpgrid:
+                    cols 1
+                    yinitial 1.0
 
+                    use nvl_dialogue(dialogue)
+
+            else:
                 use nvl_dialogue(dialogue)
 
-        else:
+            ## Displays the menu, if given. The menu may be displayed incorrectly
+            ## if config.narrator_menu is set to True.
+            for i in items:
 
-            use nvl_dialogue(dialogue)
-
-        ## Displays the menu, if given. The menu may be displayed incorrectly
-        ## if config.narrator_menu is set to True.
-        for i in items:
-
-            textbutton i.caption:
-                action i.action
-                style "nvl_button"
+                textbutton i.caption:
+                    action i.action
+                    style "nvl_button"
 
     add SideImage() xalign 0.0 yalign 1.0
 
@@ -63,27 +62,23 @@ style nvl_entry is default:
     ysize gui.nvl_height
 
 style nvl_label is say_label:
-    xpos gui.nvl_name_xpos
-    xanchor gui.nvl_name_xalign
-    ypos gui.nvl_name_ypos
-    yanchor 0.0
+    pos (gui.nvl_name_xpos, gui.nvl_name_ypos)
+    anchor (gui.nvl_name_xalign, 0.0)
     xsize gui.nvl_name_width
     min_width gui.nvl_name_width
     textalign gui.nvl_name_xalign
 
 style nvl_dialogue is say_dialogue:
-    xpos gui.nvl_text_xpos
+    pos (gui.nvl_text_xpos, gui.nvl_text_ypos)
     xanchor gui.nvl_text_xalign
-    ypos gui.nvl_text_ypos
     xsize gui.nvl_text_width
     min_width gui.nvl_text_width
     textalign gui.nvl_text_xalign
     layout ("subtitle" if gui.nvl_text_xalign else "tex")
 
 style nvl_thought:
-    xpos gui.nvl_thought_xpos
+    pos (gui.nvl_thought_xpos, gui.nvl_thought_ypos)
     xanchor gui.nvl_thought_xalign
-    ypos gui.nvl_thought_ypos
     xsize gui.nvl_thought_width
     min_width gui.nvl_thought_width
     textalign gui.nvl_thought_xalign

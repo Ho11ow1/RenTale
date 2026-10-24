@@ -6,8 +6,7 @@ screen preferences():
             style "custom_pref_vbox"
 
             hbox:
-                xminimum 500
-                xmaximum 500
+                xsize 500
                 spacing 20
 
                 label _("Display"):
@@ -73,8 +72,7 @@ screen preferences():
                         action [SetVariable("quick_menu", True), SetVariable("persistent.quickmenu_enabled", True)]
 
             hbox:
-                xminimum 500
-                xmaximum 500
+                xsize 500
                 spacing 20
 
                 label _("Quickmenu position"):
@@ -215,8 +213,7 @@ screen Dialogue_Preferences():
             style "custom_pref_vbox"
 
             hbox:
-                xminimum 500
-                xmaximum 500
+                xsize 500
                 spacing 20
 
                 label _("Rollback Side"):

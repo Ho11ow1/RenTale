@@ -1,4 +1,4 @@
-screen game_menu(title, scroll=None, yinitial=0.0, spacing=0):
+screen game_menu(title, scroll = None, yinitial = 0.0, spacing = 0):
 
     style_prefix "game_menu"
 
@@ -59,16 +59,14 @@ screen game_menu(title, scroll=None, yinitial=0.0, spacing=0):
     use navigation
 
     hbox:
-        xalign 0.0
-        yalign 0.0
+        align (0.0, 0.0)
         spacing 20
 
         textbutton _("MAIN MENU") action MainMenu() text_style "custom_menu_btn"
         textbutton _("QUIT") action Quit(True) text_style "custom_menu_btn"
 
     hbox:
-        xalign 0.0
-        yalign 1.0
+        align (0.0, 1.0)
 
         textbutton _("RETURN") action Return() text_style "custom_menu_btn"
 

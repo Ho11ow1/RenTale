@@ -7,7 +7,7 @@ screen history():
     ## Avoid predicting this screen, as it can be very large.
     predict False
 
-    use game_menu(_("History"), scroll=("vpgrid" if gui.history_height else "viewport"), yinitial=1.0, spacing=gui.history_spacing):
+    use game_menu(_("History"), scroll = ("vpgrid" if gui.history_height else "viewport"), yinitial = 1.0, spacing = gui.history_spacing):
 
         style_prefix "history"
 
@@ -16,23 +16,24 @@ screen history():
             window:
 
                 ## This lays things out properly if history_height is None.
-                has fixed:
+                fixed:
                     yfit True
 
-                if h.who:
+                    if h.who:
 
-                    label h.who:
-                        style "history_name"
+                        label h.who:
+                            style "history_name"
+                            substitute False
+
+                            ## Take the color of the who text from the Character,
+                            ## if set.
+                            if "color" in h.who_args:
+                                text_color h.who_args["color"]
+
+                    $ what = renpy.filter_text_tags(h.what, allow = gui.history_allow_tags)
+
+                    text what:
                         substitute False
-
-                        ## Take the color of the who text from the Character,
-                        ## if set.
-                        if "color" in h.who_args:
-                            text_color h.who_args["color"]
-
-                $ what = renpy.filter_text_tags(h.what, allow=gui.history_allow_tags)
-                text what:
-                    substitute False
 
         if not _history_list:
             label _("The dialogue history is empty.")
@@ -43,9 +44,8 @@ style history_window is empty:
     ysize gui.history_height
 
 style history_name is gui_label:
-    xpos gui.history_name_xpos
+    pos (gui.history_name_xpos, gui.history_name_ypos)
     xanchor gui.history_name_xalign
-    ypos gui.history_name_ypos
     xsize gui.history_name_width
 
 style history_name_text is gui_label_text:
@@ -53,8 +53,7 @@ style history_name_text is gui_label_text:
     textalign gui.history_name_xalign
 
 style history_text is gui_text:
-    xpos gui.history_text_xpos
-    ypos gui.history_text_ypos
+    pos (gui.history_text_xpos, gui.history_text_ypos)
     xanchor gui.history_text_xalign
     xsize gui.history_text_width
     min_width gui.history_text_width

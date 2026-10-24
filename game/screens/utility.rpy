@@ -47,7 +47,7 @@ screen notify(message):
 
 style skip_frame is empty:
     ypos gui.skip_ypos
-    background Frame("gui/skip.png", gui.skip_frame_borders, tile=gui.frame_tile)
+    background Frame("gui/skip.png", gui.skip_frame_borders, tile = gui.frame_tile)
     padding gui.skip_frame_borders.padding
 
 style skip_text is gui_text:
@@ -62,7 +62,7 @@ style notify_text is gui_text
 style notify_frame:
     ypos gui.notify_ypos
 
-    background Frame("gui/notify.png", gui.notify_frame_borders, tile=gui.frame_tile)
+    background Frame("gui/notify.png", gui.notify_frame_borders, tile = gui.frame_tile)
     padding gui.notify_frame_borders.padding
 
 style notify_text:

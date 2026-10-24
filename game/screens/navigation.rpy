@@ -1,8 +1,7 @@
 screen navigation():
 
     hbox:
-        xalign 0.5
-        yalign 0.08
+        align (0.5, 0.08)
         spacing 30
 
         textbutton _("SAVE") action ShowMenu("save") text_style "custom_menu_btn"
@@ -32,7 +31,7 @@ screen navigation():
                 idle "gui/RenTale/UI/Separator.png"
                 sensitive False
 
-            textbutton _("END REPLAY") action EndReplay(confirm=True) text_style "custom_menu_btn"
+            textbutton _("END REPLAY") action EndReplay(confirm = True) text_style "custom_menu_btn"
 
 
 style navigation_button is gui_button:

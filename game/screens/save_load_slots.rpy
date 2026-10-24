@@ -19,6 +19,7 @@ screen file_slots(title):
     use game_menu(title):
 
         fixed:
+            xoffset -200
             ## This ensures the input will get the enter event before any of
             ## the buttons do.
             # order_reverse True
@@ -38,10 +39,7 @@ screen file_slots(title):
             ## The grid of file slots.
             grid gui.file_slot_cols gui.file_slot_rows:
                 style_prefix "slot"
-
                 align (0.5, 0.1)
-                xoffset -200
-
                 spacing gui.slot_spacing
 
                 for i in range(gui.file_slot_cols * gui.file_slot_rows):
@@ -55,7 +53,7 @@ screen file_slots(title):
 
                             add FileScreenshot(slot) xalign 0.5
 
-                            text FileTime(slot, format=_("%B %d %Y, %H:%M"), empty=_("empty slot")):
+                            text FileTime(slot, format = _("%B %d %Y, %H:%M"), empty = _("empty slot")):
                                 style "slot_time_text"
                                 color gui.idle_color
                                 hover_color gui.hover_color
@@ -68,16 +66,13 @@ screen file_slots(title):
 
             vbox:
                 style_prefix "page"
-
                 align (0.5, 1.0)
-                xoffset -200
 
                 key "save_page_prev" action FilePagePrevious()
                 key "save_page_next" action FilePageNext()
 
                 hbox:
                     xalign 0.5
-
                     spacing gui.page_spacing
 
                     hbox:
@@ -131,8 +126,7 @@ style slot_time_text is slot_button_text
 style slot_name_text is slot_button_text
 
 style page_label is gui_label:
-    xpadding 75
-    ypadding 5
+    padding (75, 5)
     xalign 0.5
 
 style page_label_text is gui_label_text:

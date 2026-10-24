@@ -12,15 +12,14 @@ screen quick_menu():
 
         hbox:
             style_prefix "quick"
-            xalign persistent.quickmenu_position_x
-            yalign 1.0
+            align (persistent.quickmenu_position_x, 1.0)
 
-            if persistent.quickmenu_rollback_enabled :
+            if persistent.quickmenu_rollback_enabled:
                 textbutton _("Back") action Rollback()
             if persistent.quickmenu_history_enabled:
                 textbutton _("History") action ShowMenu("history")
             if persistent.quickmenu_skip_enabled:
-                textbutton _("Skip") action Skip() alternate Skip(fast=True, confirm=True)
+                textbutton _("Skip") action Skip() alternate Skip(fast = True, confirm = True)
             if persistent.quickmenu_autosave_enabled:
                 textbutton _("Auto") action Preference("auto-forward", "toggle")
             if persistent.quickmenu_save_enabled:

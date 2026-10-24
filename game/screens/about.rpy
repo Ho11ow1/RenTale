@@ -1,7 +1,7 @@
 screen about():
     tag menu
 
-    use game_menu(_("About"), scroll="viewport"):
+    use game_menu(_("About"), scroll = "viewport"):
 
         style_prefix "about"
 
