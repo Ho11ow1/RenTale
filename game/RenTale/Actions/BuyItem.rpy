@@ -14,6 +14,6 @@ init -10 python in rentale:
             inventory.item_buy(self.item, self.amount)
             renpy.restart_interaction()
 
-        
+
         def get_sensitive(self):
             return ((inventory.money - (self.item.cost * self.amount)) >= 0) if self.item.is_stackable else (((inventory.money - self.item.cost) >= 0) and not inventory.contains(self.item))

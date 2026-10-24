@@ -28,7 +28,7 @@ init -90 python in rentale:
                 self.items.remove(item)
                 item.quantity = 0
 
-        
+
         def contains(self, item: InventoryItem) -> bool:
             if type(item) != InventoryItem:
                 raise RenTaleTypeError(InventoryItem, type(item))

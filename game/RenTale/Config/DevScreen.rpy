@@ -131,7 +131,7 @@ screen RenTale_DeveloperPanel():
                     # ========================= EVENTS ========================= #
                     elif active_tab == 2:
                         for list in rentale.all_locations.values():
-                            
+
                             null height 4
 
                             for event in sorted(list, key = lambda e: e.name):
@@ -201,8 +201,8 @@ screen RenTale_dev_row(label, value):
             hbox:
                 frame:
                     style "empty"
-                    xsize 160 
-                    
+                    xsize 160
+
                     text "[label]" style "RenTale_dev_row_label_text"
 
                 text "[str(value)]" style "RenTale_dev_row_value_text"
@@ -251,7 +251,7 @@ screen RenTale_dev_card(name, kvp_list):
                                 vbox:
                                     $ joined = ", ".join(f"{k} | {v}" for k, v in value.items())
                                     text "[joined]" style "RenTale_dev_card_kvp_value_text"
-                            
+
                             else:
                                 text "[str(value).strip()]" style "RenTale_dev_card_kvp_value_text"
 

@@ -1,12 +1,12 @@
 init python in rentale:
-# ========================= MAP MOVEMENT ========================= # 
+# ========================= MAP MOVEMENT ========================= #
     def go_to(location: Location) -> None:
         """
         Navigates to the given location if it exists and is unlocked
         """
         if type(location) != Location:
             raise RenTaleTypeError(Location, type(location))
-            
+
         if location in all_locations:
             if location.is_unlocked:
                 renpy.store.rentale.current_location = location
@@ -89,13 +89,13 @@ init python in rentale:
 
         forbiddenFound = _blacklisted_regex.search(string)
         if forbiddenFound:
-            arr = string.split(';')
+            arr = string.split(";")
             lines = list()
             for s in arr:
                 lines.append(f"  {s.strip()}")
-                
-            formatted = '\n'.join(lines)
-            
+
+            formatted = "\n".join(lines)
+
             raise RenTaleArgumentException(f"Forbidden operation detected: '{forbiddenFound.group()}' at index '{forbiddenFound.start()}' \n{formatted}")
 
         return string

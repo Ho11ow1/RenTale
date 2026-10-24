@@ -28,7 +28,7 @@ init -100 python in rentale:
 
             gallery_list.add(self)
 
-        
+
         def unlock(self) -> None:
             """
             Sets the 'is_unlocked' variable to true and unlocks itself in the gallery if not already unlocked

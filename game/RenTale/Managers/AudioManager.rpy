@@ -39,7 +39,7 @@ init -90 python in rentale:
 
             renpy.music.stop(channel = "music", fadeout = fadeOut)
 
-        
+
         @classmethod
         def set_music_volume(cls, volume: float) -> None:
             """
@@ -89,7 +89,7 @@ init -90 python in rentale:
 
             renpy.music.stop(channel = "sound", fadeout = fadeOut)
 
-        
+
         @classmethod
         def set_sound_volume(cls, volume: float) -> None:
             """
@@ -139,7 +139,7 @@ init -90 python in rentale:
 
             renpy.music.stop(channel = "voice", fadeout = fadeOut)
 
-        
+
         @classmethod
         def set_voice_volume(cls, volume: float) -> None:
             """

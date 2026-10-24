@@ -28,7 +28,7 @@ init -10 python in rentale:
 
             if jump:
                 offset = ((int(selected) - 1) % 10) + 1 if unicode(selected).isnumeric() else 1
-                
+
                 if step > 0:
                     target = (chapter + 1) * 10 + offset
                     if max is not None and target > max:
@@ -59,7 +59,7 @@ init -10 python in rentale:
                     if step > 0 and quickEnabled:
                         target = "quick"
                     elif step < 0:
-                        target = max if wrap else None 
+                        target = max if wrap else None
 
                 elif selected == "quick":
                     if step > 0:
