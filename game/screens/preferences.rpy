@@ -292,12 +292,25 @@ screen Dialogue_Preferences():
                     style "custom_pref_slider"
 
 
+style radio_label is pref_label
+style radio_label_text is pref_label_text
+style check_label is pref_label
+style check_label_text is pref_label_text
+style slider_label is pref_label
+style slider_label_text is pref_label_text
+style slider_pref_vbox is pref_vbox
+style mute_all_button is check_button
+style mute_all_button_text is check_button_text
+style check_button_text is gui_button_text
+style radio_button_text is gui_button_text
+style slider_button_text is gui_button_text
+
 style custom_pref_label:
     xsize 460
     yoffset -15
 
 style custom_pref_label_text:
-    color "#FFFFFF"
+    color gui.interface_text_color
 
 style custom_pref_slider:
     xsize 400
@@ -326,25 +339,10 @@ style custom_pref_quickmenu_disabled:
 
 style custom_menu_btn:
     font gui.interface_text_font
-    color "#FFFFFF"
+    color gui.interface_text_color
     insensitive_color gui.idle_color
     hover_color gui.hover_color
     selected_color gui.accent_color
-
-
-
-style radio_label is pref_label
-style radio_label_text is pref_label_text
-
-style check_label is pref_label
-style check_label_text is pref_label_text
-
-style slider_label is pref_label
-style slider_label_text is pref_label_text
-style slider_pref_vbox is pref_vbox
-
-style mute_all_button is check_button
-style mute_all_button_text is check_button_text
 
 style pref_label is gui_label:
     top_margin gui.pref_spacing
@@ -360,32 +358,25 @@ style radio_vbox is pref_vbox:
     spacing gui.pref_button_spacing
 
 style radio_button is gui_button:
-    properties gui.button_properties("radio_button")
+    background Frame((["gui/phone/button/radio_[prefix_]background.png", "gui/phone/button/[prefix_]background.png"] if renpy.variant("small") else []) + ["gui/button/radio_[prefix_]background.png", "gui/button/[prefix_]background.png"], gui.radio_button_borders, tile = gui.button_tile)
+    padding gui.radio_button_borders.padding
     foreground "gui/button/radio_[prefix_]foreground.png"
-
-style radio_button_text is gui_button_text:
-    properties gui.text_properties("radio_button")
 
 style check_vbox is pref_vbox:
     spacing gui.pref_button_spacing
 
 style check_button is gui_button:
-    properties gui.button_properties("check_button")
+    background Frame((["gui/phone/button/check_[prefix_]background.png", "gui/phone/button/[prefix_]background.png"] if renpy.variant("small") else []) + ["gui/button/check_[prefix_]background.png", "gui/button/[prefix_]background.png"], gui.check_button_borders, tile = gui.button_tile)
+    padding gui.check_button_borders.padding
     foreground "gui/button/check_[prefix_]foreground.png"
-
-style check_button_text is gui_button_text:
-    properties gui.text_properties("check_button")
 
 style slider_slider is gui_slider:
     xsize 525
 
 style slider_button is gui_button:
-    properties gui.button_properties("slider_button")
+    background Frame((["gui/phone/button/slider_[prefix_]background.png", "gui/phone/button/[prefix_]background.png"] if renpy.variant("small") else []) + ["gui/button/slider_[prefix_]background.png", "gui/button/[prefix_]background.png"], gui.button_borders, tile = gui.button_tile)
     yalign 0.5
     left_margin 15
-
-style slider_button_text is gui_button_text:
-    properties gui.text_properties("slider_button")
 
 style slider_vbox:
     xsize 675

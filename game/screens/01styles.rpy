@@ -1,32 +1,41 @@
 ﻿init offset = -1
 
+style prompt_text is gui_text
+
 style default:
-    properties gui.text_properties()
+    font gui.text_font
+    size gui.text_size
     language gui.language
 
 style input:
-    properties gui.text_properties("input", accent = True)
     adjust_spacing False
+    color gui.accent_color
 
 style hyperlink_text:
-    properties gui.text_properties("hyperlink", accent = True)
+    color gui.accent_color
     hover_underline True
 
 style gui_text:
-    properties gui.text_properties("interface")
+    color gui.interface_text_color
+    size gui.interface_text_size
+    font gui.interface_text_font
 
 style button:
-    properties gui.button_properties("button")
+    xysize (gui.button_width, gui.button_height)
+    padding (0, 0, 0, 5)
 
 style button_text is gui_text:
-    properties gui.text_properties("button")
-    yalign 0.5
+    font gui.button_text_font
+    size gui.button_text_size
+    align (gui.button_text_xalign, 0.5)
+    idle_color gui.button_text_idle_color
+    hover_color gui.button_text_hover_color
+    selected_color gui.button_text_selected_color
+    insensitive_color gui.button_text_insensitive_color
 
 style label_text is gui_text:
-    properties gui.text_properties("label", accent = True)
-
-style prompt_text is gui_text:
-    properties gui.text_properties("prompt")
+    size gui.text_size
+    color gui.accent_color
 
 style bar:
     ysize gui.bar_size

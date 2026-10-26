@@ -45,6 +45,9 @@ screen notify(message):
     timer 3.25 action Hide("notify")
 
 
+style notify_frame is empty
+style notify_text is gui_text
+
 style skip_frame is empty:
     ypos gui.skip_ypos
     background Frame("gui/skip.png", gui.skip_frame_borders, tile = gui.frame_tile)
@@ -56,9 +59,6 @@ style skip_text is gui_text:
 style skip_triangle is skip_text:
     font "DejaVuSans.ttf"
 
-style notify_frame is empty
-style notify_text is gui_text
-
 style notify_frame:
     ypos gui.notify_ypos
 
@@ -66,4 +66,4 @@ style notify_frame:
     padding gui.notify_frame_borders.padding
 
 style notify_text:
-    properties gui.text_properties("notify")
+    size gui.notify_text_size

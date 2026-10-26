@@ -4,7 +4,8 @@
 # If your game doesn't require a splashscreen, comment out the label below
 #
 # ===================================================================================== #
-label splashscreen:
+label splashscreen():
+    $ Discord.init()
 
     return
 
@@ -14,8 +15,7 @@ label splashscreen:
 # If your game doesn't need to do anything before main menu loads, comment out the label below
 #
 # ===================================================================================== #
-label before_main_menu:
-    $ Discord.init()
+label before_main_menu():
     $ Discord.update("mainmenu")
 
     return

@@ -57,28 +57,24 @@ screen multiple_say(who, what, multiple):
 style say_thought is say_dialogue
 style namebox_label is say_label
 
-
 style window is default:
     xalign 0.5
-
 
 style block2_multiple2_say_window:
     yalign -0.1
 
-
 style namebox is default:
     xysize (gui.namebox_width, gui.namebox_height)
-
     background Frame("gui/namebox.png", gui.namebox_borders, tile = gui.namebox_tile, xalign = gui.name_xalign)
     padding gui.namebox_borders.padding
 
-
 style say_label is default:
-    properties gui.text_properties("name", accent = True)
+    color gui.accent_color
+    font gui.name_text_font
+    size gui.name_text_size
     align (gui.name_xalign, 0.5)
 
-
 style say_dialogue is default:
-    properties gui.text_properties("dialogue")
-
+    xalign gui.dialogue_text_xalign
+    textalign gui.dialogue_text_xalign
     xpos gui.dialogue_xpos

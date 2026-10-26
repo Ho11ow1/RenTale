@@ -129,13 +129,11 @@ screen gamepad_help():
 
 
 style help_text is gui_text
+style help_button_text is gui_button_text
 
 style help_button is gui_button:
-    properties gui.button_properties("help_button")
+    background Frame((["gui/phone/button/help_[prefix_]background.png", "gui/phone/button/[prefix_]background.png"] if renpy.variant("small") else []) + ["gui/button/help_[prefix_]background.png", "gui/button/[prefix_]background.png"], gui.button_borders, tile = gui.button_tile)
     xmargin 12
-
-style help_button_text is gui_button_text:
-    properties gui.text_properties("help_button")
 
 style help_label is gui_label:
     xsize 375

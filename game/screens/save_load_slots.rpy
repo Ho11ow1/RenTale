@@ -77,7 +77,6 @@ screen file_slots(title):
 
                     hbox:
                         xalign 0.5
-                        spacing 25
 
                         textbutton _("<<"):
                             text_style "custom_menu_btn"
@@ -89,11 +88,11 @@ screen file_slots(title):
                             action rentale.FilePageJump(step = -1)
 
                     if config.has_autosave:
-                        textbutton _("{#auto_page}A") action FilePage("auto"):
+                        textbutton _("A") action FilePage("auto"):
                             text_style "custom_menu_btn"
 
                     if config.has_quicksave:
-                        textbutton _("{#quick_page}Q") action FilePage("quick"):
+                        textbutton _("Q") action FilePage("quick"):
                             text_style "custom_menu_btn"
 
                     for page in range((persistent._file_chapter * 10) + 1, (persistent._file_chapter * 10) + 11):
@@ -124,6 +123,7 @@ screen file_slots(title):
 
 style slot_time_text is slot_button_text
 style slot_name_text is slot_button_text
+style page_button_text is gui_button_text
 
 style page_label is gui_label:
     padding (75, 5)
@@ -135,13 +135,20 @@ style page_label_text is gui_label_text:
     hover_color gui.hover_color
 
 style page_button is gui_button:
-    properties gui.button_properties("page_button")
-
-style page_button_text is gui_button_text:
-    properties gui.text_properties("page_button")
+    background Frame((["gui/phone/button/page_[prefix_]background.png", "gui/phone/button/[prefix_]background.png"] if renpy.variant("small") else []) + ["gui/button/page_[prefix_]background.png", "gui/button/[prefix_]background.png"], gui.page_button_borders, tile = gui.button_tile)
+    padding gui.page_button_borders.padding
 
 style slot_button is gui_button:
-    properties gui.button_properties("slot_button")
+    background Frame((["gui/phone/button/slot_[prefix_]background.png", "gui/phone/button/[prefix_]background.png"] if renpy.variant("small") else []) + ["gui/button/slot_[prefix_]background.png", "gui/button/[prefix_]background.png"], gui.slot_button_borders, tile = gui.button_tile)
+    padding gui.slot_button_borders.padding
+    xsize gui.slot_button_width
+    ysize gui.slot_button_height
 
 style slot_button_text is gui_button_text:
-    properties gui.text_properties("slot_button")
+    size gui.slot_button_text_size
+    xalign gui.slot_button_text_xalign
+    textalign gui.slot_button_text_xalign
+    layout "subtitle"
+    idle_color gui.slot_button_text_idle_color
+    selected_idle_color gui.slot_button_text_selected_idle_color
+    selected_hover_color gui.slot_button_text_selected_hover_color

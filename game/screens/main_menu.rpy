@@ -36,20 +36,17 @@ screen main_menu():
         text "VERSION [config.version]" yalign 0.5 color gui.text_color
 
 
+style main_menu_version is main_menu_text
+
 style main_menu_frame is empty:
     xsize 420
     yfill True
-
     background "gui/overlay/main_menu.png"
 
-
 style main_menu_text is gui_text:
-    properties gui.text_properties("main_menu", accent = True)
-
+    color gui.accent_color
+    xalign gui.main_menu_text_xalign
+    textalign gui.main_menu_text_xalign
 
 style main_menu_title is main_menu_text:
-    properties gui.text_properties("title")
-
-
-style main_menu_version is main_menu_text:
-    properties gui.text_properties("version")
+    size gui.title_text_size

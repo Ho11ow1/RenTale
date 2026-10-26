@@ -50,16 +50,14 @@ screen confirm(message, yes_action, no_action):
     key "game_menu" action no_action
 
 
+style confirm_prompt is gui_prompt
+
 style input_prompt is default:
     xalign gui.dialogue_text_xalign
-    properties gui.text_properties("input_prompt")
-
 
 style input:
     xalign gui.dialogue_text_xalign
     xmaximum gui.dialogue_width
-
-style confirm_prompt is gui_prompt
 
 style confirm_frame is gui_frame:
     background Frame(["gui/confirm_frame.png", "gui/frame.png"], gui.confirm_frame_borders, tile = gui.frame_tile)
@@ -71,7 +69,9 @@ style confirm_prompt_text is gui_prompt_text:
     layout "subtitle"
 
 style confirm_button is gui_medium_button:
-    properties gui.button_properties("confirm_button")
+    background Frame((["gui/phone/button/confirm_[prefix_]background.png", "gui/phone/button/[prefix_]background.png"] if renpy.variant("small") else []) + ["gui/button/confirm_[prefix_]background.png", "gui/button/[prefix_]background.png"], gui.button_borders, tile = gui.button_tile)
 
 style confirm_button_text is gui_medium_button_text:
-    properties gui.text_properties("confirm_button")
+    xalign gui.confirm_button_text_xalign
+    textalign gui.confirm_button_text_xalign
+    layout "subtitle"

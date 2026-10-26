@@ -50,10 +50,11 @@ screen nvl_dialogue(dialogue):
                     id d.what_id
 
 
+style nvl_button_text is button_text
+
 style nvl_window is default:
     xfill True
     yfill True
-
     background "gui/nvl.png"
     padding gui.nvl_borders.padding
 
@@ -85,9 +86,7 @@ style nvl_thought:
     layout ("subtitle" if gui.nvl_text_xalign else "tex")
 
 style nvl_button is button:
-    properties gui.button_properties("nvl_button")
+    background Frame((["gui/phone/button/nvl_[prefix_]background.png", "gui/phone/button/[prefix_]background.png"] if renpy.variant("small") else []) + ["gui/button/nvl_[prefix_]background.png", "gui/button/[prefix_]background.png"], gui.button_borders, tile = gui.button_tile)
+    xsize (gui.nvl_button_width if renpy.variant("small") else None)
     xpos gui.nvl_button_xpos
     xanchor gui.nvl_button_xalign
-
-style nvl_button_text is button_text:
-    properties gui.text_properties("nvl_button")

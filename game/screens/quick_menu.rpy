@@ -33,7 +33,10 @@ screen quick_menu():
 
 
 style quick_button is default:
-    properties gui.button_properties("quick_button")
+    background Frame((["gui/phone/button/quick_[prefix_]background.png", "gui/phone/button/[prefix_]background.png"] if renpy.variant("small") else []) + ["gui/button/quick_[prefix_]background.png", "gui/button/[prefix_]background.png"], gui.quick_button_borders, tile = gui.button_tile)
+    padding gui.quick_button_borders.padding
 
 style quick_button_text is button_text:
-    properties gui.text_properties("quick_button")
+    size gui.quick_button_text_size
+    idle_color gui.quick_button_text_idle_color
+    selected_color gui.quick_button_text_selected_color

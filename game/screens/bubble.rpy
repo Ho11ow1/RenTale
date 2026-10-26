@@ -6,22 +6,18 @@ define bubble.properties = {
         "window_background": Transform(bubble.frame, xzoom = 1, yzoom = 1),
         "window_bottom_padding": 27,
     },
-
     "bottom_right": {
         "window_background": Transform(bubble.frame, xzoom = -1, yzoom = 1),
         "window_bottom_padding": 27,
     },
-
     "top_left": {
         "window_background": Transform(bubble.frame, xzoom = 1, yzoom = -1),
         "window_top_padding": 27,
     },
-
     "top_right": {
         "window_background": Transform(bubble.frame, xzoom = -1, yzoom = -1),
         "window_top_padding": 27,
     },
-
     "thought": {
         "window_background": bubble.thoughtframe,
     }
@@ -37,6 +33,7 @@ define bubble.expand_area = {
 
 
 screen bubble(who, what):
+    default ctc = None
     style_prefix "bubble"
 
     window:
@@ -54,14 +51,11 @@ screen bubble(who, what):
         text what:
             id "what"
 
-        default ctc = None
         showif ctc:
             add ctc
 
 style bubble_window is empty:
-    xpadding 30
-    top_padding 5
-    bottom_padding 5
+    padding (30, 5)
 
 style bubble_namebox is empty:
     xalign 0.5
