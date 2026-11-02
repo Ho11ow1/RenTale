@@ -14,6 +14,6 @@ init -10 python in rentale:
             inventory.item_sell(self.item, self.amount)
             renpy.restart_interaction()
 
-        
+
         def get_sensitive(self):
             return inventory.contains(self.item) and self.item.quantity >= self.amount

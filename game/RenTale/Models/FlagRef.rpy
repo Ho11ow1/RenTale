@@ -21,7 +21,7 @@ init -100 python in rentale:
             """
             if type(value) != type(self.value):
                 raise RenTaleTypeError(type(self.value), type(value))
-            
+
             self.value = value
 
 
@@ -46,7 +46,7 @@ init -100 python in rentale:
 
             self.set(self.value + amount)
 
-        
+
         def decrement(self, amount: int = 1) -> None:
             """
             Decreases the 'value' by the given 'amount'

@@ -1,7 +1,7 @@
 screen QTE_Simple(duration = 1.3, prompt = "CLICK ME"):
     """
     A simple quick time event which stores it's return value in the renpy global variable "_return"
-    
+
     Returns true on interaction
     """
     modal True
@@ -18,10 +18,9 @@ screen QTE_Simple(duration = 1.3, prompt = "CLICK ME"):
         bar:
             value AnimatedValue(0, 100, duration, 100)
             range 100
-            xsize 600
-            ysize 50
+            xysize (600, 50)
             xalign 0.5
-            left_bar "gui/RenTale/QTE/bar.png" 
+            left_bar "gui/RenTale/QTE/bar.png"
             right_bar Solid("#00000000")
 
         textbutton prompt:

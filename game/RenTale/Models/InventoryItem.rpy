@@ -1,6 +1,6 @@
 init -100 python in rentale:
     class InventoryItem():
-        def __init__(self, name: str, is_stackable: bool = False, image: str | None = None, description: str = "", cost: int = 0):
+        def __init__(self, name: str, is_stackable: bool = False, image: str | None = None, description: str = "", cost: int | float = 0):
             """
             Represents an inventory item. Automatically registers into Inventory on creation.
             """
@@ -12,6 +12,8 @@ init -100 python in rentale:
                 raise RenTaleTypeError((str, type(None)), type(image))
             if type(description) != str:
                 raise RenTaleTypeError(str, type(description))
+            if type(cost) != int:
+                raise RenTaleTypeError((int, float), type(cost))
 
             self.name = name
             self.quantity = 0

@@ -1,5 +1,5 @@
 # The game starts here.
-label start:
+label start():
     $ rentale.AudioManager.play_music("audio/BGM/Lofi.mp3", loop = True, ifChanged = True)
 
     # Show a background. This uses a placeholder by default, but you can
