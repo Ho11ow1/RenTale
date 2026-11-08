@@ -57,6 +57,8 @@ screen game_menu(title, scroll = None, yinitial = 0.0, spacing = 0):
 
     use navigation
 
+    label title
+
     hbox:
         align (0.0, 0.0)
         spacing 20
@@ -69,8 +71,6 @@ screen game_menu(title, scroll = None, yinitial = 0.0, spacing = 0):
 
         textbutton _("RETURN") action Return() text_style "custom_menu_btn"
 
-    label title
-
     if main_menu:
         key "game_menu" action ShowMenu("main_menu")
 
@@ -79,8 +79,7 @@ style game_menu_scrollbar is gui_vscrollbar
 style return_button_text is navigation_button_text
 
 style game_menu_outer_frame is empty:
-    bottom_padding 45
-    top_padding 180
+    padding (0, 180, 0, 45)
 
     background "gui/overlay/game_menu.png"
 
@@ -89,9 +88,7 @@ style game_menu_navigation_frame is empty:
     yfill True
 
 style game_menu_content_frame is empty:
-    left_margin 60
-    right_margin 30
-    top_margin 15
+    margin (60, 15, 30, 0)
 
 style game_menu_viewport is gui_viewport:
     xsize 1380

@@ -112,6 +112,9 @@ define config.window = "auto"
 define config.window_show_transition = Dissolve(0.2)
 define config.window_hide_transition = Dissolve(0.2)
 
+## Allows for showing showing a disabled menu-option button
+
+define config.menu_include_disabled = True
 
 ## Preference defaults #########################################################
 

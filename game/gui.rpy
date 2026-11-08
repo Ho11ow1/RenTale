@@ -63,7 +63,7 @@ define gui.text_font = "DejaVuSans.ttf"
 define gui.name_text_font = "DejaVuSans.ttf"
 
 ## The font used for out-of-game text.
-define gui.interface_text_font = "DejaVuSans.ttf"
+define gui.interface_text_font = "fonts/GreatVibes-Regular.ttf"
 
 ## The size of normal dialogue text.
 define gui.text_size = 33
@@ -211,9 +211,9 @@ define gui.choice_button_borders = Borders(150, 8, 150, 8)
 define gui.choice_button_text_font = gui.text_font
 define gui.choice_button_text_size = gui.text_size
 define gui.choice_button_text_xalign = 0.5
-define gui.choice_button_text_idle_color = "#888888"
-define gui.choice_button_text_hover_color = "#ffffff"
-define gui.choice_button_text_insensitive_color = "#8888887f"
+define gui.choice_button_text_idle_color = gui.idle_color
+define gui.choice_button_text_hover_color = gui.text_color
+define gui.choice_button_text_insensitive_color = gui.insensitive_color
 
 
 ## File Slot Buttons ###########################################################
@@ -229,7 +229,7 @@ define gui.slot_button_borders = Borders(15, 15, 15, 15)
 define gui.slot_button_text_size = 21
 define gui.slot_button_text_xalign = 0.5
 define gui.slot_button_text_idle_color = gui.idle_small_color
-define gui.slot_button_text_selected_idle_color = gui.selected_color
+define gui.slot_button_text_selected_idle_color = gui.idle_small_color
 define gui.slot_button_text_selected_hover_color = gui.hover_color
 
 ## The width and height of thumbnails used by the save slots.
