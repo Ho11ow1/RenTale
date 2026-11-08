@@ -10,7 +10,7 @@ init -100 python in rentale:
                 raise RenTaleTypeError(Location, type(location))
             if type(label) != str:
                 raise RenTaleTypeError(str, type(label))
-            if label not in renpy.get_all_labels():
+            if not renpy.has_label(label):
                 raise RenTaleArgumentException(f"Label '{label}' is not defined.")
             if type(is_unlocked) != bool:
                 raise RenTaleTypeError(bool, type(is_unlocked))

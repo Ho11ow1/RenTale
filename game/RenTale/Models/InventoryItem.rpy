@@ -12,7 +12,7 @@ init -100 python in rentale:
                 raise RenTaleTypeError((str, type(None)), type(image))
             if type(description) != str:
                 raise RenTaleTypeError(str, type(description))
-            if type(cost) != int:
+            if type(cost) not in (int, float):
                 raise RenTaleTypeError((int, float), type(cost))
 
             self.name = name
