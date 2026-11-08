@@ -85,18 +85,9 @@ screen preferences():
                 hbox:
                     spacing 20
 
-                    if persistent.quickmenu_position_x == 0.0:
-                        textbutton "Left" action [SetVariable("persistent.quickmenu_position_x", 0.0)] xoffset -5
-                    else:
-                        textbutton "Left" action [SetVariable("persistent.quickmenu_position_x", 0.0)] xoffset -5
-                    if persistent.quickmenu_position_x == 0.5:
-                        textbutton "Center" action [SetVariable("persistent.quickmenu_position_x", 0.5)] xoffset -5
-                    else:
-                        textbutton "Center" action [SetVariable("persistent.quickmenu_position_x", 0.5)] xoffset -5
-                    if persistent.quickmenu_position_x == 1.0:
-                        textbutton "Right" action [SetVariable("persistent.quickmenu_position_x", 1.0)] xoffset -5
-                    else:
-                        textbutton "Right" action [SetVariable("persistent.quickmenu_position_x", 1.0)] xoffset -5
+                    textbutton "Left" action [SetVariable("persistent.quickmenu_position_x", 0.0)] xoffset -5
+                    textbutton "Center" action [SetVariable("persistent.quickmenu_position_x", 0.5)] xoffset -5
+                    textbutton "Right" action [SetVariable("persistent.quickmenu_position_x", 1.0)] xoffset -5
 
             hbox:
                 spacing 20

@@ -42,9 +42,7 @@ screen file_slots(title):
                 align (0.5, 0.1)
                 spacing gui.slot_spacing
 
-                for i in range(gui.file_slot_cols * gui.file_slot_rows):
-
-                    $ slot = i + 1
+                for slot in range(1, (gui.file_slot_cols * gui.file_slot_rows) + 1):
 
                     button:
                         action FileAction(slot)
@@ -55,9 +53,6 @@ screen file_slots(title):
 
                             text FileTime(slot, format = _("%B %d %Y, %H:%M"), empty = _("empty slot")):
                                 style "slot_time_text"
-                                color gui.idle_color
-                                hover_color gui.hover_color
-                                selected_color gui.accent_color
 
                             text FileSaveName(slot):
                                 style "slot_name_text"
