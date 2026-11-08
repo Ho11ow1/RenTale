@@ -1,66 +1,92 @@
+default discord_save_state_key = None
+
+define discord_states = {
+    "_main_menu_screen": {
+        "details": "Main Menu"
+    },
+    "start": {
+        "details": "Game"
+    }
+}
+
+
 init python:
-    import time
+    config.start_callbacks += [Discord._on_start]
+    config.quit_callbacks += [Discord._on_quit]
+    config.after_load_callbacks += [Discord._on_load]
+    config.label_callbacks += [Discord._on_label]
+
+
+init -10 python:
     import pypresence
+    import time
 
     class Discord():
+        RPC = None
         START_TIME = time.time()
-        DISCORD_RPC = None
-
-        APP_ID = ""  # Update with your discord Application Id from "https://discord.com/developers/applications/APP_ID/information".
-        
-        state_dict = {                  # Update this dictionary as desired for your game, "mainmenu" is provided as an example.
-            "mainmenu": {
-                "details": "Doing nothing",
-                "state": None,
-                "large_image": None,
-                "large_text": None,
-                "small_image": None,
-                "small_text": None,
-            }
-        }
+        # NOTE: Update APP_ID with your discord application ID -> https://discord.com/developers/applications/APP_ID/information
+        APP_ID = ""
 
         @classmethod
-        def init(cls) -> None:
-            if cls.DISCORD_RPC is None:
-                try:
-                    cls.DISCORD_RPC = pypresence.Presence(cls.APP_ID)
-                    cls.DISCORD_RPC.connect()
-
-                except Exception as ex:
-                    print(f"RenTale DiscordRPC | Init error: {ex}")
-                    cls.DISCORD_RPC = None
-
-
-        @classmethod
-        def update(cls, dictKey: str) -> None:
-            if type(dictKey) != str:
-                raise RenTaleTypeError(str, type(dictKey))
-
-            if cls.DISCORD_RPC is None:
-                cls.init()
-            if cls.DISCORD_RPC is None:
-                return
-
-            args = None
-            try:
-                args = cls.state_dict[dictKey]
-
-            except Exception:
-                print(f"RenTale DiscordRPC | key '{dictKey}' not found in 'source_dict'")
+        def _on_start(cls) -> None:
+            """
+            DO NOT CALL THIS METHOD
+            """
+            if cls.RPC is not None or not getattr(renpy.store, "discord_states", False):
                 return
 
             try:
-                cls.DISCORD_RPC.update(
-                    details = args["details"], state = args["state"],
-                    start = cls.START_TIME, 
-                    large_image = args["large_image"], large_text = args["large_text"], 
-                    small_image = args["small_image"], small_text = args["small_text"])
-
-            except pypresence.PipeClosed:
-                cls.DISCORD_RPC = None
-                print("RenTale DiscordRPC | Failed to update - Pipe was closed")
-                cls.init()
-                cls.update(dictKey)
+                cls.RPC = pypresence.Presence(cls.APP_ID)
+                cls.RPC.connect()
 
             except Exception as ex:
-                print(f"RenTale DiscordRPC | Update Discord RPC failed: {ex}")
+                print(f"DiscordRPC start exception | {ex}")
+                cls.RPC = None
+
+
+        @classmethod
+        def _on_quit(cls) -> None:
+            """
+            DO NOT CALL THIS METHOD
+            """
+            if cls.RPC is not None:
+                cls.RPC.close()
+
+
+        @classmethod
+        def _on_load(cls) -> None:
+            """
+            DO NOT CALL THIS METHOD
+            """
+            cls.update(renpy.store.discord_save_state_key)
+
+
+        @classmethod
+        def _on_label(cls, name, is_abstract = False) -> None:
+            """
+            DO NOT CALL THIS METHOD
+            """
+            if not renpy.has_label(name) or not is_abstract:
+                return
+
+            cls.update(name)
+
+
+        @classmethod
+        def update(cls, key: renpy.object.Sentinel | str = renpy.object.Sentinel("Discord")) -> None:
+            """
+            key: Expected to be a key of `discord_states` dict at the top of this file
+            """
+            if cls.RPC is None or type(key) == renpy.object.Sentinel:
+                return
+
+            d = renpy.store.discord_states.get(key, None)
+            if d is None:
+                return
+
+            try:
+                cls.RPC.update(**d, start = cls.START_TIME)
+                renpy.store.discord_save_state_key = key
+
+            except Exception as ex:
+                print(f"DiscordRPC update exception | {ex}")
