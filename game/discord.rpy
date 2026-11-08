@@ -73,11 +73,11 @@ init -10 python:
 
 
         @classmethod
-        def update(cls, key: renpy.object.Sentinel | str = renpy.object.Sentinel("Discord")) -> None:
+        def update(cls, key: str) -> None:
             """
             key: Expected to be a key of `discord_states` dict at the top of this file
             """
-            if cls.RPC is None or type(key) == renpy.object.Sentinel:
+            if cls.RPC is None or type(key) != str:
                 return
 
             d = renpy.store.discord_states.get(key, None)
